@@ -1,52 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>P2P Mirror (No Server)</title>
+    <title>Toolsuite: Screen Mirror</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #111; color: #eee; }
-        video { width: 90%; max-width: 600px; border: 2px solid #444; margin: 10px; }
-        .box { border: 1px solid #444; padding: 20px; margin: 20px; border-radius: 8px; }
-        #qr-canvas { background: white; padding: 10px; }
-        textarea { width: 80%; height: 60px; color: #000; }
+        body { font-family: 'Courier New', monospace; background: #fff; color: #000; text-align: center; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; border: 3px solid #000; padding: 20px; }
+        video { width: 100%; border: 3px solid #000; margin-top: 20px; background: #000; }
+        input { padding: 10px; border: 2px solid #000; font-family: inherit; width: 60%; }
+        button { background: #000; color: #fff; border: none; padding: 10px 20px; cursor: pointer; margin: 5px; }
+        .status { margin: 10px; font-weight: bold; }
         .hidden { display: none; }
-        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; }
     </style>
 </head>
 <body>
-    <h1>P2P Screen Mirror</h1>
-
-    <div id="step0">
-        <button onclick="init(true)">I want to SHARE my screen</button>
-        <button onclick="init(false)">I want to RECEIVE a screen</button>
-    </div>
-
-    <div id="step1" class="hidden">
-        <div id="sender-ui" class="hidden">
-            <p>1. Scan this QR on the Receiving device:</p>
-            <canvas id="qr-canvas"></canvas>
+    <div class="container">
+        <h1>Screen Mirror</h1>
+        
+        <div id="setup-zone">
+            <button onclick="startSharing()">Generate Share Code</button>
+            <hr>
+            <input type="text" id="joinCode" placeholder="Enter 4-digit code">
+            <button onclick="joinStream()">Watch Screen</button>
         </div>
-        <div id="receiver-ui" class="hidden">
-            <p>1. Point camera at the Sharing device's QR:</p>
-            <video id="scanner-preview"></video>
-        </div>
-    </div>
 
-    <div id="step2" class="hidden">
-        <div id="receiver-answer-ui" class="hidden">
-            <p>2. Scan this QR back on the Sharing device:</p>
-            <canvas id="qr-answer-canvas"></canvas>
-        </div>
-        <div id="sender-scan-ui" class="hidden">
-            <p>2. Final Step: Scan the Receiver's QR code:</p>
-            <video id="scanner-preview-alt"></video>
+        <div id="display-zone" class="hidden">
+            <p id="share-id-display"></p>
+            <p class="status" id="status-text">Ready...</p>
+            <video id="videoElement" autoplay playsinline></video>
         </div>
     </div>
 
-    <video id="remoteVideo" autoplay playsinline></video>
-
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lzma@2.3.2/src/lzma-worker.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <script src="mirror-logic.js"></script>
 </body>
 </html>
