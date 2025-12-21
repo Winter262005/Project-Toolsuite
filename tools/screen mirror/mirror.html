@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>P2P Mirror (No Server)</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #111; color: #eee; }
+        video { width: 90%; max-width: 600px; border: 2px solid #444; margin: 10px; }
+        .box { border: 1px solid #444; padding: 20px; margin: 20px; border-radius: 8px; }
+        #qr-canvas { background: white; padding: 10px; }
+        textarea { width: 80%; height: 60px; color: #000; }
+        .hidden { display: none; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h1>P2P Screen Mirror</h1>
+
+    <div id="step0">
+        <button onclick="init(true)">I want to SHARE my screen</button>
+        <button onclick="init(false)">I want to RECEIVE a screen</button>
+    </div>
+
+    <div id="step1" class="hidden">
+        <div id="sender-ui" class="hidden">
+            <p>1. Scan this QR on the Receiving device:</p>
+            <canvas id="qr-canvas"></canvas>
+        </div>
+        <div id="receiver-ui" class="hidden">
+            <p>1. Point camera at the Sharing device's QR:</p>
+            <video id="scanner-preview"></video>
+        </div>
+    </div>
+
+    <div id="step2" class="hidden">
+        <div id="receiver-answer-ui" class="hidden">
+            <p>2. Scan this QR back on the Sharing device:</p>
+            <canvas id="qr-answer-canvas"></canvas>
+        </div>
+        <div id="sender-scan-ui" class="hidden">
+            <p>2. Final Step: Scan the Receiver's QR code:</p>
+            <video id="scanner-preview-alt"></video>
+        </div>
+    </div>
+
+    <video id="remoteVideo" autoplay playsinline></video>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lzma@2.3.2/src/lzma-worker.min.js"></script>
+    <script src="mirror-logic.js"></script>
+</body>
+</html>
