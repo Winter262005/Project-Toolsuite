@@ -1,3 +1,9 @@
+# please do NOT tldr this - this is important. i know its boring but still.
+
+## follow these steps provided to make your first contribution. welcome to the team 😋
+
+<br>
+
 # 🤝 Contributing to Project Toolsuite
 
 Thank you for your interest in contributing! This project is built on the principle of **Privacy through Simplicity**. We welcome new tools, bug fixes, and documentation improvements.
