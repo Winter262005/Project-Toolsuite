@@ -5,7 +5,7 @@ You sigh. You log in. Somewhere along the way, your enthusiasm quietly leaves th
 
 That’s exactly what Project Toolsuite refuses to be.
 
-No logins. No paywalls. No “verify your email” for the 17th time.
+No logins. No paywalls. No “verify your email” for the 19th time.
 Just your work and our tools.
 
 ## 🏆 Contributors Leaderboard
