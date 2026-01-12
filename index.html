@@ -14,11 +14,22 @@
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #1b1a1a;
+            color: #f0f0f0;
         }
 
         header {
             border-bottom: 5px solid #000;
             margin-bottom: 50px;
+            position: relative;
+        }
+
+        .dark-mode header {
+            border-bottom-color: #f0f0f0;
         }
 
         h1 {
@@ -35,6 +46,10 @@
             display: inline-block;
             margin-top: 40px;
             margin-bottom: 15px;
+        }
+
+        .dark-mode h2 {
+            border-bottom-color: #f0f0f0;
         }
 
         h3 {
@@ -71,6 +86,12 @@
             color: #000;
             text-decoration: none;
             border-bottom: 1px dotted #000;
+            transition: all 0.3s;
+        }
+
+        .dark-mode a {
+            color: #f0f0f0;
+            border-bottom-color: #f0f0f0;
         }
 
         a:hover {
@@ -79,22 +100,72 @@
             border-bottom: 1px solid #000;
         }
 
+        .dark-mode a:hover {
+            background-color: #f0f0f0;
+            color: #121212;
+            border-bottom-color: #f0f0f0;
+        }
+
         /* Footer Section */
         footer {
             margin-top: 80px;
             font-size: 0.9rem;
             border-top: 1px solid #000;
             padding-top: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .dark-mode footer {
+            border-top-color: #f0f0f0;
         }
 
         footer p {
             margin-bottom: 10px;
         }
 
+        /* Dark Mode Toggle Button */
+        .dark-mode-toggle {
+            position: absolute;
+            top: 10px;
+            right: 0;
+            background: none;
+            border: 2px solid #000;
+            color: #000;
+            padding: 5px 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .dark-mode .dark-mode-toggle {
+            border-color: #f0f0f0;
+            color: #f0f0f0;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .dark-mode .dark-mode-toggle:hover {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+
         /* Responsive adjustment for small screens */
         @media (max-width: 600px) {
             body {
                 margin: 10px auto;
+            }
+            
+            .dark-mode-toggle {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 10px;
+                width: 100%;
             }
         }
     </style>
@@ -103,6 +174,9 @@
 
     <header>
         <h1>Project Toolsuite</h1>
+        <button class="dark-mode-toggle" id="darkModeToggle">
+            Dark Mode
+        </button>
     </header>
 
     <main>
@@ -159,6 +233,50 @@
             <a href="/contributers.html">Contributers</a>
         </p>
     </footer>
+
+    <script>
+        // Dark mode functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Check for saved theme preference or prefer-color-scheme
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const savedTheme = localStorage.getItem('theme');
+            
+            // Set initial theme
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+                body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light';
+            }
+            
+            // Toggle dark mode
+            darkModeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    darkModeToggle.textContent = 'Dark';
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // Listen for system theme changes
+            prefersDarkScheme.addEventListener('change', function(e) {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        body.classList.add('dark-mode');
+                        darkModeToggle.textContent = 'Light Mode';
+                    } else {
+                        body.classList.remove('dark-mode');
+                        darkModeToggle.textContent = 'Dark Mode';
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
