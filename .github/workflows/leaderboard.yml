@@ -29,7 +29,9 @@ jobs:
             const contributors = await github.paginate(
               github.rest.repos.listContributors,
               { owner, repo }
-            );
+              );
+
+            contributors.sort((a, b) => b.contributions - a.contributions);
 
             if (contributors.length === 0) {
               console.log("No contributors found.");
@@ -52,6 +54,11 @@ jobs:
 
             let readme = fs.readFileSync("README.md", "utf8");
 
+            if (!readme.includes(start) || !readme.includes(end)) {
+              throw new Error("Leaderboard markers not found in README.md");
+              }
+
+
             const regex = new RegExp(`${start}[\\s\\S]*?${end}`, "m");
 
             readme = readme.replace(
@@ -69,12 +76,42 @@ jobs:
               new Date().toUTCString() +
               "_\n";
 
-            fs.writeFileSync("LEADERBOARD.md", leaderboardFile);
+            if (
+              !fs.existsSync("LEADERBOARD.md") ||
+              fs.readFileSync("LEADERBOARD.md", "utf8") !== leaderboardFile
+              ) {
+              fs.writeFileSync("LEADERBOARD.md", leaderboardFile);
+              }
+
+
+            const htmlListItems = contributors.map(c => {
+                return `                <li>\n                    <span class="contributor-name">${c.login}</span>\n                    <a href="${c.html_url}" class="contributor-link" target="_blank">@${c.login}</a>\n                </li>`;
+            });
+
+            const htmlBlock = htmlListItems.join("\n");
+
+            try {
+                let htmlFile = fs.readFileSync("contributers.html", "utf8");
+                
+                // Regex to find the <ul class="contributors-list"> and replace its contents
+                // This preserves the outer <ul> tags but replaces everything inside them
+                const listRegex = /(<ul class="contributors-list">)[\s\S]*?(<\/ul>)/;
+                
+                if (listRegex.test(htmlFile)) {
+                    htmlFile = htmlFile.replace(listRegex, `$1\n${htmlBlock}\n$2`);
+                    fs.writeFileSync("contributers.html", htmlFile);
+                    console.log("Successfully updated contributers.html");
+                } else {
+                    console.log("Warning: Could not find <ul class='contributors-list'> in contributers.html");
+                }
+            } catch (err) {
+                console.log("Error updating contributers.html: " + err.message);
+            }
 
       - name: Commit changes
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add README.md LEADERBOARD.md
+          git add README.md LEADERBOARD.md contributers.html
           git commit -m "chore: update contributors leaderboard" || echo "No changes"
           git push
