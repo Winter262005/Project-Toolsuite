@@ -10,10 +10,10 @@
             font-family: 'Courier New', Courier, monospace;
             background-color: #ffffff;
             color: #000000;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 48px auto;
+            padding: 28px;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -23,8 +23,9 @@
         }
 
         header {
-            border-bottom: 5px solid #000;
-            margin-bottom: 50px;
+            border-bottom: 4px solid #000;
+            margin-bottom: 72px;
+            padding-bottom: 20px;
             position: relative;
         }
 
@@ -33,99 +34,114 @@
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.3rem;
             text-transform: uppercase;
             margin: 0;
-            padding-bottom: 10px;
+            letter-spacing: 0.05em;
         }
 
         h2 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             text-transform: uppercase;
             border-bottom: 2px solid #000;
             display: inline-block;
-            margin-top: 40px;
-            margin-bottom: 20px;
+            margin-top: 64px;
+            margin-bottom: 24px;
+            padding-bottom: 4px;
         }
 
         .dark-mode h2 {
             border-bottom-color: #f0f0f0;
         }
 
+        section {
+            margin-bottom: 72px;
+        }
+
         p {
-            margin-bottom: 20px;
+            max-width: 720px;
+            margin-bottom: 18px;
         }
 
         .contributors-list {
             list-style: none;
             padding: 0;
+            margin-top: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 18px;
         }
 
         .contributors-list li {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px dotted #000;
+            padding: 18px 20px;
+            border: 2px solid currentColor;
+            transition: transform 0.25s, background-color 0.25s, color 0.25s;
         }
 
-        .dark-mode .contributors-list li {
-            border-bottom-color: #f0f0f0;
+        .contributors-list li:hover {
+            background-color: #000;
+            color: #fff;
+            transform: translateY(-4px);
         }
 
-        .contributors-list li:last-child {
-            border-bottom: none;
+        .dark-mode .contributors-list li:hover {
+            background-color: #f0f0f0;
+            color: #121212;
         }
 
         .contributor-name {
             font-weight: bold;
+            font-size: 0.95rem;
         }
 
         a {
             color: inherit;
             text-decoration: none;
             border-bottom: 1px dotted currentColor;
-            transition: all 0.3s;
-        }
-
-        a:hover {
-            background-color: #000;
-            color: #fff;
-        }
-
-        .dark-mode a:hover {
-            background-color: #f0f0f0;
-            color: #121212;
+            padding: 2px 4px;
+            transition: background-color 0.25s, color 0.25s;
         }
 
         footer {
-            margin-top: 80px;
+            margin-top: 96px;
             font-size: 0.9rem;
             border-top: 1px solid #000;
-            padding-top: 20px;
-            transition: border-color 0.3s;
+            padding-top: 24px;
         }
 
         .dark-mode footer {
             border-top-color: #f0f0f0;
         }
 
+        footer p {
+            margin: 8px 0;
+        }
+
+        footer a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .dark-mode footer a:hover {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+
         .dark-mode-toggle {
             position: absolute;
-            top: 10px;
+            top: 0;
             right: 0;
             background: none;
-            border: 2px solid #000;
-            color: #000;
-            padding: 5px 15px;
+            border: 2px solid currentColor;
+            padding: 8px 20px;
             cursor: pointer;
             font-family: inherit;
             text-transform: uppercase;
-        }
-
-        .dark-mode .dark-mode-toggle {
-            border-color: #f0f0f0;
-            color: #f0f0f0;
+            letter-spacing: 0.05em;
+            transition: background-color 0.25s, color 0.25s;
         }
 
         .dark-mode-toggle:hover {
@@ -138,21 +154,20 @@
             color: #121212;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
             body {
-                margin: 10px auto;
+                margin: 24px auto;
+                padding: 20px;
             }
 
-            .contributors-list li {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
+            .contributors-list {
+                grid-template-columns: 1fr;
             }
 
             .dark-mode-toggle {
                 position: static;
                 width: 100%;
-                margin-top: 10px;
+                margin-top: 18px;
             }
         }
     </style>
@@ -172,37 +187,37 @@
             <ul class="contributors-list">
                 <li>
                     <span class="contributor-name">Winter262005</span>
-                    <a href="https://github.com/Winter262005" class="contributor-link" target="_blank">@Winter262005</a>
+                    <a href="https://github.com/Winter262005" target="_blank">@Winter262005</a>
                 </li>
                 <li>
                     <span class="contributor-name">AdityaMittal08</span>
-                    <a href="https://github.com/AdityaMittal08" class="contributor-link" target="_blank">@AdityaMittal08</a>
+                    <a href="https://github.com/AdityaMittal08" target="_blank">@AdityaMittal08</a>
                 </li>
                 <li>
                     <span class="contributor-name">anshul-lh44</span>
-                    <a href="https://github.com/anshul-lh44" class="contributor-link" target="_blank">@anshul-lh44</a>
+                    <a href="https://github.com/anshul-lh44" target="_blank">@anshul-lh44</a>
                 </li>
                 <li>
                     <span class="contributor-name">Pranavkale11</span>
-                    <a href="https://github.com/Pranavkale11" class="contributor-link" target="_blank">@Pranavkale11</a>
+                    <a href="https://github.com/Pranavkale11" target="_blank">@Pranavkale11</a>
                 </li>
                 <li>
                     <span class="contributor-name">SamXop123</span>
-                    <a href="https://github.com/SamXop123" class="contributor-link" target="_blank">@SamXop123</a>
+                    <a href="https://github.com/SamXop123" target="_blank">@SamXop123</a>
                 </li>
                 <li>
                     <span class="contributor-name">Shlok-Dwivedi</span>
-                    <a href="https://github.com/Shlok-Dwivedi" class="contributor-link" target="_blank">@Shlok-Dwivedi</a>
+                    <a href="https://github.com/Shlok-Dwivedi" target="_blank">@Shlok-Dwivedi</a>
                 </li>
                 <li>
                     <span class="contributor-name">SuyashSoni10</span>
-                    <a href="https://github.com/SuyashSoni10" class="contributor-link" target="_blank">@SuyashSoni10</a>
+                    <a href="https://github.com/SuyashSoni10" target="_blank">@SuyashSoni10</a>
                 </li>
                 <li>
                     <span class="contributor-name">yhcb21</span>
-                    <a href="https://github.com/yhcb21" class="contributor-link" target="_blank">@yhcb21</a>
+                    <a href="https://github.com/yhcb21" target="_blank">@yhcb21</a>
                 </li>
-</ul>
+            </ul>
         </section>
 
         <section>

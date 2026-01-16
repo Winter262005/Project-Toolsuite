@@ -10,9 +10,9 @@
             background-color: #ffffff;
             color: #000000;
             line-height: 1.7;
-            max-width: 860px;
-            margin: 32px auto;
-            padding: 20px;
+            max-width: 980px;
+            margin: 48px auto;
+            padding: 28px;
             transition: background-color 0.3s, color 0.3s;
         }
 
@@ -23,8 +23,8 @@
 
         header {
             border-bottom: 4px solid #000;
-            padding-bottom: 16px;
-            margin-bottom: 48px;
+            padding-bottom: 28px;
+            margin-bottom: 72px;
             position: relative;
         }
 
@@ -33,18 +33,27 @@
         }
 
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             text-transform: uppercase;
+            margin: 0 0 12px;
+            letter-spacing: 0.06em;
+        }
+
+        header p {
+            max-width: 720px;
+            font-size: 0.95rem;
+            opacity: 0.85;
             margin: 0;
         }
 
         h2 {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             text-transform: uppercase;
             border-bottom: 2px solid #000;
             display: inline-block;
-            margin-top: 48px;
-            margin-bottom: 18px;
+            margin-top: 80px;
+            margin-bottom: 24px;
+            padding-bottom: 4px;
         }
 
         .dark-mode h2 {
@@ -53,55 +62,64 @@
 
         h3 {
             font-size: 1.05rem;
-            margin-top: 28px;
+            margin-top: 32px;
+        }
+
+        section {
+            margin-bottom: 72px;
         }
 
         p {
-            max-width: 720px;
+            max-width: 760px;
             margin-bottom: 18px;
         }
 
         ul {
             list-style-type: "- ";
-            padding-left: 20px;
-            margin-top: 12px;
+            padding-left: 22px;
+            margin-top: 14px;
         }
 
         li {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         nav ul {
             list-style: none;
             padding-left: 0;
-            margin-top: 12px;
+            margin-top: 32px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
         }
 
         nav li {
-            margin-bottom: 12px;
+            margin: 0;
         }
 
-        a {
-            color: inherit;
+        nav a {
+            display: block;
+            padding: 18px 20px;
+            border: 2px solid currentColor;
             text-decoration: none;
-            border-bottom: 1px dotted currentColor;
-            transition: background-color 0.25s, color 0.25s;
-            padding: 2px 4px;
+            font-size: 0.95rem;
+            transition: transform 0.25s, background-color 0.25s, color 0.25s;
         }
 
-        a:hover {
+        nav a:hover {
             background-color: #000;
             color: #fff;
+            transform: translateY(-4px);
         }
 
-        .dark-mode a:hover {
+        .dark-mode nav a:hover {
             background-color: #f0f0f0;
             color: #121212;
         }
 
         footer {
-            margin-top: 72px;
-            padding-top: 20px;
+            margin-top: 96px;
+            padding-top: 28px;
             border-top: 1px solid #000;
             font-size: 0.9rem;
         }
@@ -110,17 +128,39 @@
             border-top-color: #f0f0f0;
         }
 
+        footer p {
+            margin: 8px 0;
+        }
+
+        footer a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted currentColor;
+            padding: 2px 4px;
+        }
+
+        footer a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .dark-mode footer a:hover {
+            background-color: #f0f0f0;
+            color: #121212;
+        }
+
         .dark-mode-toggle {
             position: absolute;
             top: 0;
             right: 0;
             background: none;
             border: 2px solid currentColor;
-            padding: 6px 16px;
+            padding: 8px 20px;
             font-family: inherit;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
             transition: background-color 0.25s, color 0.25s;
         }
 
@@ -134,23 +174,24 @@
             color: #121212;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
             body {
-                margin: 16px auto;
-            }
-
-            header {
-                padding-bottom: 12px;
+                margin: 24px auto;
+                padding: 20px;
             }
 
             h1 {
-                font-size: 1.9rem;
+                font-size: 2.1rem;
+            }
+
+            nav ul {
+                grid-template-columns: 1fr;
             }
 
             .dark-mode-toggle {
                 position: static;
                 width: 100%;
-                margin-top: 14px;
+                margin-top: 18px;
             }
         }
     </style>
@@ -159,6 +200,9 @@
 
 <header>
     <h1>Project Toolsuite</h1>
+    <p>
+        A collection of fast, minimal, privacy-first tools designed to get work done without friction.
+    </p>
     <button class="dark-mode-toggle" id="darkModeToggle">Dark</button>
 </header>
 

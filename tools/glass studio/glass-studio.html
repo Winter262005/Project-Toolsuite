@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toolsuite: Glassmorphism Lab</title>
     <style>
-        /* Global Minimalist Styling (Toolsuite Standard) */
         body {
             font-family: 'Courier New', Courier, monospace;
             background-color: #ffffff;
@@ -16,52 +15,55 @@
             overflow: hidden;
         }
 
-        /* Sidebar - UI stays Monochrome */
         .sidebar { 
             width: 380px; 
             background: #fff; 
-            border-right: 5px solid #000; 
+            border-right: 4px solid #000; 
             display: flex; 
             flex-direction: column; 
             z-index: 10; 
         }
 
         .sidebar-header { 
-            padding: 20px; 
-            border-bottom: 5px solid #000; 
+            padding: 24px; 
+            border-bottom: 4px solid #000; 
         }
 
         h1 { 
-            font-size: 1.5rem; 
+            font-size: 1.6rem; 
             text-transform: uppercase; 
             margin: 0; 
         }
 
         .scroll-area { 
-            padding: 20px; 
+            padding: 24px; 
             overflow-y: auto; 
             flex-grow: 1; 
         }
 
-        /* Controls */
-        .control-group { margin-bottom: 20px; }
+        .control-group { 
+            margin-bottom: 26px; 
+        }
         
         .control-header { 
             display: flex; 
             justify-content: space-between; 
-            margin-bottom: 5px; 
+            align-items: center;
+            margin-bottom: 8px; 
         }
 
         label { 
-            font-size: 0.8rem; 
+            font-size: 0.75rem; 
             font-weight: bold; 
             text-transform: uppercase; 
+            letter-spacing: 0.04em;
         }
 
         .val-badge { 
+            font-size: 0.7rem;
             font-weight: bold; 
             border: 1px solid #000;
-            padding: 0 4px;
+            padding: 2px 6px;
         }
 
         input[type="range"] { 
@@ -70,7 +72,7 @@
             background: #000; 
             height: 2px; 
             outline: none; 
-            margin: 15px 0; 
+            margin: 16px 0 6px;
         }
 
         input[type="range"]::-webkit-slider-thumb { 
@@ -82,21 +84,31 @@
             cursor: pointer; 
         }
 
+        input[type="range"]:focus-visible::-webkit-slider-thumb {
+            outline: 2px solid #000;
+            outline-offset: 2px;
+        }
+
         select, input[type="color"] { 
             width: 100%; 
-            padding: 10px; 
+            padding: 12px; 
             background: #fff; 
             border: 2px solid #000; 
             color: #000; 
             font-family: 'Courier New', monospace;
-            border-radius: 0;
+            margin-top: 8px;
         }
 
-        /* Code Block - System Readout Style */
+        select:focus-visible,
+        input[type="color"]:focus-visible {
+            outline: 2px solid #000;
+            outline-offset: 2px;
+        }
+
         .code-block { 
             background: #fff; 
-            padding: 15px; 
-            margin-top: 20px; 
+            padding: 16px; 
+            margin-top: 30px; 
             font-family: 'Courier New', monospace; 
             font-size: 0.75rem; 
             color: #000; 
@@ -107,20 +119,21 @@
 
         .copy-btn { 
             position: absolute; 
-            top: 5px; 
-            right: 5px; 
+            top: 8px; 
+            right: 8px; 
             background: #000; 
             border: none; 
             color: #fff; 
             font-size: 0.6rem; 
-            padding: 4px 8px; 
+            padding: 5px 10px; 
             cursor: pointer; 
             text-transform: uppercase;
         }
 
-        .copy-btn:hover { background: #444; }
+        .copy-btn:hover { 
+            background: #333; 
+        }
 
-        /* Canvas - The Work Area (Preserves Visuals) */
         .canvas { 
             flex-grow: 1; 
             position: relative; 
@@ -131,33 +144,36 @@
             transition: background 0.4s; 
         }
 
-        .blob { position: absolute; filter: blur(70px); border-radius: 50%; opacity: 0.5; pointer-events: none; }
+        .blob { 
+            position: absolute; 
+            filter: blur(80px); 
+            border-radius: 50%; 
+            opacity: 0.55; 
+            pointer-events: none; 
+        }
 
         .glass-card {
-            width: 420px; 
+            width: 440px; 
             min-height: 260px; 
-            padding: 40px; 
-            position: relative;
+            padding: 44px; 
             background: rgba(var(--tint), var(--opacity));
             backdrop-filter: blur(var(--blur));
             -webkit-backdrop-filter: blur(var(--blur));
             border: 1px solid rgba(255, 255, 255, var(--outline));
-            box-shadow: 0 10px var(--elevation) 0 rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            color: #fff; /* Keep text readable against background */
+            box-shadow: 0 18px var(--elevation) rgba(0, 0, 0, 0.25);
+            color: #fff;
+            border-radius: 18px;
         }
 
-        footer-nav {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
+        .glass-card h2 {
+            margin: 0 0 10px;
+            font-family: sans-serif;
         }
 
-        footer-nav a {
-            color: #000;
-            text-decoration: none;
-            border-bottom: 1px dotted #000;
-            font-size: 0.8rem;
+        .glass-card p {
+            margin: 0;
+            opacity: 0.85;
+            font-family: sans-serif;
         }
     </style>
 </head>
@@ -205,7 +221,7 @@
             <div id="codeOutput">/* CSS will appear here */</div>
         </div>
 
-        <div style="margin-top: 30px;">
+        <div style="margin-top: 34px;">
             <a href="https://project-toolsuite.vercel.app" style="color:#000; text-decoration:none; border-bottom:1px dotted #000; font-size:0.8rem;">← BACK TO HOME</a>
         </div>
     </div>
@@ -213,12 +229,12 @@
 
 <div class="canvas" id="canvas">
     <div id="blobs">
-        <div class="blob" style="width: 450px; height: 450px; background: #ff00ea; top: -10%; right: -5%;"></div>
-        <div class="blob" style="width: 350px; height: 350px; background: #00d4ff; bottom: 5%; left: 5%;"></div>
+        <div class="blob" style="width: 460px; height: 460px; background: #ff00ea; top: -10%; right: -5%;"></div>
+        <div class="blob" style="width: 360px; height: 360px; background: #00d4ff; bottom: 5%; left: 5%;"></div>
     </div>
     <div class="glass-card" id="card">
-        <h2 style="margin:0; font-family: sans-serif;">Glass UI</h2>
-        <p style="opacity:0.8; font-family: sans-serif;">Adjust sliders to see magic happen.</p>
+        <h2>Glass UI</h2>
+        <p>Adjust sliders to see magic happen.</p>
     </div>
 </div>
 

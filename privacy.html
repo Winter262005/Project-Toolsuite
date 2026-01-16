@@ -1,185 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Manifesto | Project Toolsuite</title>
-    <style>
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.7;
-            max-width: 860px;
-            margin: 32px auto;
-            padding: 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Manifesto | Project Toolsuite</title>
 
-        header {
-            border-bottom: 4px solid #000;
-            margin-bottom: 48px;
-        }
+<style>
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background: #ffffff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
 
-        .logo-mark {
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: block;
-            margin-bottom: 12px;
-        }
+/* HERO HEADER */
+header {
+    padding: 80px 24px;
+    border-bottom: 6px solid #000;
+    background: #f5f5f5;
+}
 
-        h1 {
-            font-size: 2.2rem;
-            text-transform: uppercase;
-            margin: 0;
-        }
+.header-inner {
+    max-width: 1000px;
+    margin: auto;
+}
 
-        .last-updated {
-            font-size: 0.9rem;
-            margin-top: 12px;
-            border-top: 1px solid #000;
-            display: inline-block;
-            padding-top: 6px;
-        }
+.logo-mark {
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
 
-        .card {
-            border: 2px solid #000;
-            padding: 28px;
-            margin-bottom: 44px;
-            background-color: #ffffff;
-        }
+h1 {
+    font-size: 3rem;
+    margin: 16px 0;
+    text-transform: uppercase;
+}
 
-        h2 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            background-color: #000;
-            color: #ffffff;
-            display: inline-block;
-            padding: 4px 12px;
-            margin-top: 0;
-            margin-bottom: 22px;
-        }
+.last-updated {
+    font-size: 0.9rem;
+    border-top: 2px solid #000;
+    display: inline-block;
+    padding-top: 8px;
+}
 
-        p {
-            max-width: 720px;
-            margin-bottom: 20px;
-        }
+/* CONTENT */
+main {
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 0 24px;
+}
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
-            margin-top: 24px;
-        }
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 44px;
+    margin-bottom: 64px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    border: 2px solid #000;
+}
 
-        .feature {
-            border: 1px dashed #000;
-            padding: 20px;
-            background-color: #ffffff;
-        }
+h2 {
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+    border-bottom: 3px solid #000;
+    display: inline-block;
+    padding-bottom: 6px;
+}
 
-        .feature strong {
-            display: block;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
+p {
+    max-width: 760px;
+    margin-bottom: 24px;
+    line-height: 1.75;
+}
 
-        ul {
-            list-style-type: "[x] ";
-            padding-left: 20px;
-        }
+/* FEATURE GRID */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 28px;
+    margin-top: 32px;
+}
 
-        li {
-            margin-bottom: 10px;
-        }
+.feature {
+    padding: 26px;
+    border: 2px dashed #000;
+    border-radius: 12px;
+    background: #fafafa;
+}
 
-        .footer {
-            text-align: center;
-            margin-top: 64px;
-            padding-top: 32px;
-            border-top: 4px solid #000;
-        }
+.feature strong {
+    display: block;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
 
-        .btn {
-            background-color: #000;
-            color: #fff;
-            padding: 12px 28px;
-            border: 2px solid #000;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            display: inline-block;
-            transition: background-color 0.2s, color 0.2s;
-        }
+/* LIST */
+ul {
+    list-style-type: "[✓] ";
+    padding-left: 26px;
+}
 
-        .btn:hover {
-            background-color: #ffffff;
-            color: #000000;
-        }
+li {
+    margin-bottom: 14px;
+}
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.9rem;
-            }
+/* CTA */
+.footer {
+    text-align: center;
+    padding: 80px 24px;
+    border-top: 6px solid #000;
+    background: #f5f5f5;
+}
 
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+.btn {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 18px 44px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid #000;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.btn:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-4px);
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    header {
+        padding: 56px 20px;
+    }
+
+    .card {
+        padding: 32px;
+    }
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <span class="logo-mark">Toolsuite Project</span>
-    <h1>Privacy by Design</h1>
-    <div class="last-updated">Version: 2025.12</div>
+    <div class="header-inner">
+        <span class="logo-mark">Toolsuite Project</span>
+        <h1>Privacy by Design</h1>
+        <div class="last-updated">Version: 2025.12</div>
+    </div>
 </header>
 
-<section class="card">
-    <h2>Zero-Knowledge Architecture</h2>
-    <p>
-        Project Toolsuite follows a local-first approach. Every tool runs directly inside your browser without relying on external servers.
-    </p>
+<main>
+    <section class="card">
+        <h2>Zero-Knowledge Architecture</h2>
+        <p>
+            Project Toolsuite follows a local-first approach. Every tool runs directly inside your browser without relying on external servers.
+        </p>
 
-    <div class="feature-grid">
-        <div class="feature">
-            <strong>No Databases</strong>
-            We do not store passwords, configurations, or any personal input.
+        <div class="feature-grid">
+            <div class="feature">
+                <strong>No Databases</strong>
+                We do not store passwords, configurations, or any personal input.
+            </div>
+            <div class="feature">
+                <strong>No Cloud Sync</strong>
+                Your data is never uploaded or processed remotely.
+            </div>
+            <div class="feature">
+                <strong>No Tracking</strong>
+                No cookies, analytics, or fingerprinting scripts.
+            </div>
+            <div class="feature">
+                <strong>No Logs</strong>
+                Your data disappears the moment you close the browser tab.
+            </div>
         </div>
-        <div class="feature">
-            <strong>No Cloud Sync</strong>
-            Your data is never uploaded or processed remotely.
-        </div>
-        <div class="feature">
-            <strong>No Tracking</strong>
-            No cookies, analytics, or fingerprinting scripts.
-        </div>
-        <div class="feature">
-            <strong>No Logs</strong>
-            Your data disappears the moment you close the browser tab.
-        </div>
-    </div>
-</section>
+    </section>
 
-<section class="card">
-    <h2>Data Ownership</h2>
-    <p>
-        All processing happens locally on your device using your system’s hardware:
-    </p>
-    <ul>
-        <li><strong>Security Tools:</strong> Password analysis runs entirely in your browser.</li>
-        <li><strong>Design Tools:</strong> Visual rendering uses your local GPU.</li>
-        <li><strong>File Tools:</strong> Files are processed in memory without external transfer.</li>
-    </ul>
-</section>
+    <section class="card">
+        <h2>Data Ownership</h2>
+        <p>
+            All processing happens locally on your device using your system’s hardware:
+        </p>
+        <ul>
+            <li><strong>Security Tools:</strong> Password analysis runs entirely in your browser.</li>
+            <li><strong>Design Tools:</strong> Visual rendering uses your local GPU.</li>
+            <li><strong>File Tools:</strong> Files are processed in memory without external transfer.</li>
+        </ul>
+    </section>
 
-<section class="card">
-    <h2>Third-Party Services</h2>
-    <p>
-        Toolsuite is hosted as a static site on platforms like GitHub Pages or Vercel. While these providers may log basic technical metadata, they never access the data processed inside the tools.
-    </p>
-</section>
+    <section class="card">
+        <h2>Third-Party Services</h2>
+        <p>
+            Toolsuite is hosted as a static site on platforms like GitHub Pages or Vercel. While these providers may log basic technical metadata, they never access the data processed inside the tools.
+        </p>
+    </section>
+</main>
 
 <div class="footer">
     <a href="https://project-toolsuite.vercel.app" class="btn">Return to Tools</a>
