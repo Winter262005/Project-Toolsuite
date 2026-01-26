@@ -213,6 +213,21 @@
                 margin-top: 18px;
             }
         }
+
+        h3 {
+                font-size: 1.1rem;
+                margin-top: 48px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+        .tool-desc {
+            font-size: 0.85rem;
+            opacity: 0.75;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
     </style>
 </head>
 
@@ -245,27 +260,167 @@
             </ul>
         </section>
 
-        <section id="tools">
-            <h2>Available Tools</h2>
-            <nav>
-                <ul>
-                    <li><a href="tools/pdf merger/pdf-merger.html">PDF ToolSuite</a></li>
-                    <li><a href="tools/file converters/converter.html">File Converters</a></li>
-                    <li><a href="tools/color palette extractor/palette.html">Image to Color Palette</a></li>
-                    <li><a href="tools/qr generator/qr-generator.html">QR Generator</a></li>
-                    <li><a href="tools/ocr/ocr.html">OCR Tool</a></li>
-                    <li><a href="tools/url shortener/shortener.html">URL Shortener</a></li>
-                    <li><a href="tools/screen mirror/mirror.html">Screen Mirror</a></li>
-                    <li><a href="tools/password lab/password-tester.html">Password Strength Check</a></li>
-                    <li><a href="tools/glass studio/glass-studio.html">Glass Studio</a></li>
-                    <li><a href="tools/base64/base64.html">Base64 Encoder / Decoder</a></li>
-                    <li><a href="tools/image compressor/image-compressor.html">Image Compressor</a></li>
-                    <li><a href="tools/favicon generator/favicon-generator.html">Favicon Generator</a></li>
-                    <li><a href="tools/markdown-editor/editor.html">Markdown Studio</a></li>
-                    <li><a href="tools/json-formatter/json-formatter.html">JSON Formatter</a></li>
-                </ul>
-            </nav>
-        </section>
+<section id="tools">
+    <h2>Available Tools</h2>
+
+    <!-- 📄 Document Tools -->
+    <h3>📄 Document Tools</h3>
+    <nav>
+        <ul>
+            <li>
+                <a href="tools/pdf merger/pdf-merger.html">
+                    PDF ToolSuite
+                    <div class="tool-desc">
+                        Merge, split, and organize PDF files locally
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/ocr/ocr.html">
+                    OCR Tool
+                    <div class="tool-desc">
+                        Extract editable text from images and scans
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/markdown-editor/editor.html">
+                    Markdown Studio
+                    <div class="tool-desc">
+                        Write, preview, and export Markdown documents
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/json-formatter/json-formatter.html">
+                    JSON Formatter
+                    <div class="tool-desc">
+                        Format, validate, and clean JSON data instantly
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 🖼️ Image Tools -->
+    <h3>🖼️ Image Tools</h3>
+    <nav>
+        <ul>
+            <li>
+                <a href="tools/image compressor/image-compressor.html">
+                    Image Compressor
+                    <div class="tool-desc">
+                        Reduce image file size without quality loss
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/color palette extractor/palette.html">
+                    Image to Color Palette
+                    <div class="tool-desc">
+                        Extract dominant colors from any image
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/favicon generator/favicon-generator.html">
+                    Favicon Generator
+                    <div class="tool-desc">
+                        Generate website favicons from images
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/glass studio/glass-studio.html">
+                    Glass Studio
+                    <div class="tool-desc">
+                        Create glassmorphism UI effects visually
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 🔐 Security Tools -->
+    <h3>🔐 Security Tools</h3>
+    <nav>
+        <ul>
+            <li>
+                <a href="tools/password lab/password-tester.html">
+                    Password Strength Check
+                    <div class="tool-desc">
+                        Test password strength and security level
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/base64/base64.html">
+                    Base64 Encoder / Decoder
+                    <div class="tool-desc">
+                        Encode or decode Base64 strings instantly
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 🧠 Developer Tools -->
+    <h3>🧠 Developer Tools</h3>
+    <nav>
+        <ul>
+            <li>
+                <a href="tools/file converters/converter.html">
+                    File Converters
+                    <div class="tool-desc">
+                        Convert files between common formats
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/url shortener/shortener.html">
+                    URL Shortener
+                    <div class="tool-desc">
+                        Create short and clean URLs quickly
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 🎨 Utility Tools -->
+    <h3>🎨 Utility Tools</h3>
+    <nav>
+        <ul>
+            <li>
+                <a href="tools/qr generator/qr-generator.html">
+                    QR Generator
+                    <div class="tool-desc">
+                        Generate QR codes for links and text
+                    </div>
+                </a>
+            </li>
+
+            <li>
+                <a href="tools/screen mirror/mirror.html">
+                    Screen Mirror
+                    <div class="tool-desc">
+                        Mirror your screen directly in the browser
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+
+
 
         <section>
             <h2>How It Works</h2>
