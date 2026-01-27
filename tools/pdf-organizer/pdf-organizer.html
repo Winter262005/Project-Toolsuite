@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolsuite: PDF Organizer & Deleter</title>
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #fff; color: #000; max-width: 1200px; margin: 40px auto; padding: 20px; }
+        header { border-bottom: 5px solid #000; margin-bottom: 30px; }
+        h1 { font-size: 2rem; text-transform: uppercase; margin: 0; }
+        .upload-section { width: 100%; padding: 40px; border: 3px solid #000; text-align: center; margin-bottom: 20px; cursor: pointer; font-weight: 900; text-transform: uppercase; }
+        #page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; padding: 20px; border: 3px solid #000; background: #f0f0f0; min-height: 400px; }
+        .page-card { background: #fff; border: 2px solid #000; padding: 10px; position: relative; cursor: grab; transition: transform 0.2s; }
+        .page-card:active { cursor: grabbing; transform: scale(1.05); z-index: 10; }
+        .thumbnail-wrapper { width: 100%; height: 220px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid #eee; margin-bottom: 10px; }
+        canvas { max-width: 100%; max-height: 100%; transition: transform 0.3s; }
+        .controls { display: flex; gap: 5px; justify-content: space-between; }
+        .btn-small { background: #fff; border: 2px solid #000; padding: 5px; font-size: 0.7rem; font-family: inherit; font-weight: bold; cursor: pointer; }
+        .btn-small:hover { background: #000; color: #fff; }
+        .btn-danger { color: #ff0000; border-color: #ff0000; }
+        .footer-actions { margin-top: 30px; display: flex; justify-content: flex-end; }
+        #exportBtn { padding: 15px 40px; background: #000; color: #fff; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        #exportBtn:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PDF Organizer</h1>
+        <p>Rearrange, Rotate, and Delete pages locally.</p>
+    </header>
+    <div class="upload-section" id="dropZone">
+        <span id="fileLabel"> UPLOAD PDF TO ORGANIZE</span>
+        <input type="file" id="pdfInput" accept="application/pdf" style="display:none">
+    </div>
+    <div id="page-grid"></div>
+    <div class="footer-actions">
+        <button id="exportBtn" disabled> Export Reorganized PDF</button>
+    </div>
+    <script src="pdf-organizer-logic.js"></script>
+</body>
+</html>
