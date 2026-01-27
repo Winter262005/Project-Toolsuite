@@ -6,92 +6,196 @@
     <title>Toolsuite: Markdown Live Editor</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* Inheriting your global style from CONTRIBUTING.md */
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.6;
-            max-width: 1200px; /* Wider for split screen */
-            margin: 40px auto;
-            padding: 20px;
-        }
+       /*Design Tokens*/
+:root {
+    --font-main: 'Courier New', Courier, monospace;
 
-        header { border-bottom: 5px solid #000; margin-bottom: 30px; }
-        h1 { font-size: 2rem; text-transform: uppercase; margin: 0; }
-        
-        /* Editor Layout */
-        .editor-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            height: 70vh; /* Occupy most of the screen */
-        }
+    --text-sm: 0.8rem;
+    --text-md: 0.95rem;
+    --text-lg: 1.1rem;
+    --text-xl: 2rem;
 
-        /* Common box styling */
-        .box {
-            display: flex;
-            flex-direction: column;
-        }
+    --space-xs: 6px;
+    --space-sm: 12px;
+    --space-md: 20px;
+    --space-lg: 32px;
+    --space-xl: 48px;
 
-        .label-bar {
-            background: #000;
-            color: #fff;
-            padding: 5px 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    --color-text: #000;
+    --color-muted: #555;
+    --color-bg: #fff;
+    --color-border: #000;
+}
 
-        textarea {
-            flex-grow: 1;
-            padding: 15px;
-            border: 2px solid #000;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
-            resize: none;
-            border-top: none; /* Merges with label bar */
-        }
+/*Global Layout*/
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    max-width: 1200px;
+    margin: var(--space-xl) auto;
+    padding: var(--space-md);
+}
 
-        textarea:focus { outline: none; background: #f9f9f9; }
+/*Header */
+header {
+    border-bottom: 4px solid var(--color-border);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+}
 
-        #preview {
-            flex-grow: 1;
-            padding: 15px;
-            border: 2px solid #000;
-            border-top: none;
-            overflow-y: auto;
-            background: #fff;
-        }
+h1 {
+    font-size: var(--text-xl);
+    text-transform: uppercase;
+    margin: 0 0 var(--space-xs);
+}
 
-        /* Preview Internal Styling */
-        #preview h1, #preview h2 { border-bottom: 1px solid #000; }
-        #preview code { background: #eee; padding: 2px 4px; }
-        #preview pre { background: #eee; padding: 10px; overflow-x: auto; }
-        #preview blockquote { border-left: 4px solid #000; padding-left: 10px; margin-left: 0; }
+header p {
+    margin: 0;
+    font-size: var(--text-md);
+    color: var(--color-muted);
+}
 
-        /* Action Buttons */
-        .action-btn {
-            background: #fff;
-            color: #000;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.8rem;
-            text-decoration: underline;
-        }
-        .action-btn:hover { color: #ccc; }
+/*Editor Layout*/
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    height: 70vh;
+}
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .editor-container { grid-template-columns: 1fr; height: auto; }
-            textarea, #preview { height: 400px; }
-        }
+/*Box Structure*/
+.box {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-border);
+}
 
-        footer { margin-top: 40px; border-top: 1px solid #000; padding-top: 20px; }
-        a { color: #000; text-decoration: none; border-bottom: 1px dotted #000; }
+/* Label Bar */
+.label-bar {
+    background: #000;
+    color: #fff;
+    padding: var(--space-xs) var(--space-sm);
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-sm);
+}
+
+/*Editor Textarea*/
+textarea {
+    flex-grow: 1;
+    padding: var(--space-sm);
+    border: none;
+    font-family: var(--font-main);
+    font-size: var(--text-md);
+    resize: none;
+    background: #fff;
+    transition: background-color 0.2s ease;
+}
+
+textarea:focus {
+    outline: none;
+    background: #f5f5f5;
+}
+
+/*Preview Area*/
+#preview {
+    flex-grow: 1;
+    padding: var(--space-sm);
+    overflow-y: auto;
+    background: #fff;
+}
+
+/*Preview Content Styling*/
+#preview h1,
+#preview h2 {
+    border-bottom: 1px solid #000;
+    padding-bottom: var(--space-xs);
+}
+
+#preview p {
+    margin-bottom: var(--space-sm);
+}
+
+#preview code {
+    background: #eee;
+    padding: 2px 4px;
+}
+
+#preview pre {
+    background: #eee;
+    padding: var(--space-sm);
+    overflow-x: auto;
+}
+
+#preview blockquote {
+    border-left: 4px solid #000;
+    padding-left: var(--space-sm);
+    margin-left: 0;
+    color: var(--color-muted);
+}
+
+/*Action Buttons*/
+.action-btn {
+    background: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    text-decoration: underline;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.action-btn:hover {
+    opacity: 0.7;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+/*Footer*/
+footer {
+    margin-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-md);
+    font-size: var(--text-sm);
+}
+
+a {
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--color-border);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+a:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/*Responsive*/
+@media (max-width: 768px) {
+    .editor-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    textarea,
+    #preview {
+        min-height: 350px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+}
+
     </style>
 </head>
 <body>

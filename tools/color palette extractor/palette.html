@@ -5,25 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toolsuite: Color Palette Extractor</title>
     <style>
-        /* Keeping your excellent minimalist styling */
-        body { font-family: 'Courier New', Courier, monospace; background-color: #ffffff; color: #000000; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; }
-        header { border-bottom: 5px solid #000; margin-bottom: 30px; }
-        h1 { font-size: 2rem; text-transform: uppercase; margin: 0; padding-bottom: 10px; }
-        input[type="file"] { display: block; font-family: 'Courier New', Courier, monospace; border: 2px solid #000; padding: 10px; width: 100%; box-sizing: border-box; margin: 15px 0; background: #fff; }
-        #status { margin-top: 10px; padding: 10px; border: 1px dashed #000; display: inline-block; font-size: 0.9rem; }
-        
-        /* Fixed Preview Container */
-        #imagePreviewContainer { margin-top: 30px; border: 2px solid #000; display: none; /* Hidden by default */ padding: 10px; background-color: #f9f9f9; max-width: 100%; }
-        #previewImg { max-width: 100%; height: auto; display: block; }
+    * {
+        box-sizing: border-box;
+    }
 
-        #paletteDisplay { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px; }
-        .color-swatch { border: 2px solid #000; padding: 5px; text-align: center; cursor: pointer; }
-        .color-box { width: 80px; height: 80px; border: 1px solid #000; margin-bottom: 5px; }
-        .color-code { font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
-        hr { border: none; border-top: 1px solid #000; margin: 40px 0; }
-        a { color: #000; text-decoration: none; border-bottom: 1px dotted #000; }
-        footer { margin-top: 60px; font-size: 0.9rem; }
-    </style>
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #ffffff;
+        color: #000000;
+        line-height: 1.6;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 16px;
+    }
+
+    header {
+        border-bottom: 4px solid #000;
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        text-transform: uppercase;
+        margin: 0 0 8px 0;
+    }
+
+    header p {
+        font-size: 1rem;
+        color: #333;
+        margin: 0;
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    input[type="file"] {
+        font-family: inherit;
+        border: 2px solid #000;
+        padding: 10px;
+        width: 100%;
+        background: #fff;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    input[type="file"]:hover {
+        background: #f5f5f5;
+    }
+
+    #status {
+        padding: 10px;
+        border: 1px dashed #000;
+        font-size: 0.9rem;
+        background: #fafafa;
+    }
+
+    #imagePreviewContainer {
+        margin-top: 24px;
+        border: 2px solid #000;
+        padding: 10px;
+        background-color: #f9f9f9;
+        display: none;
+    }
+
+    #previewImg {
+        max-width: 100%;
+        border: 1px solid #000;
+        display: block;
+    }
+
+    #paletteDisplay {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 16px;
+        margin-top: 32px;
+    }
+
+    .color-swatch {
+        border: 2px solid #000;
+        padding: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.15s, box-shadow 0.15s;
+        background: #fff;
+    }
+
+    .color-swatch:hover {
+        transform: translateY(-2px);
+        box-shadow: 2px 2px 0 #000;
+    }
+
+    .color-box {
+        width: 100%;
+        height: 80px;
+        border: 1px solid #000;
+        margin-bottom: 6px;
+    }
+
+    .color-code {
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #000;
+        margin: 40px 0 20px;
+    }
+
+    footer {
+        font-size: 0.9rem;
+    }
+
+    a {
+        color: #000;
+        text-decoration: none;
+        border-bottom: 1px dotted #000;
+        padding-bottom: 2px;
+    }
+
+    a:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        #paletteDisplay {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        }
+    }
+</style>
+
 </head>
 <body>
 
@@ -33,7 +155,8 @@
     </header>
 
     <main>
-        <section>
+        <section class="upload-section">
+
             <input type="file" id="imgInput" accept="image/*">
             <p id="status">System Ready: Select an image to start.</p>
         </section>

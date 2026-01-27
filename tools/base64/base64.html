@@ -5,102 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toolsuite: Base64 Converter</title>
     <style>
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+    * {
+        box-sizing: border-box;
+    }
 
-        header {
-            border-bottom: 5px solid #000;
-            margin-bottom: 30px;
-        }
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #ffffff;
+        color: #000000;
+        line-height: 1.6;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 16px;
+    }
 
+    header {
+        border-bottom: 4px solid #000;
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin: 0 0 8px 0;
+        text-transform: uppercase;
+    }
+
+    header p {
+        font-size: 1rem;
+        color: #333;
+        margin: 0;
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    label {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 14px;
+        border: 2px solid #000;
+        font-family: inherit;
+        font-size: 1rem;
+        background: #fff;
+        resize: vertical;
+        min-height: 150px;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    textarea:focus {
+        outline: none;
+        background-color: #f5f5f5;
+        border-color: #333;
+    }
+
+    .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 12px 0;
+    }
+
+    button {
+        font-family: inherit;
+        background-color: #ffffff;
+        color: #000000;
+        border: 2px solid #000;
+        padding: 12px 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    button:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    button:active {
+        transform: translateY(1px);
+    }
+
+    button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #000;
+        margin: 40px 0 20px;
+    }
+
+    footer {
+        font-size: 0.9rem;
+    }
+
+    a {
+        color: #000;
+        text-decoration: none;
+        border-bottom: 1px dotted #000;
+        padding-bottom: 2px;
+    }
+
+    a:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
         h1 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            margin: 0;
-            padding-bottom: 10px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-top: 20px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
-        button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+            font-size: 1.8rem;
         }
 
         textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #000;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
-            box-sizing: border-box;
-            background: #fff;
-            border-radius: 0;
-            resize: vertical;   
-            min-height: 150px;   
-            display: block;
-        }
-
-        textarea:focus {
-            outline: none;
-            background-color: #f9f9f9; 
+            min-height: 130px;
         }
 
         button {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            border: 2px solid #000;
-            padding: 12px 24px;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.1s;
-            margin-right: 10px;
-            margin-bottom: 10px;
+            width: 100%;
+            text-align: center;
         }
+    }
+</style>
 
-        button:hover {
-            background-color: #000;
-            color: #fff;
-        }
+ 
 
-        hr {
-            border: none;
-            border-top: 1px solid #000;
-            margin: 40px 0;
-        }
-
-        a {
-            color: #000;
-            text-decoration: none;
-            border-bottom: 1px dotted #000;
-        }
-
-        a:hover {
-            background-color: #000;
-            color: #fff;
-        }
-
-        footer {
-            margin-top: 60px;
-            font-size: 0.9rem;
-        }
-    </style>
 </head>
 <body>
 
@@ -114,7 +155,7 @@
             <label>INPUT</label>
             <textarea id="input" placeholder="Type or paste content here..."></textarea>
             
-            <div style="margin: 20px 0;">
+            <div class="btn-group">
                 <button id="encodeBtn">ENCODE (Text → Base64)</button>
                 <button id="decodeBtn">DECODE (Base64 → Text)</button>
             </div>

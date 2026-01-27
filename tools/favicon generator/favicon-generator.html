@@ -4,185 +4,193 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toolsuite: Favicon Generator</title>
+
     <style>
-        /* Global Minimalist Styling */
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-        }
+        /* RESET */
+* {
+    box-sizing: border-box;
+}
 
-        header {
-            border-bottom: 5px solid #000;
-            margin-bottom: 30px;
-        }
+/* BASE */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background: #fff;
+    color: #000;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    line-height: 1.6;
+}
 
-        h1 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            margin: 0;
-            padding-bottom: 10px;
-        }
+/* HEADER */
+header {
+    border-bottom: 4px solid #000;
+    margin-bottom: 35px;
+    padding-bottom: 10px;
+}
 
-        h2 {
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            margin-top: 25px;
-            margin-bottom: 10px;
-        }
+h1 {
+    font-size: 2.2rem;
+    margin: 0;
+    letter-spacing: 1px;
+}
 
-        section {
-            margin-bottom: 30px;
-            padding: 10px 0;
-        }
+h2 {
+    font-size: 1.1rem;
+    margin: 30px 0 12px;
+    text-transform: uppercase;
+}
 
-        input[type="file"],
-        select {
-            display: block;
-            font-family: 'Courier New', Courier, monospace;
-            border: 2px solid #000;
-            padding: 10px;
-            width: 100%;
-            box-sizing: border-box;
-            margin: 10px 0;
-        }
+/* SECTIONS */
+section {
+    margin-bottom: 35px;
+}
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-        }
+/* INPUTS */
+input[type="file"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #000;
+    background: #fff;
+    font-family: inherit;
+    margin-top: 6px;
+}
 
-        button {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            border: 2px solid #000;
-            padding: 10px 20px;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.1s;
-            margin-top: 10px;
-        }
+/* CHECKBOX GRID */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+}
 
-        button:hover:enabled {
-            background-color: #000;
-            color: #fff;
-        }
+/* BUTTONS */
+button {
+    margin-top: 20px;
+    padding: 12px 22px;
+    border: 2px solid #000;
+    background: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
 
-        #status {
-            margin-top: 15px;
-            padding: 8px 10px;
-            border: 1px dashed #000;
-            display: inline-block;
-            min-width: 220px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
+button:hover:enabled {
+    background: #000;
+    color: #fff;
+}
 
-        .preview-container {
-            border: 1px solid #000;
-            padding: 15px;
-            margin-top: 15px;
-            text-align: center;
-        }
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
 
-        .preview-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
+/* STATUS */
+#status {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 12px;
+    border: 1px dashed #000;
+    font-size: 0.85rem;
+}
 
-        .favicon-preview {
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
+/* PREVIEW */
+.preview-container {
+    border: 2px solid #000;
+    padding: 20px;
+    background: #fafafa;
+}
 
-        .favicon-preview img {
-            display: block;
-            margin: 0 auto 8px;
-            border: 1px solid #ddd;
-        }
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 16px;
+}
 
-        .favicon-preview .size-label {
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
+.favicon-preview {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    background: #fff;
+}
 
-        .download-section {
-            margin-top: 20px;
-            padding: 15px;
-            border: 2px solid #000;
-            background-color: #f9f9f9;
-        }
+.favicon-preview img {
+    display: block;
+    margin: 0 auto 8px;
+}
 
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
+/* DOWNLOAD */
+.download-section {
+    border: 2px solid #000;
+    padding: 20px;
+    background: #f9f9f9;
+}
 
-        .download-btn {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
+.download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
 
-        hr {
-            border: none;
-            border-top: 1px solid #000;
-            margin: 30px 0 10px;
-        }
+.download-btn {
+    border: 2px solid #000;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.85rem;
+    transition: 0.15s;
+}
 
-        a {
-            color: #000;
-            text-decoration: none;
-            border-bottom: 1px dotted #000;
-        }
+.download-btn:hover {
+    background: #000;
+    color: #fff;
+}
 
-        a:hover {
-            background-color: #000;
-            color: #fff;
-        }
+/* FOOTER */
+footer {
+    margin-top: 50px;
+    font-size: 0.85rem;
+}
 
-        footer {
-            margin-top: 40px;
-            font-size: 0.9rem;
-        }
+hr {
+    border: none;
+    border-top: 1px solid #000;
+    margin-bottom: 10px;
+}
 
-        .checkbox-group {
-            margin: 15px 0;
-        }
+a {
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px dotted #000;
+}
 
-        .checkbox-group label {
-            display: inline-flex;
-            align-items: center;
-            margin-right: 15px;
-            font-weight: normal;
-        }
+a:hover {
+    background: #000;
+    color: #fff;
+}
 
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 5px;
-            width: auto;
-        }
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+
     </style>
+   
+
+
 </head>
 <body>
 

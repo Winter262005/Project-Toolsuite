@@ -5,177 +5,231 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toolsuite: Glassmorphism Lab</title>
     <style>
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+    /* RESET / BASE */
+* {
+    box-sizing: border-box;
+}
 
-        .sidebar { 
-            width: 380px; 
-            background: #fff; 
-            border-right: 4px solid #000; 
-            display: flex; 
-            flex-direction: column; 
-            z-index: 10; 
-        }
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #ffffff;
+    color: #000000;
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
-        .sidebar-header { 
-            padding: 24px; 
-            border-bottom: 4px solid #000; 
-        }
+/* SIDEBAR */
+.sidebar { 
+    width: 360px; 
+    max-width: 100%;
+    background: #fff; 
+    border-right: 4px solid #000; 
+    display: flex; 
+    flex-direction: column; 
+    z-index: 10; 
+}
 
-        h1 { 
-            font-size: 1.6rem; 
-            text-transform: uppercase; 
-            margin: 0; 
-        }
+.sidebar-header { 
+    padding: 24px; 
+    border-bottom: 4px solid #000; 
+}
 
-        .scroll-area { 
-            padding: 24px; 
-            overflow-y: auto; 
-            flex-grow: 1; 
-        }
+h1 { 
+    font-size: 1.6rem; 
+    text-transform: uppercase; 
+    margin: 0; 
+}
 
-        .control-group { 
-            margin-bottom: 26px; 
-        }
+/* SCROLL AREA */
+.scroll-area { 
+    padding: 24px; 
+    overflow-y: auto; 
+    flex-grow: 1; 
+}
+
+/* CONTROLS */
+.control-group { 
+    margin-bottom: 26px; 
+}
         
-        .control-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 8px; 
-        }
+.control-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 8px; 
+}
 
-        label { 
-            font-size: 0.75rem; 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            letter-spacing: 0.04em;
-        }
+label { 
+    font-size: 0.75rem; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    letter-spacing: 0.04em;
+}
 
-        .val-badge { 
-            font-size: 0.7rem;
-            font-weight: bold; 
-            border: 1px solid #000;
-            padding: 2px 6px;
-        }
+.val-badge { 
+    font-size: 0.7rem;
+    font-weight: bold; 
+    border: 1px solid #000;
+    padding: 2px 6px;
+}
 
-        input[type="range"] { 
-            width: 100%; 
-            appearance: none; 
-            background: #000; 
-            height: 2px; 
-            outline: none; 
-            margin: 16px 0 6px;
-        }
+/* RANGE INPUT */
+input[type="range"] { 
+    width: 100%; 
+    appearance: none; 
+    background: #000; 
+    height: 2px; 
+    outline: none; 
+    margin: 16px 0 6px;
+}
 
-        input[type="range"]::-webkit-slider-thumb { 
-            appearance: none; 
-            width: 18px; 
-            height: 18px; 
-            background: #fff; 
-            border: 2px solid #000; 
-            cursor: pointer; 
-        }
+input[type="range"]::-webkit-slider-thumb { 
+    appearance: none; 
+    width: 18px; 
+    height: 18px; 
+    background: #fff; 
+    border: 2px solid #000; 
+    cursor: pointer; 
+}
 
-        input[type="range"]:focus-visible::-webkit-slider-thumb {
-            outline: 2px solid #000;
-            outline-offset: 2px;
-        }
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
 
-        select, input[type="color"] { 
-            width: 100%; 
-            padding: 12px; 
-            background: #fff; 
-            border: 2px solid #000; 
-            color: #000; 
-            font-family: 'Courier New', monospace;
-            margin-top: 8px;
-        }
+/* SELECT / COLOR */
+select,
+input[type="color"] { 
+    width: 100%; 
+    padding: 12px; 
+    background: #fff; 
+    border: 2px solid #000; 
+    color: #000; 
+    font-family: 'Courier New', monospace;
+    margin-top: 8px;
+}
 
-        select:focus-visible,
-        input[type="color"]:focus-visible {
-            outline: 2px solid #000;
-            outline-offset: 2px;
-        }
+select:focus-visible,
+input[type="color"]:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
 
-        .code-block { 
-            background: #fff; 
-            padding: 16px; 
-            margin-top: 30px; 
-            font-family: 'Courier New', monospace; 
-            font-size: 0.75rem; 
-            color: #000; 
-            border: 1px dashed #000; 
-            position: relative; 
-            white-space: pre-wrap; 
-        }
+/* CODE BLOCK */
+.code-block { 
+    background: #fff; 
+    padding: 16px; 
+    margin-top: 30px; 
+    font-size: 0.75rem; 
+    color: #000; 
+    border: 1px dashed #000; 
+    position: relative; 
+    white-space: pre-wrap; 
+    word-break: break-word;
+}
 
-        .copy-btn { 
-            position: absolute; 
-            top: 8px; 
-            right: 8px; 
-            background: #000; 
-            border: none; 
-            color: #fff; 
-            font-size: 0.6rem; 
-            padding: 5px 10px; 
-            cursor: pointer; 
-            text-transform: uppercase;
-        }
+.copy-btn { 
+    position: absolute; 
+    top: 8px; 
+    right: 8px; 
+    background: #000; 
+    border: none; 
+    color: #fff; 
+    font-size: 0.6rem; 
+    padding: 5px 10px; 
+    cursor: pointer; 
+    text-transform: uppercase;
+}
 
-        .copy-btn:hover { 
-            background: #333; 
-        }
+.copy-btn:hover { 
+    background: #333; 
+}
 
-        .canvas { 
-            flex-grow: 1; 
-            position: relative; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            transition: background 0.4s; 
-        }
+/* CANVAS */
+.canvas { 
+    flex-grow: 1; 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+    transition: background 0.4s; 
+    padding: 24px;
+}
 
-        .blob { 
-            position: absolute; 
-            filter: blur(80px); 
-            border-radius: 50%; 
-            opacity: 0.55; 
-            pointer-events: none; 
-        }
+/* BLOBS */
+.blob { 
+    position: absolute; 
+    filter: blur(80px); 
+    border-radius: 50%; 
+    opacity: 0.55; 
+    pointer-events: none; 
+}
 
-        .glass-card {
-            width: 440px; 
-            min-height: 260px; 
-            padding: 44px; 
-            background: rgba(var(--tint), var(--opacity));
-            backdrop-filter: blur(var(--blur));
-            -webkit-backdrop-filter: blur(var(--blur));
-            border: 1px solid rgba(255, 255, 255, var(--outline));
-            box-shadow: 0 18px var(--elevation) rgba(0, 0, 0, 0.25);
-            color: #fff;
-            border-radius: 18px;
-        }
+/* GLASS CARD */
+.glass-card {
+    width: min(440px, 92%);
+    min-height: 260px; 
+    padding: 40px; 
+    background: rgba(var(--tint), var(--opacity));
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    border: 1px solid rgba(255, 255, 255, var(--outline));
+    box-shadow: 0 18px var(--elevation) rgba(0, 0, 0, 0.25);
+    color: #fff;
+    border-radius: 18px;
+}
 
-        .glass-card h2 {
-            margin: 0 0 10px;
-            font-family: sans-serif;
-        }
+.glass-card h2 {
+    margin: 0 0 10px;
+    font-family: sans-serif;
+}
 
-        .glass-card p {
-            margin: 0;
-            opacity: 0.85;
-            font-family: sans-serif;
-        }
-    </style>
+.glass-card p {
+    margin: 0;
+    opacity: 0.85;
+    font-family: sans-serif;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 4px solid #000;
+    }
+
+    .canvas {
+        min-height: 60vh;
+    }
+}
+
+@media (max-width: 500px) {
+    .sidebar-header {
+        padding: 16px;
+    }
+
+    .scroll-area {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 1.3rem;
+    }
+
+    .glass-card {
+        padding: 26px;
+    }
+}
+</style>
+
 </head>
 <body>
 
