@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio // Project Toolsuite</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/neo.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+
+    <style>
+        :root { --bg: #ffffff; --text: #000000; --border: #000000; --sidebar: #f5f5f5; --accent: #e0e0e0; }
+        body.dark-mode { --bg: #1b1a1a; --text: #f0f0f0; --border: #f0f0f0; --sidebar: #252525; --accent: #333; }
+
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; transition: background 0.2s; }
+        
+        /* Header */
+        header { border-bottom: 4px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        h1 { font-size: 1.1rem; text-transform: uppercase; margin: 0; font-weight: 900; letter-spacing: -0.5px; }
+
+        /* Navigation Button */
+        .nav-btn { background: transparent; border: none; font-family: inherit; font-weight: 900; font-size: 0.8rem; cursor: pointer; color: var(--text); margin-right: 15px; }
+        .nav-btn:hover { text-decoration: underline; }
+
+        /* Main Workspace */
+        .main-container { display: flex; flex-grow: 1; overflow: hidden; }
+
+        /* Sidebar */
+        aside { width: 70px; border-right: 4px solid var(--border); background: var(--sidebar); display: flex; flex-direction: column; align-items: center; padding-top: 25px; }
+        .side-icon { width: 45px; height: 45px; border: 2px solid var(--border); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; transition: 0.1s; background: var(--bg); color: var(--text); }
+        .side-icon:hover { transform: translate(-2px, -2px); box-shadow: 2px 2px 0px var(--border); }
+        .side-icon.active { background: var(--text); color: var(--bg); transform: none; box-shadow: none; }
+
+        /* Editor Area */
+        .workspace { flex-grow: 1; display: flex; flex-direction: column; position: relative; }
+        .editor-container { flex-grow: 1; height: 60%; min-height: 100px; position: relative; }
+        
+        /* CodeMirror Overrides for Professional Feel */
+        .CodeMirror { height: 100% !important; font-size: 14px; line-height: 1.5; background: var(--bg); }
+        .CodeMirror-cursor { border-left: 10px solid var(--text) !important; opacity: 0.5; }
+        .CodeMirror-gutters { background: var(--sidebar); border-right: 1px solid var(--border); }
+
+        /* Resizer */
+        .resizer-h { height: 8px; cursor: row-resize; background: var(--border); opacity: 0.2; transition: opacity 0.2s; z-index: 10; }
+        .resizer-h:hover { opacity: 1; }
+
+        /* Terminal */
+        .terminal { height: 40%; background: #0c0c0c; color: #cfcfcf; padding: 20px; font-family: 'Courier New', monospace; font-size: 0.9rem; overflow-y: auto; white-space: pre-wrap; border-top: 4px solid var(--border); }
+        .terminal-header { font-size: 0.7rem; color: #666; margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 5px; display: flex; justify-content: space-between; }
+
+        /* Action Buttons */
+        .action-btn { background: var(--bg); color: var(--text); border: 2px solid var(--border); padding: 8px 20px; font-family: inherit; font-weight: 900; text-transform: uppercase; cursor: pointer; box-shadow: 4px 4px 0px var(--border); transition: 0.1s; }
+        .action-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--border); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display: flex; align-items: center;">
+        <button class="nav-btn" onclick="window.location.href='../../index.html'">[ < ] HOME</button>
+        <h1>Studio // Code_Runner</h1>
+    </div>
+    <div style="display: flex; gap: 15px;">
+        <button class="action-btn" onclick="runCode()">[ F5 ] EXECUTE</button>
+        <button class="action-btn" id="themeToggle">THEME</button>
+    </div>
+</header>
+
+<div class="main-container">
+    <aside>
+        <div class="side-icon active" data-lang="javascript">JS</div>
+        <div class="side-icon" data-lang="python">PY</div>
+    </aside>
+
+    <div class="workspace">
+        <div class="editor-container" id="editorPanel">
+            <textarea id="editor"></textarea>
+        </div>
+        
+        <div class="resizer-h" id="hResizer"></div>
+        
+        <div class="terminal">
+            <div class="terminal-header">
+                <span>Console_Output</span>
+                <span id="status-indicator" style="color: #00ff00;">IDLE</span>
+            </div>
+            <div id="terminal-out">Waiting for input...</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+<script src="compiler.js"></script>
+</body>
+</html>
