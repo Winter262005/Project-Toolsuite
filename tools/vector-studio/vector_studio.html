@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio // Vector_Architect</title>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <style>
+        :root { --bg: #111; --panel: #1a1a1a; --text: #eee; --border: #444; --accent: #00ff00; --grid: #222; }
+        
+        * { box-sizing: border-box; user-select: none; }
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        /* HEADER */
+        header { height: 50px; border-bottom: 2px solid var(--border); background: var(--panel); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 10; }
+        h1 { font-size: 1rem; font-weight: 900; letter-spacing: 1px; margin: 0; text-transform: uppercase; }
+        
+        .btn { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 5px 15px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; transition: 0.1s; }
+        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn:active { transform: translateY(1px); }
+
+        /* WORKSPACE */
+        .workspace { flex: 1; display: flex; position: relative; }
+        
+        /* TOOLBAR (LEFT) */
+        .toolbar { width: 60px; background: var(--panel); border-right: 2px solid var(--border); display: flex; flex-direction: column; align-items: center; padding-top: 10px; z-index: 20; overflow-y: auto; }
+        .tool { width: 40px; height: 40px; margin-bottom: 5px; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 1px solid transparent; opacity: 0.6; transition: 0.2s; flex-shrink: 0; }
+        .tool:hover { opacity: 1; background: #333; }
+        .tool.active { opacity: 1; background: var(--accent); color: #000; box-shadow: 2px 2px 0 #000; }
+
+        /* CANVAS AREA */
+        #canvas-container { flex: 1; position: relative; background: var(--bg); overflow: hidden; cursor: crosshair; }
+        
+        /* PROPERTIES PANEL (RIGHT) */
+        .properties { width: 250px; background: var(--panel); border-left: 2px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 20; }
+        .prop-group { display: flex; flex-direction: column; gap: 5px; }
+        .prop-label { font-size: 0.7rem; color: #888; text-transform: uppercase; }
+        .prop-input { background: #000; border: 1px solid var(--border); color: #fff; padding: 5px; font-family: inherit; font-size: 0.8rem; }
+        .color-picker { width: 100%; height: 30px; padding: 0; border: 1px solid var(--border); cursor: pointer; }
+
+        /* OVERLAYS */
+        .coordinates { position: absolute; bottom: 10px; left: 70px; font-size: 0.7rem; color: #666; pointer-events: none; }
+        
+        /* SNACKBAR */
+        #status { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 5px 15px; font-weight: bold; font-size: 0.8rem; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span class="material-icons-outlined" style="color:var(--accent)">polyline</span>
+        <h1>Vector Studio</h1>
+    </div>
+    <div style="display: flex; gap: 10px;">
+        <button class="btn" onclick="app.export('png')">EXPORT PNG</button>
+        <button class="btn" onclick="app.export('svg')">EXPORT SVG</button>
+        <button class="btn" onclick="app.clear()">CLEAR</button>
+    </div>
+</header>
+
+<div class="workspace">
+    <aside class="toolbar">
+        <div class="tool active" onclick="app.setTool('select')" title="Select / Move (V)">
+            <span class="material-icons-outlined">near_me</span>
+        </div>
+        <div class="tool" onclick="app.setTool('rect')" title="Rectangle">
+            <span class="material-icons-outlined">crop_square</span>
+        </div>
+        <div class="tool" onclick="app.setTool('circle')" title="Circle">
+            <span class="material-icons-outlined">circle</span>
+        </div>
+        
+        <div class="tool" onclick="app.setTool('oval')" title="Oval">
+            <span class="material-icons-outlined">trip_origin</span> </div>
+        <div class="tool" onclick="app.setTool('diamond')" title="Diamond">
+            <span class="material-icons-outlined">diamond</span>
+        </div>
+        <div class="tool" onclick="app.setTool('parallelogram')" title="Parallelogram">
+            <span class="material-icons-outlined">transform</span>
+        </div>
+        <div class="tool" onclick="app.setTool('arrow')" title="Arrow">
+            <span class="material-icons-outlined">arrow_right_alt</span>
+        </div>
+        
+        <div class="tool" onclick="app.setTool('line')" title="Line">
+            <span class="material-icons-outlined">show_chart</span>
+        </div>
+        <div class="tool" onclick="app.setTool('text')" title="Text">
+            <span class="material-icons-outlined">title</span>
+        </div>
+    </aside>
+
+    <div id="canvas-container">
+        <canvas id="mainCanvas"></canvas>
+        <div class="coordinates" id="coords">0, 0</div>
+    </div>
+
+    <aside class="properties">
+        <div class="prop-group">
+            <label class="prop-label">Fill Color</label>
+            <input type="color" id="fillColor" class="color-picker" value="#333333">
+        </div>
+        <div class="prop-group">
+            <label class="prop-label">Stroke Color</label>
+            <input type="color" id="strokeColor" class="color-picker" value="#00ff00">
+        </div>
+        <div class="prop-group">
+            <label class="prop-label">Stroke Width</label>
+            <input type="number" id="strokeWidth" class="prop-input" value="2" min="0" max="20">
+        </div>
+        <hr style="width:100%; border:1px solid #333">
+        <div class="prop-group">
+            <label class="prop-label">Snap Grid</label>
+            <input type="number" id="gridSize" class="prop-input" value="20" min="5" max="100">
+        </div>
+        <button class="btn" onclick="app.deleteSelected()" style="margin-top:20px; border-color:#ff4444; color:#ff4444;">DELETE SHAPE</button>
+    </aside>
+</div>
+
+<div id="status">EXPORTED SUCCESSFULLY</div>
+
+<script src="studio_vector.js"></script>
+</body>
+</html>
