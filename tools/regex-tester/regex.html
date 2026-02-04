@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toolsuite: Offline Regex Tester</title>
+    <style>
+        /* Design Tokens (Matching JSON Formatter) */
+        :root {
+            --font-main: 'Courier New', Courier, monospace;
+            --color-text: #000;
+            --color-bg: #fff;
+            --color-border: #000;
+            --highlight-bg: #ffeb3b; /* Yellow for matches */
+            --group-bg: #b3e5fc; /* Blue for groups */
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 32px auto;
+            padding: 20px;
+        }
+
+        /* Layout Grid */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 300px; /* Main Area | Sidebar */
+            gap: 40px;
+        }
+
+        /* Header */
+        header { border-bottom: 4px solid var(--color-border); margin-bottom: 32px; padding-bottom: 12px; }
+        h1 { font-size: 2rem; text-transform: uppercase; margin: 0; }
+        
+        /* Inputs */
+        .regex-input-group {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--color-border);
+            margin-bottom: 20px;
+            padding: 5px 10px;
+            background: #f9f9f9;
+        }
+        
+        .slash { font-weight: bold; font-size: 1.2rem; padding: 0 5px; }
+        
+        #regexPattern {
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 1.1rem;
+            padding: 10px;
+            outline: none;
+        }
+        
+        #regexFlags {
+            width: 80px;
+            border: none;
+            border-left: 2px solid #ccc;
+            padding-left: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: transparent;
+            outline: none;
+        }
+
+        /* Test Area (Input) */
+        textarea#testString {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            border: 2px solid var(--color-border);
+            font-family: inherit;
+            font-size: 1rem;
+            box-sizing: border-box;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        /* Results Area (Output) */
+        .results-container {
+            border: 2px solid var(--color-border);
+            min-height: 200px;
+            padding: 15px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: #fff;
+            font-family: inherit;
+            position: relative;
+        }
+        
+        .label { font-weight: bold; text-transform: uppercase; margin: 20px 0 5px; display: block; }
+
+        /* Highlighting Styles */
+        .match { background-color: var(--highlight-bg); border-radius: 2px; }
+        .group { background-color: var(--group-bg); border-bottom: 2px solid #0277bd; }
+
+        /* Sidebar (Cheatsheet) */
+        aside {
+            border: 2px solid var(--color-border);
+            padding: 20px;
+            background: #f4f4f4;
+            height: fit-content;
+        }
+        aside h3 { margin-top: 0; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 5px; }
+        
+        .cheat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .cheat-item:hover { background: #e0e0e0; }
+        .token { font-weight: bold; font-family: monospace; background: #ddd; padding: 2px 4px; }
+
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #000; }
+        a { color: #000; text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .workspace { grid-template-columns: 1fr; }
+            aside { display: none; } /* Hide cheat sheet on small screens */
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Offline Regex Tester</h1>
+    <p>Test Regular Expressions securely in your browser. Real-time matching.</p>
+</header>
+
+<div class="workspace">
+    <main>
+        <label class="label">Regular Expression</label>
+        <div class="regex-input-group">
+            <span class="slash">/</span>
+            <input type="text" id="regexPattern" placeholder="e.g. [a-z]+" value="\b\w+\b">
+            <span class="slash">/</span>
+            <input type="text" id="regexFlags" placeholder="gmi" value="g">
+        </div>
+
+        <label class="label">Test String</label>
+        <textarea id="testString" placeholder="Paste your text here to test against the pattern...">
+Hello world! This is a test string.
+Contact: test@example.com
+Phone: 123-456-7890
+        </textarea>
+
+        <label class="label">Match Preview</label>
+        <div id="output" class="results-container"></div>
+        
+        <div id="matchCount" style="margin-top: 10px; font-weight: bold;">Matches: 0</div>
+    </main>
+
+    <aside>
+        <h3>Cheatsheet</h3>
+        <div id="cheatsheet">
+            <div class="cheat-item" onclick="insertToken('\\d')"><span class="token">\d</span> Digit</div>
+            <div class="cheat-item" onclick="insertToken('\\w')"><span class="token">\w</span> Word Char</div>
+            <div class="cheat-item" onclick="insertToken('\\s')"><span class="token">\s</span> Whitespace</div>
+            <div class="cheat-item" onclick="insertToken('.')"><span class="token">.</span> Any Char</div>
+            <div class="cheat-item" onclick="insertToken('^')"><span class="token">^</span> Start</div>
+            <div class="cheat-item" onclick="insertToken('$')"><span class="token">$</span> End</div>
+            <div class="cheat-item" onclick="insertToken('*')"><span class="token">*</span> 0 or more</div>
+            <div class="cheat-item" onclick="insertToken('+')"><span class="token">+</span> 1 or more</div>
+            <div class="cheat-item" onclick="insertToken('?')"><span class="token">?</span> 0 or 1</div>
+            <div class="cheat-item" onclick="insertToken('[abc]')"><span class="token">[]</span> Character Set</div>
+            <div class="cheat-item" onclick="insertToken('(abc)')"><span class="token">()</span> Capture Group</div>
+        </div>
+        <p style="font-size: 0.8rem; margin-top: 20px;">Click item to insert.</p>
+    </aside>
+</div>
+
+<footer>
+    <a href="../../index.html">&larr; Back to Home</a>
+</footer>
+
+<script src="regex.js"></script>
+</body>
+</html>
