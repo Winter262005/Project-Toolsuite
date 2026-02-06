@@ -1,0 +1,71 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  body {
+    background: #0f172a;
+    color: #e5e7eb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .container {
+    background: #020617;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+  
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    color: #9ca3af;
+    margin-bottom: 1.5rem;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #22c55e;
+    color: #020617;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  button.secondary {
+    background: #38bdf8;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  .barcode-box {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
