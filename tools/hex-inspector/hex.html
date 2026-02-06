@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex Inspector - Large File Support</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --panel-bg: #252526;
+            --text-color: #d4d4d4;
+            --accent-color: #007acc;
+            --offset-color: #858585;
+            --hex-color: #9cdcfe;
+            --ascii-color: #ce9178;
+            --highlight: #264f78;
+        }
+
+        body {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            background: var(--panel-bg);
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { background-color: #444; cursor: not-allowed; }
+
+        input[type="number"], input[type="text"] {
+            background: #3c3c3c;
+            border: 1px solid #555;
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        /* Hex View Container */
+        .hex-container {
+            flex-grow: 1;
+            background-color: var(--panel-bg);
+            border: 1px solid #333;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 80px 1fr 180px; /* Offset | Hex | ASCII */
+            gap: 15px;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .col-offset { color: var(--offset-color); text-align: right; user-select: none; }
+        .col-hex { color: var(--hex-color); word-spacing: 4px; }
+        .col-ascii { color: var(--ascii-color); letter-spacing: 1px; }
+
+        /* Navigation Footer */
+        .status-bar {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        /* Utility */
+        .hidden { display: none !important; }
+        .spinner { border: 2px solid #f3f3f3; border-top: 2px solid var(--accent-color); border-radius: 50%; width: 12px; height: 12px; animation: spin 1s linear infinite; display: inline-block; margin-left: 10px;}
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="toolbar">
+        <button onclick="document.getElementById('file-input').click()">📂 Open File</button>
+        <input type="file" id="file-input" class="hidden">
+        
+        <div class="nav-controls">
+            <span>Offset:</span>
+            <input type="text" id="goto-offset" placeholder="0x00" size="10">
+            <button id="btn-go">Go</button>
+        </div>
+
+        <div style="flex-grow: 1;"></div>
+        <span id="file-name">No file loaded</span>
+        <span id="file-size"></span>
+    </div>
+
+    <div class="hex-container" id="hex-view">
+        <div class="col-offset" id="view-offset"></div>
+        <div class="col-hex" id="view-hex"></div>
+        <div class="col-ascii" id="view-ascii"></div>
+    </div>
+
+    <div class="status-bar">
+        <div class="nav-controls">
+            <button id="btn-prev-page">⬆ Page Up</button>
+            <button id="btn-prev-line">⬆ Line</button>
+            <span>Current: <span id="current-range">0 - 0</span></span>
+            <button id="btn-next-line">⬇ Line</button>
+            <button id="btn-next-page">⬇ Page Down</button>
+        </div>
+        <div id="loading-indicator" class="hidden">Reading disk... <div class="spinner"></div></div>
+    </div>
+
+    <script src="hex-logic.js"></script>
+</body>
+</html>
