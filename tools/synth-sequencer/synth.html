@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Audio Synthesizer & Sequencer</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --panel-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --accent-color: #00d2ff;
+            --active-step: #ff0055;
+            --grid-line: #444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 { margin-bottom: 10px; font-weight: 300; letter-spacing: 2px; }
+        
+        .controls {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: var(--panel-bg);
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        #btn-play { background-color: var(--success, #4caf50); color: white; }
+        #btn-stop { background-color: #f44336; color: white; }
+        #btn-clear { background-color: #555; color: white; }
+
+        select, input[type=number] {
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        /* Sequencer Grid */
+        .sequencer-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .labels {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding-right: 10px;
+            font-family: monospace;
+            color: #888;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr); /* 16 Steps */
+            gap: 4px;
+        }
+
+        .step-col {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .note-btn {
+            width: 30px;
+            height: 30px;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .note-btn:hover { border-color: var(--accent-color); }
+        .note-btn.active { background-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); border-color: white; }
+        
+        /* Playhead Animation */
+        .step-col.playing .note-btn { opacity: 0.8; border-color: white; }
+        .step-col.playing { background-color: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+
+        /* Oscilloscope */
+        canvas {
+            width: 100%;
+            max-width: 800px;
+            height: 100px;
+            background: #111;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>WASM Synthesizer</h1>
+    
+    <div class="controls">
+        <button id="btn-play">▶ Play</button>
+        <button id="btn-stop">⏹ Stop</button>
+        
+        <div>
+            <label>Waveform:</label>
+            <select id="waveform-select">
+                <option value="sine">Sine</option>
+                <option value="square">Square</option>
+                <option value="sawtooth">Sawtooth</option>
+                <option value="triangle">Triangle</option>
+            </select>
+        </div>
+
+        <div>
+            <label>BPM:</label>
+            <input type="number" id="bpm-input" value="120" min="40" max="240" style="width: 60px;">
+        </div>
+
+        <button id="btn-clear">Clear Grid</button>
+    </div>
+
+    <div class="sequencer-container">
+        <div class="labels" id="note-labels">
+            </div>
+        <div class="grid" id="sequencer-grid">
+            </div>
+    </div>
+
+    <canvas id="scope"></canvas>
+
+    <script src="synth-logic.js"></script>
+</body>
+</html>
