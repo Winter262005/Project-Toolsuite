@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Code Diff Checker</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --panel-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --border-color: #444;
+            --diff-add-bg: #1e4220;
+            --diff-add-text: #e6ffec;
+            --diff-del-bg: #4b1a1a;
+            --diff-del-text: #ffebe9;
+            --line-num-color: #6e7681;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        h1 { margin: 0; font-size: 1.5rem; }
+
+        .input-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 40%;
+            min-height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label { margin-bottom: 5px; font-weight: bold; color: #888; }
+
+        textarea {
+            flex-grow: 1;
+            background-color: var(--panel-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            resize: none;
+        }
+        textarea:focus { outline: 1px solid #007acc; }
+
+        /* Controls */
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007acc;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { opacity: 0.9; }
+        button.secondary { background-color: #444; }
+
+        /* Output Area */
+        .diff-output {
+            flex-grow: 1;
+            background-color: #0d1117; /* GitHub Dark Dim */
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .diff-line {
+            display: flex;
+            width: 100%;
+        }
+
+        .line-num {
+            width: 50px;
+            text-align: right;
+            padding-right: 10px;
+            color: var(--line-num-color);
+            user-select: none;
+            border-right: 1px solid #30363d;
+            background-color: #161b22;
+        }
+
+        .line-content {
+            padding-left: 10px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            flex-grow: 1;
+        }
+
+        /* Colors */
+        .diff-added { background-color: var(--diff-add-bg); color: var(--diff-add-text); }
+        .diff-removed { background-color: var(--diff-del-bg); color: var(--diff-del-text); text-decoration: line-through; opacity: 0.8; }
+        .diff-header { background-color: #252526; color: #aaa; padding: 5px; font-style: italic; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Visual Diff Checker</h1>
+        <button class="secondary" onclick="clearAll()">Clear All</button>
+    </header>
+
+    <div class="input-container">
+        <div class="input-box">
+            <label>Original Text</label>
+            <textarea id="original" placeholder="Paste original code/text here..."></textarea>
+        </div>
+        <div class="input-box">
+            <label>Modified Text</label>
+            <textarea id="modified" placeholder="Paste modified code/text here..."></textarea>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="compareText()">🔍 Compare Differences</button>
+    </div>
+
+    <div class="diff-output" id="output">
+        <div style="padding: 20px; color: #666; text-align: center;">Result will appear here...</div>
+    </div>
+
+    <script src="diff-logic.js"></script>
+</body>
+</html>
