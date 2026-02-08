@@ -14,6 +14,8 @@
     <meta name="twitter:description" content="AI-powered image analysis and computer vision tools.">
     <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png">
     
+    <link rel="stylesheet" href="../../assets/css/notifications.css">
+    <script src="../../assets/js/notifications.js" defer></script>
     <style>
         :root { --bg: #050505; --panel: #0e0e0e; --border: #222; --accent: #00e5ff; --text: #eee; --mono: 'Courier New', monospace; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--mono); user-select: none; }
@@ -217,7 +219,7 @@
         },
 
         add: function(src) {
-            if(!vision.image) return alert("Load a base image first!");
+            if(!vision.image) return notify.info("Load a base image first!");
             
             const id = Date.now();
             const el = document.createElement('div');

@@ -234,7 +234,7 @@ const app = {
             }
             saveAs(blob, filename);
         } catch(e) {
-            alert("Error downloading file: " + e.message);
+            notify.error("Error downloading file: " + e.message);
         } finally {
             this.showLoading(false);
         }
