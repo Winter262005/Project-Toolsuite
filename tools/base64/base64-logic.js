@@ -33,7 +33,7 @@ encodeBtn.onclick = () => {
     try {
         output.value = encodeBase64(input.value);
     } catch {
-        alert('Unable to encode this text.');
+        notify.error('Unable to encode this text.');
     }
 };
 
@@ -41,7 +41,7 @@ decodeBtn.onclick = () => {
     try {
         output.value = decodeBase64(input.value.trim());
     } catch {
-        alert('Invalid Base64 string.');
+        notify.error('Invalid Base64 string.');
     }
 };
 

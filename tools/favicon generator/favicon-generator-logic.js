@@ -169,7 +169,7 @@
 
     async function downloadAllAsZip(favicons) {
         if (!window.JSZip) {
-            alert('ZIP download requires JSZip library. Please download individual files.');
+            notify.info('ZIP download requires JSZip library. Please download individual files.');
             return;
         }
 
@@ -228,7 +228,7 @@
 
     generateBtn.addEventListener('click', async function() {
         if (!originalFile) {
-            alert('Please select an image first.');
+            notify.info('Please select an image first.');
             return;
         }
 
@@ -239,7 +239,7 @@
 
         const selectedSizes = getSelectedSizes();
         if (selectedSizes.length === 0) {
-            alert('Please select at least one favicon size.');
+            notify.info('Please select at least one favicon size.');
             return;
         }
 
@@ -279,7 +279,7 @@
 
     downloadAllBtn.addEventListener('click', function() {
         if (generatedFavicons.length === 0) {
-            alert('No favicons generated yet.');
+            notify.info('No favicons generated yet.');
             return;
         }
 
@@ -292,7 +292,7 @@
                 downloadAllAsZip(generatedFavicons);
             };
             script.onerror = function() {
-                alert('Failed to load ZIP library. Please download individual files.');
+                notify.error('Failed to load ZIP library. Please download individual files.');
             };
             document.head.appendChild(script);
         } else {

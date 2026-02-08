@@ -145,6 +145,6 @@ exportBtn.onclick = async () => {
         link.download = "Signed_Document.pdf";
         link.click();
     } catch (err) {
-        alert("Export failed: " + err.message); //
+        notify.error("Export failed: " + err.message);
     }
 };

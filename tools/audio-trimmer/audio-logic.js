@@ -46,7 +46,7 @@ async function handleFileUpload(event) {
         resetSliders();
         updateUI();
     } catch (error) {
-        alert("Error decoding audio file. Please try a valid MP3 or WAV.");
+        notify.error("Error decoding audio file. Please try a valid MP3 or WAV.");
         console.error(error);
     }
 }

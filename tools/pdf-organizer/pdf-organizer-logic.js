@@ -110,6 +110,6 @@ exportBtn.onclick = async () => {
         link.click();
     } catch (err) {
         console.error("Export Error:", err);
-        alert("Export failed. Please check the console for details.");
+        notify.error("Export failed. Please check the console for details.");
     }
 };
