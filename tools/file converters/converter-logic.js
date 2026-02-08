@@ -10,7 +10,7 @@ document.getElementById('convertImageBtn').onclick = () => {
     const file = document.getElementById('imageInput').files[0];
     const targetFormat = document.getElementById('imageFormat').value;
     
-    if (!file) return alert("Please select an image file first.");
+    if (!file) return notify.info("Please select an image file first.");
 
     status.textContent = "Processing image...";
 
@@ -43,7 +43,7 @@ document.getElementById('convertImageBtn').onclick = () => {
  */
 document.getElementById('convertDataBtn').onclick = () => {
     const file = document.getElementById('dataInput').files[0];
-    if (!file) return alert("Please select a JSON file.");
+    if (!file) return notify.info("Please select a JSON file.");
 
     status.textContent = "Processing data...";
 
@@ -57,7 +57,7 @@ document.getElementById('convertDataBtn').onclick = () => {
             downloadBlob(blob, newName);
             status.textContent = "Converted JSON to CSV";
         } catch (err) {
-            alert("Invalid JSON file. Ensure it is an array of objects.");
+            notify.error("Invalid JSON file. Ensure it is an array of objects.");
             status.textContent = "Error parsing JSON.";
         }
     };

@@ -20,7 +20,7 @@ encodeBtn.addEventListener('click', async () => {
     const password = document.getElementById('encPassword').value;
 
     if (!fileInput.files[0] || !secretText) {
-        alert("Please select an image and enter text.");
+        notify.error("Please select an image and enter text.");
         return;
     }
 
@@ -76,7 +76,7 @@ decodeBtn.addEventListener('click', async () => {
     const password = document.getElementById('decPassword').value;
 
     if (!fileInput.files[0]) {
-        alert("Please upload a secure image.");
+        notify.error("Please upload a secure image.");
         return;
     }
 

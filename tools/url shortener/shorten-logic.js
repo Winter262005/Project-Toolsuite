@@ -10,8 +10,8 @@ const status = document.getElementById('status');
 shortenBtn.onclick = async () => {
     const url = longUrlInput.value.trim();
     
-    if (!url) return alert("Please paste a URL first.");
-    if (!url.startsWith('http')) return alert("URL must start with http:// or https://");
+    if (!url) return notify.info("Please paste a URL first.");
+    if (!url.startsWith('http')) return notify.error("URL must start with http:// or https://");
 
     status.textContent = "Shortening... please wait.";
     shortenBtn.disabled = true;

@@ -44,7 +44,7 @@ async function startRecording() {
                 finalStream = await mixAudioStreams(screenStream, micStream);
             } catch (err) {
                 console.warn("Mic permission denied or error:", err);
-                alert("Could not access microphone. Recording screen only.");
+                notify.info("Could not access microphone. Recording screen only.");
             }
         }
 

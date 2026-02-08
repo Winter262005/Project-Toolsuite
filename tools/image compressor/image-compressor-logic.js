@@ -95,7 +95,7 @@
 
     compressBtn.addEventListener('click', function() {
         if (!originalFile) {
-            alert('Please select an image first.');
+            notify.info('Please select an image first.');
             return;
         }
 
@@ -106,7 +106,7 @@
 
         const targetBytes = getTargetSizeInBytes();
         if (targetBytes < 1024) {
-            alert('Target size too small. Please set at least 1 KB.');
+            notify.error('Target size too small. Please set at least 1 KB.');
             return;
         }
 

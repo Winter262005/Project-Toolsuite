@@ -29,7 +29,7 @@ function downloadFile(bytes, name) {
 // --- 1. MERGE LOGIC ---
 document.getElementById('mergeBtn').onclick = async () => {
     const files = document.getElementById('mergeInput').files;
-    if (files.length < 2) return alert("Select at least 2 PDFs");
+    if (files.length < 2) return notify.info("Select at least 2 PDFs");
     
     status.textContent = "Merging...";
     try {
@@ -117,7 +117,7 @@ splitInput.onchange = async (e) => {
 document.getElementById('splitBtn').onclick = async () => {
     const file = splitInput.files[0];
     const range = splitRangeInput.value;
-    if (!file || !range) return alert("Select a file and click pages (or type range)");
+    if (!file || !range) return notify.info("Select a file and click pages (or type range)");
 
     status.textContent = "Splitting...";
     try {
@@ -140,14 +140,14 @@ document.getElementById('splitBtn').onclick = async () => {
         const bytes = await newDoc.save();
         downloadFile(bytes, "extracted_pages.pdf");
     } catch (e) {
-        alert("Check your page range. Error: " + e.message);
+        notify.error("Check your page range. Error: " + e.message);
     }
 };
 
 // --- 3. IMAGE TO PDF LOGIC ---
 document.getElementById('imgToPdfBtn').onclick = async () => {
     const files = document.getElementById('imgToPdfInput').files;
-    if (files.length === 0) return alert("Select at least one image");
+    if (files.length === 0) return notify.info("Select at least one image");
 
     status.textContent = "Converting Images...";
     try {

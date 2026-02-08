@@ -9,7 +9,7 @@ const volSlider = document.getElementById('volumeSlider');
 
 async function startSharing(){
     if (!window.Peer) {
-        alert("PeerJS library not loaded. Please check your internet connection.");
+        notify.error("PeerJS library not loaded. Please check your internet connection.");
         return;
     }
     try{
@@ -43,23 +43,22 @@ async function startSharing(){
         })
 
         peer.on('error', (err) => {
-            alert("Connection Error: " + err.type);
+            notify.error("Connection Error: " + err.type);
             stopSharing();
         });
-
 
 
     }catch (err) {
         console.error(err);
         if (err.name !== 'NotAllowedError') {
-            alert("Failed to start screen share: " + err.message);
+            notify.error("Failed to start screen share: " + err.message);
         }
     }
 }
 
 function joinStream(){
     const code = document.getElementById('joinCode').value.trim();
-    if (code.length !== 4) return alert("Please enter the 4-digit code.");
+    if (code.length !== 4) return notify.info("Please enter the 4-digit code.");
 
     updateStatus("Connecting to Host...");
 
@@ -92,15 +91,15 @@ function joinStream(){
         });
 
         call.on('close', () => {
-            alert("Host stopped sharing.");
+            notify.info("Host stopped sharing.");
             stopSharing();
         });
 
         peer.on('error', (err) => {
             if (err.type === 'peer-unavailable') {
-                alert("Invalid Code or Host is offline.");
+                notify.error("Invalid Code or Host is offline.");
             } else {
-                alert("Error: " + err.type);
+                notify.error("Error: " + err.type);
             }
             stopSharing();
         });
@@ -150,7 +149,7 @@ function setVolume(val) {
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         videoEl.requestFullscreen().catch(err => {
-            alert(`Error attempting to enable full-screen mode: ${err.message}`);
+            notify.error(`Error attempting to enable full-screen mode: ${err.message}`);
         });
     } else {
         document.exitFullscreen();
@@ -165,6 +164,6 @@ async function togglePip() {
             await document.exitPictureInPicture();
         }
     } catch (error) {
-        alert("Picture-in-Picture failed: " + error.message);
+        notify.error("Picture-in-Picture failed: " + error.message);
     }
 }
