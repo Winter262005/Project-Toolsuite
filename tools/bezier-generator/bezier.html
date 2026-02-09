@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubic Bezier Generator</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --panel-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --accent-color: #00d2ff;
+            --handle-1: #ff0055;
+            --handle-2: #00ffaa;
+            --grid-line: #444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 { margin-bottom: 20px; font-weight: 300; }
+
+        .container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Graph Area */
+        .graph-wrapper {
+            position: relative;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 300px;
+            height: 300px;
+        }
+
+        canvas {
+            display: block;
+            cursor: crosshair;
+        }
+
+        /* Preview Area */
+        .preview-panel {
+            width: 300px;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .track {
+            background: #111;
+            height: 20px;
+            border-radius: 10px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .runner {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: 0;
+            box-shadow: 0 0 10px var(--accent-color);
+            /* Transition set by JS */
+        }
+
+        .runner.move { left: calc(100% - 40px); }
+
+        /* Controls */
+        .output-box {
+            background: #111;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .output-box:hover { border-color: var(--accent-color); }
+
+        .presets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        button {
+            padding: 8px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover { background: var(--accent-color); color: black; }
+        
+        #btn-test {
+            width: 100%;
+            margin-bottom: 20px;
+            background: var(--accent-color);
+            color: black;
+            font-weight: bold;
+            padding: 12px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Cubic Bezier Generator</h1>
+
+    <div class="container">
+        <div class="graph-wrapper">
+            <canvas id="curve-canvas" width="300" height="300"></canvas>
+        </div>
+
+        <div class="preview-panel">
+            <div>
+                <h3>Preview</h3>
+                <div class="track">
+                    <div id="runner" class="runner"></div>
+                </div>
+                <button id="btn-test">▶ Test Animation</button>
+            </div>
+
+            <div>
+                <label>CSS Output (Click to Copy):</label>
+                <div id="output" class="output-box">cubic-bezier(.25, .1, .25, 1)</div>
+                
+                <label>Presets:</label>
+                <div class="presets">
+                    <button onclick="setPreset(0.25, 0.1, 0.25, 1)">ease</button>
+                    <button onclick="setPreset(0, 0, 1, 1)">linear</button>
+                    <button onclick="setPreset(0.42, 0, 1, 1)">ease-in</button>
+                    <button onclick="setPreset(0, 0, 0.58, 1)">ease-out</button>
+                    <button onclick="setPreset(0.42, 0, 0.58, 1)">ease-in-out</button>
+                    <button onclick="setPreset(0.68, -0.55, 0.265, 1.55)">bounce</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="bezier.js"></script>
+</body>
+</html>
