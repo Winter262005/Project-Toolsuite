@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Logic Simulator</title>
+    <style>
+        :root {
+            --bg-color: #1e1e1e;
+            --panel-bg: #2d2d2d;
+            --text-color: #e0e0e0;
+            --accent-color: #00d2ff;
+            --wire-off: #555;
+            --wire-on: #4caf50; /* Green for High signal */
+            --gate-bg: #333;
+            --gate-border: #555;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid #444;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            z-index: 100;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+        }
+
+        h2 { margin-top: 0; font-size: 1.2rem; }
+        p.desc { font-size: 0.85rem; color: #aaa; margin-bottom: 20px; }
+
+        .component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button.comp-btn {
+            background: var(--gate-bg);
+            border: 1px solid var(--gate-border);
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        button.comp-btn:hover { border-color: var(--accent-color); background: #444; }
+
+        .truth-table-panel {
+            flex-grow: 1;
+            overflow-y: auto;
+            border-top: 1px solid #444;
+            padding-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        th, td { border: 1px solid #444; padding: 5px; }
+        th { background: #333; color: var(--accent-color); }
+        tr.active-row { background: rgba(76, 175, 80, 0.2); border: 1px solid #4caf50; }
+
+        /* Workspace */
+        .workspace {
+            flex-grow: 1;
+            position: relative;
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Gates/Nodes */
+        .gate {
+            position: absolute;
+            background: var(--gate-bg);
+            border: 1px solid var(--gate-border);
+            border-radius: 8px;
+            padding: 5px 10px;
+            min-width: 60px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            cursor: grab;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 40px;
+        }
+        .gate:active { cursor: grabbing; border-color: var(--accent-color); }
+        .gate-title { font-weight: bold; pointer-events: none; margin: 0 10px; }
+
+        /* Terminals (Dots) */
+        .terminal {
+            width: 12px;
+            height: 12px;
+            background: #777;
+            border-radius: 50%;
+            cursor: crosshair;
+            transition: 0.2s;
+        }
+        .terminal:hover { transform: scale(1.2); background: white; }
+        .terminal.output { margin-right: -16px; background: #555; }
+        .terminal.input { margin-left: -16px; background: #555; }
+        
+        /* Active State */
+        .terminal.on { background: var(--wire-on); box-shadow: 0 0 5px var(--wire-on); }
+        
+        /* Switch & Bulb Specifics */
+        .gate.switch { border-color: #00d2ff; }
+        .gate.bulb { border-color: #ffeb3b; }
+        .gate.bulb.on { background: rgba(255, 235, 59, 0.2); box-shadow: 0 0 15px rgba(255, 235, 59, 0.4); }
+
+        /* SVG Overlay for Wires */
+        svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; /* Let clicks pass through to workspace */
+            z-index: 0;
+        }
+        path {
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            transition: stroke 0.1s;
+        }
+
+        /* Controls */
+        .toolbar {
+            position: absolute;
+            top: 20px; right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        .action-btn {
+            background: #444; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;
+        }
+        .action-btn:hover { background: var(--accent-color); color: #000; }
+        .action-btn.delete { background: #f44336; }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Logic Lab</h2>
+        <p class="desc">Drag & Drop components. Click outputs then inputs to connect.</p>
+
+        <div class="component-list">
+            <button class="comp-btn" onclick="addGate('SWITCH')">Input (1/0)</button>
+            <button class="comp-btn" onclick="addGate('BULB')">Output (Light)</button>
+            <button class="comp-btn" onclick="addGate('AND')">AND</button>
+            <button class="comp-btn" onclick="addGate('OR')">OR</button>
+            <button class="comp-btn" onclick="addGate('NOT')">NOT</button>
+            <button class="comp-btn" onclick="addGate('XOR')">XOR</button>
+        </div>
+
+        <div class="truth-table-panel">
+            <h3>Truth Table</h3>
+            <button class="action-btn" style="width:100%; margin-bottom:10px; font-size: 0.8rem;" onclick="generateTable()">Generat for Circuit</button>
+            <div id="table-output">
+                <p style="text-align:center; color:#666;">Build a circuit with Inputs and Outputs to see data.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="workspace" id="workspace">
+        <svg id="wire-layer"></svg>
+        <div class="toolbar">
+            <button class="action-btn" onclick="clearWorkspace()">Clear All</button>
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>
