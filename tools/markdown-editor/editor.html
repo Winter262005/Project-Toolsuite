@@ -177,11 +177,17 @@ textarea:focus {
     margin-bottom: 20px;
 }
 
-.cheatsheet-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    font-size: 0.85rem;
+.cheatsheet-grid div {
+    word-break: break-word;
+}
+
+.cheatsheet code {
+    background: #eee;
+    padding: 2px 4px;
+}
+
+.cheatsheet-grid div:nth-child(2n) {
+    font-family: monospace;
 }
 
 /*Footer*/
@@ -230,11 +236,18 @@ a:hover {
     <p>Live editor and previewer. Renders locally.</p>
 </header>
 
-    <section class="cheatsheet">
-    <h2>Quick Markdown Guide</h2>
+<section class="cheatsheet">
+    <h2>Markdown Cheat Sheet</h2>
     <div class="cheatsheet-grid">
-        <div><b># Heading</b></div>
+
+        <div><b># Heading 1</b></div>
         <div># H1</div>
+
+        <div><b>## Heading 2</b></div>
+        <div>## H2</div>
+
+        <div><b>### Heading 3</b></div>
+        <div>### H3</div>
 
         <div><b>Bold</b></div>
         <div>**text**</div>
@@ -242,14 +255,52 @@ a:hover {
         <div><b>Italic</b></div>
         <div>*text*</div>
 
-        <div><b>Code</b></div>
+        <div><b>Bold + Italic</b></div>
+        <div>***text***</div>
+
+        <div><b>Strikethrough</b></div>
+        <div>~~text~~</div>
+
+        <div><b>Inline Code</b></div>
         <div>`code`</div>
 
-        <div><b>List</b></div>
+        <div><b>Code Block</b></div>
+        <div>```js<br>console.log("hi")<br>```</div>
+
+        <div><b>Unordered List</b></div>
         <div>- item</div>
+
+        <div><b>Ordered List</b></div>
+        <div>1. item</div>
+
+        <div><b>Task List</b></div>
+        <div>- [x] done<br>- [ ] todo</div>
 
         <div><b>Link</b></div>
         <div>[text](url)</div>
+
+        <div><b>Image</b></div>
+        <div>![alt](url)</div>
+
+        <div><b>Blockquote</b></div>
+        <div>> quote</div>
+
+        <div><b>Horizontal Line</b></div>
+        <div>---</div>
+
+        <div><b>Table</b></div>
+        <div>
+            col1 | col2<br>
+            --- | ---<br>
+            val1 | val2
+        </div>
+
+        <div><b>Escaping</b></div>
+        <div>\*not italic\*</div>
+
+        <div><b>HTML Support</b></div>
+        <div>&lt;div&gt;text&lt;/div&gt;</div>
+
     </div>
 </section>
 
