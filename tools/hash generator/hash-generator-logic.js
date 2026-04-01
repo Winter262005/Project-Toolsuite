@@ -508,7 +508,7 @@
                 <div>${match ? '✓ File Verification Passed' : '✗ File Verification Failed'}</div>
                 <div style="margin-top: 10px; font-size: 0.9rem;">
                     <strong>Expected:</strong> ${expectedHash}<br>
-                    <strong>Actual:</strong> ${actualHash}
+                    <strong>Actual:</strong> ${match ? '✔ Verified (Match)' : '❌ Does not match'}
                 </div>
             `;
             
