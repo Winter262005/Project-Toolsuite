@@ -236,6 +236,27 @@ a:hover {
     <p>Live editor and previewer. Renders locally.</p>
 </header>
 
+<main class="editor-container">
+    <div class="box">
+        <div class="label-bar">
+            <span>Input (Markdown)</span>
+            <button id="clearBtn" class="action-btn">CLEAR</button>
+        </div>
+        <textarea id="markdownInput" placeholder="# Hello World&#10;&#10;Type your markdown here..."></textarea>
+    </div>
+
+    <div class="box">
+        <div class="label-bar">
+            <span>Live Preview</span>
+            <div>
+                <button id="copyHtmlBtn" class="action-btn">COPY HTML</button>
+                <button id="downloadBtn" class="action-btn">DOWNLOAD .MD</button>
+            </div>
+        </div>
+        <div id="preview"></div>
+    </div>
+</main>
+
 <section class="cheatsheet">
     <h2>Markdown Cheat Sheet</h2>
     <div class="cheatsheet-grid">
@@ -303,27 +324,6 @@ a:hover {
 
     </div>
 </section>
-
-<main class="editor-container">
-    <div class="box">
-        <div class="label-bar">
-            <span>Input (Markdown)</span>
-            <button id="clearBtn" class="action-btn">CLEAR</button>
-        </div>
-        <textarea id="markdownInput" placeholder="# Hello World&#10;&#10;Type your markdown here..."></textarea>
-    </div>
-
-    <div class="box">
-        <div class="label-bar">
-            <span>Live Preview</span>
-            <div>
-                <button id="copyHtmlBtn" class="action-btn">COPY HTML</button>
-                <button id="downloadBtn" class="action-btn">DOWNLOAD .MD</button>
-            </div>
-        </div>
-        <div id="preview"></div>
-    </div>
-</main>
 
 <footer>
     <p><a href="../../index.html">← Back to Home</a></p>
