@@ -171,6 +171,19 @@ textarea:focus {
     transform: scale(0.95);
 }
 
+.cheatsheet {
+    border: 2px solid #000;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.cheatsheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
 /*Footer*/
 footer {
     margin-top: var(--space-lg);
@@ -216,6 +229,29 @@ a:hover {
     <h1>Markdown Studio</h1>
     <p>Live editor and previewer. Renders locally.</p>
 </header>
+
+    <section class="cheatsheet">
+    <h2>Quick Markdown Guide</h2>
+    <div class="cheatsheet-grid">
+        <div><b># Heading</b></div>
+        <div># H1</div>
+
+        <div><b>Bold</b></div>
+        <div>**text**</div>
+
+        <div><b>Italic</b></div>
+        <div>*text*</div>
+
+        <div><b>Code</b></div>
+        <div>`code`</div>
+
+        <div><b>List</b></div>
+        <div>- item</div>
+
+        <div><b>Link</b></div>
+        <div>[text](url)</div>
+    </div>
+</section>
 
 <main class="editor-container">
     <div class="box">
