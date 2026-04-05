@@ -11,7 +11,7 @@ That’s exactly what Project Toolsuite refuses to be.
 No logins. No paywalls. No “verify your email” for the 17th time.
 Just your work and our tools.
 
-We kickin' corpo butts with this one 🗣️🔥🔥🔥🔥
+We kickin' corpo butts with this one 🗣️🔥🔥🔥
 
 ## 🏆 Contributors Leaderboard
 
