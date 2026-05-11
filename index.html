@@ -85,40 +85,44 @@
     padding-bottom: 5px;
 }
 
-.cta-box {
-    border: 3px solid var(--border);
+.mini-cta {
+    border: 2px solid var(--border);
     background: var(--tag-bg);
-    padding: 30px;
-}
+    padding: 16px 20px;
 
-.cta-box h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-.cta-buttons {
     display: flex;
-    gap: 15px;
-    margin-top: 25px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
-.cta-buttons a {
+.mini-cta span {
+    font-weight: bold;
+    flex: 1;
+}
+
+.mini-cta-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.mini-cta-buttons a {
     text-decoration: none;
     color: var(--text);
     border: 2px solid var(--border);
-    padding: 12px 20px;
+    padding: 8px 14px;
     font-weight: bold;
     transition: all 0.2s;
     background: var(--bg);
+    white-space: nowrap;
 }
 
-.cta-buttons a:hover {
+.mini-cta-buttons a:hover {
     background: var(--text);
     color: var(--bg);
-    transform: translate(-3px, -3px);
-    box-shadow: 5px 5px 0px var(--border);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px var(--border);
 }
         .workspace {
             display: grid;
@@ -233,26 +237,18 @@ Your work stays yours.</p>
         <p>In development, forever... :)</p>
     </section>
 <section class="support-box">
-    <p class="support-label">SUPPORT TOOLSUITE</p>
+    <div class="mini-cta">
+        <span>
+            Built with privacy first. Support ToolSuite by starring the project or contributing.
+        </span>
 
-    <div class="cta-box">
-        <h3>Like what we're building?</h3>
-
-        <p>
-            Project Toolsuite is built and maintained by people who simply wanted better tools without the usual friction.
-        </p>
-
-        <p>
-            Support the project, contribute a tool, report bugs, or share ToolSuite with someone who might find it useful.
-        </p>
-
-        <div class="cta-buttons">
-            <a href="https://github.com/Winter262005/Project-Toolsuite" target="_blank">
-                STAR ON GITHUB
+        <div class="mini-cta-buttons">
+            <a href="https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME" target="_blank">
+                GITHUB
             </a>
 
-            <a href="contributers.html">
-                BECOME A CONTRIBUTOR
+            <a href="contributors.html">
+                CONTRIBUTE
             </a>
         </div>
     </div>
