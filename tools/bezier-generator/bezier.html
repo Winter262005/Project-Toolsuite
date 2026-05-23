@@ -3,168 +3,927 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://github.com/Winter262005/Project-Toolsuite/theme.css">
-    <script src="https://github.com/Winter262005/Project-Toolsuite/theme.js"></script>
     <title>Cubic Bezier Generator</title>
     <style>
+        /* CSS Variables for raw brutalist theme matching */
         :root {
-            --bg-color: #1e1e1e;
-            --panel-bg: #2d2d2d;
-            --text-color: #e0e0e0;
-            --accent-color: #00d2ff;
-            --handle-1: #ff0055;
-            --handle-2: #00ffaa;
-            --grid-line: #444;
+            --bg-color: #FFFFFF;
+            --text-color: #000000;
+            --border-thick: 2px solid #000000;
+            --border-heavy: 5px solid #000000;
+            --border-dashed: 1px dashed #000000;
+        }
+
+        /* Basic Layout Resets */
+        * {
+            box-sizing: border-box;
+            border-radius: 0 !important; /* Force raw boxy sharp edges */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            line-height: 1.6;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
         }
 
-        h1 { margin-bottom: 20px; font-weight: 300; }
+        .wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+        }
 
-        .container {
-            display: flex;
+        /* Heavy Anchor Header Underline styling */
+        header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            letter-spacing: -1px;
+        }
+
+        .header-underline {
+            border-bottom: var(--border-heavy);
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Section Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 40px;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
-        /* Graph Area */
-        .graph-wrapper {
+        @media (min-width: 768px) {
+            .main-grid {
+                grid-template-columns: 320px 1fr;
+            }
+        }
+
+        /* Structural Panel Cards */
+        .panel {
+            border: var(--border-thick);
+            padding: 20px;
+            background-color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: var(--border-thick);
+            padding-bottom: 5px;
+        }
+
+        /* Interactive Canvas Container */
+        .canvas-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #FFFFFF;
+            border: var(--border-thick);
+            margin-bottom: 15px;
             position: relative;
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            width: 300px;
-            height: 300px;
         }
 
         canvas {
             display: block;
             cursor: crosshair;
+            background: #FFFFFF;
+            touch-action: none;
         }
 
-        /* Preview Area */
-        .preview-panel {
-            width: 300px;
-            background: var(--panel-bg);
-            border-radius: 8px;
-            padding: 20px;
+        /* High Contrast Buttons */
+        button {
+            font-family: inherit;
+            font-size: 0.95rem;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: var(--border-thick);
+            padding: 10px 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+            display: inline-block;
+            transition: background-color 0.1s, color 0.1s;
+        }
+
+        button:hover {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+
+        /* Button Active / Inverted state */
+        button.active {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        button.active:hover {
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+
+        /* Input Controls Setup */
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-wrapper {
             display: flex;
             flex-direction: column;
+        }
+
+        .input-wrapper label {
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        input[type="number"] {
+            font-family: inherit;
+            font-size: 1rem;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: var(--border-thick);
+            padding: 10px;
+            width: 100%;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"]:focus {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+
+        /* Custom Drag Slider Styling */
+        .slider-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .slider-wrapper label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #000000;
+            outline: none;
+            border: none;
+            margin: 10px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #FFFFFF;
+            border: var(--border-thick);
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #000000;
+        }
+
+        /* Simulation Tracks System */
+        .track-container {
+            margin-bottom: 25px;
+        }
+
+        .track-label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
             justify-content: space-between;
         }
 
         .track {
-            background: #111;
-            height: 20px;
-            border-radius: 10px;
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .runner {
-            width: 40px;
+            border: var(--border-thick);
             height: 40px;
-            background: var(--accent-color);
-            border-radius: 50%;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Internal crosshair indicator markings inside the track */
+        .track-grid {
             position: absolute;
-            top: -10px;
+            inset: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            pointer-events: none;
+        }
+
+        .track-line {
+            width: 1px;
+            height: 100%;
+            border-left: var(--border-dashed);
+            opacity: 0.5;
+        }
+
+        /* Sharp boxy physical runner blocks */
+        .runner {
+            width: 36px;
+            height: 36px;
+            background-color: #000000;
+            color: #FFFFFF;
+            position: absolute;
+            top: 0;
             left: 0;
-            box-shadow: 0 0 10px var(--accent-color);
-            /* Transition set by JS */
-        }
-
-        .runner.move { left: calc(100% - 40px); }
-
-        /* Controls */
-        .output-box {
-            background: #111;
-            padding: 10px;
-            border: 1px solid #444;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 1.1rem;
-            text-align: center;
-            color: #fff;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-        .output-box:hover { border-color: var(--accent-color); }
-
-        .presets {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        button {
-            padding: 8px;
-            background: #444;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        button:hover { background: var(--accent-color); color: black; }
-        
-        #btn-test {
-            width: 100%;
-            margin-bottom: 20px;
-            background: var(--accent-color);
-            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
-            padding: 12px;
+            font-size: 1rem;
+            transform: translate3d(0, 0, 0);
+            /* Speed and easing will be dynamically adjusted in JS */
         }
 
+        /* Action Buttons Grid Layout */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .actions-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        /* Output Box Layout */
+        .output-box {
+            border: var(--border-thick);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            word-break: break-all;
+            background: #FFFFFF;
+            transition: background-color 0.1s, color 0.1s;
+        }
+
+        .output-box:hover {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+
+        /* Preset Options List Grid */
+        .presets-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 480px) {
+            .presets-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* System readout log message terminal */
+        .readout-terminal {
+            border: var(--border-dashed);
+            padding: 12px;
+            font-size: 0.85rem;
+            text-align: center;
+            text-transform: uppercase;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+
+        /* Standard Minimal Link Styles */
+        a {
+            color: #000000;
+            text-decoration: none;
+            border-bottom: 1px dotted #000000;
+            font-weight: bold;
+        }
+
+        a:hover {
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+
+        footer {
+            margin-top: 40px;
+            border-top: var(--border-thick);
+            padding-top: 20px;
+            font-size: 0.8rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Cubic Bezier Generator</h1>
+    <div class="wrapper">
+        <header>
+            <h1>Bezier Generator</h1>
+            <div class="header-underline"></div>
+            <p class="subtitle">A Pure High-Contrast Mechanical Timing Editor</p>
+        </header>
 
-    <div class="container">
-        <div class="graph-wrapper">
-            <canvas id="curve-canvas" width="300" height="300"></canvas>
-        </div>
-
-        <div class="preview-panel">
+        <main class="main-grid">
+            <!-- Left Column: Interactive Diagram Plotter -->
             <div>
-                <h3>Preview</h3>
-                <div class="track">
-                    <div id="runner" class="runner"></div>
+                <div class="panel">
+                    <div class="panel-title">Timing Curve</div>
+                    <div class="canvas-container">
+                        <canvas id="curve-canvas" width="280" height="280"></canvas>
+                    </div>
+
+                    <!-- Manual input coordination console -->
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label for="input-p1x">P1.X (0 to 1)</label>
+                            <input type="number" id="input-p1x" step="0.05" min="0" max="1">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="input-p1y">P1.Y</label>
+                            <input type="number" id="input-p1y" step="0.05">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <label for="input-p2x">P2.X (0 to 1)</label>
+                            <input type="number" id="input-p2x" step="0.05" min="0" max="1">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="input-p2y">P2.Y</label>
+                            <input type="number" id="input-p2y" step="0.05">
+                        </div>
+                    </div>
                 </div>
-                <button id="btn-test">▶ Test Animation</button>
             </div>
 
+            <!-- Right Column: Simulators & Presets Panel -->
             <div>
-                <label>CSS Output (Click to Copy):</label>
-                <div id="output" class="output-box">cubic-bezier(.25, .1, .25, 1)</div>
-                
-                <label>Presets:</label>
-                <div class="presets">
-                    <button onclick="setPreset(0.25, 0.1, 0.25, 1)">ease</button>
-                    <button onclick="setPreset(0, 0, 1, 1)">linear</button>
-                    <button onclick="setPreset(0.42, 0, 1, 1)">ease-in</button>
-                    <button onclick="setPreset(0, 0, 0.58, 1)">ease-out</button>
-                    <button onclick="setPreset(0.42, 0, 0.58, 1)">ease-in-out</button>
-                    <button onclick="setPreset(0.68, -0.55, 0.265, 1.55)">bounce</button>
+                <div class="panel">
+                    <div class="panel-title">Mechanical Test Bench</div>
+
+                    <!-- Track 1: Custom Easing Simulation -->
+                    <div class="track-container">
+                        <div class="track-label">
+                            <span>[C] Custom Transition</span>
+                            <span id="label-state-c">0.0s</span>
+                        </div>
+                        <div class="track">
+                            <div class="track-grid">
+                                <div class="track-line"></div>
+                                <div class="track-line"></div>
+                                <div class="track-line"></div>
+                            </div>
+                            <div id="runner-custom" class="runner">C</div>
+                        </div>
+                    </div>
+
+                    <!-- Track 2: Constant Linear Speed Simulation -->
+                    <div class="track-container">
+                        <div class="track-label">
+                            <span>[L] Linear Reference</span>
+                            <span>Constant Speed</span>
+                        </div>
+                        <div class="track">
+                            <div class="track-grid">
+                                <div class="track-line"></div>
+                                <div class="track-line"></div>
+                                <div class="track-line"></div>
+                            </div>
+                            <div id="runner-linear" class="runner">L</div>
+                        </div>
+                    </div>
+
+                    <!-- Duration Adjuster Slider -->
+                    <div class="slider-wrapper">
+                        <label for="duration-slider">
+                            <span>Duration Limit:</span>
+                            <span id="readout-duration">1.00s</span>
+                        </label>
+                        <input type="range" id="duration-slider" min="0.2" max="4.0" step="0.05" value="1.00">
+                    </div>
+
+                    <!-- Simulator Controls -->
+                    <div class="actions-grid">
+                        <button id="btn-simulate">▶ Run Simulation</button>
+                        <button id="btn-loop">Loop</button>
+                        <button id="btn-reset">Reset</button>
+                    </div>
+                </div>
+
+                <!-- CSS Output Code Box -->
+                <div class="panel">
+                    <div class="panel-title">CSS Output (Click to copy)</div>
+                    <div id="output-css" class="output-box">cubic-bezier(0.25, 0.1, 0.25, 1)</div>
+                </div>
+
+                <!-- Readout Terminal Message Display -->
+                <div id="readout-terminal" class="readout-terminal">
+                    System Ready. Use handles on the graph to change transitions.
+                </div>
+
+                <!-- Preset Selection Library -->
+                <div class="panel">
+                    <div class="panel-title">System Presets</div>
+                    <div class="presets-grid">
+                        <button onclick="applyPreset(0.25, 0.1, 0.25, 1)">Ease</button>
+                        <button onclick="applyPreset(0, 0, 1, 1)">Linear</button>
+                        <button onclick="applyPreset(0.42, 0, 1, 1)">Ease-In</button>
+                        <button onclick="applyPreset(0, 0, 0.58, 1)">Ease-Out</button>
+                        <button onclick="applyPreset(0.42, 0, 0.58, 1)">Ease-In-Out</button>
+                        <button onclick="applyPreset(0.68, -0.55, 0.27, 1.55)">Elastic Bounce</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <footer>
+            Built with Web Standards. See <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function" target="_blank">MDN transition-timing specs</a>.
+        </footer>
     </div>
 
-    <script src="bezier.js"></script>
+    <script>
+        // DOM Elements
+        const canvas = document.getElementById('curve-canvas');
+        const ctx = canvas.getContext('2d');
+        const outputCss = document.getElementById('output-css');
+        const runnerCustom = document.getElementById('runner-custom');
+        const runnerLinear = document.getElementById('runner-linear');
+        const btnSimulate = document.getElementById('btn-simulate');
+        const btnLoop = document.getElementById('btn-loop');
+        const btnReset = document.getElementById('btn-reset');
+        const durationSlider = document.getElementById('duration-slider');
+        const readoutDuration = document.getElementById('readout-duration');
+        const labelStateC = document.getElementById('label-state-c');
+        const readoutTerminal = document.getElementById('readout-terminal');
+
+        // Inputs
+        const inputP1X = document.getElementById('input-p1x');
+        const inputP1Y = document.getElementById('input-p1y');
+        const inputP2X = document.getElementById('input-p2x');
+        const inputP2Y = document.getElementById('input-p2y');
+
+        // Layout Constants
+        const size = 280;
+        // Inner padding so that Y coordinate curves stretching over 1.0 or under 0.0 do not clip
+        const padX = 30;
+        const padY = 55;
+
+        // Interactive States
+        // Default curve values (corresponds to 'ease')
+        let p1 = { x: 0.25, y: 0.1 };
+        let p2 = { x: 0.25, y: 1.0 };
+
+        let isDragging = null; // 'p1' or 'p2'
+        let loopEnabled = false;
+        let animationActive = false;
+        let timerSimulation = null;
+
+        // --- STREAMING_CHUNK: Implementing math and coordinate conversion... ---
+
+        // Maps logical coordinates (0.0 to 1.0) to actual canvas coordinate viewport
+        function mapToCanvas(pt) {
+            return {
+                x: padX + pt.x * (size - 2 * padX),
+                // Flip Y Axis logically so 0 is at bottom, 1 is at top
+                y: (size - padY) - pt.y * (size - 2 * padY)
+            };
+        }
+
+        // Maps raw viewport canvas client space back to logical coordinates
+        function mapFromCanvas(clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            // Scale dynamically if CSS resizing occurs
+            const scaleX = size / rect.width;
+            const scaleY = size / rect.height;
+
+            const localX = (clientX - rect.left) * scaleX;
+            const localY = (clientY - rect.top) * scaleY;
+
+            let x = (localX - padX) / (size - 2 * padX);
+            let y = ((size - padY) - localY) / (size - 2 * padY);
+
+            // Time X must remain strictly between [0.0, 1.0] limits
+            x = Math.max(0, Math.min(1, x));
+            // Y values can overshoot boundaries for spring/bounce curves
+
+            return { x, y };
+        }
+
+        function calculateDistance(ptA, ptB) {
+            return Math.sqrt(Math.pow(ptA.x - ptB.x, 2) + Math.pow(ptA.y - ptB.y, 2));
+        }
+
+        function formatDecimal(num) {
+            return parseFloat(num.toFixed(2));
+        }
+
+        // --- STREAMING_CHUNK: Drawing the monochrome bezier canvas... ---
+
+        function drawGraph() {
+            ctx.clearRect(0, 0, size, size);
+
+            const origin = mapToCanvas({ x: 0, y: 0 });
+            const endpoint = mapToCanvas({ x: 1, y: 1 });
+
+            // 1. Draw structural grid lines (0.0 and 1.0 boundaries)
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 1;
+            
+            // X-Axis Baseline
+            ctx.beginPath();
+            ctx.moveTo(0, origin.y);
+            ctx.lineTo(size, origin.y);
+            ctx.stroke();
+
+            // Y-Axis Upper Goal Target Line
+            ctx.beginPath();
+            ctx.moveTo(0, endpoint.y);
+            ctx.lineTo(size, endpoint.y);
+            ctx.stroke();
+
+            // 2. Draw mechanical reference dashed linear curve diagonal
+            ctx.strokeStyle = '#000000';
+            ctx.setLineDash([3, 5]);
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(origin.x, origin.y);
+            ctx.lineTo(endpoint.x, endpoint.y);
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset to solid
+
+            // Label Boundary indicators (Retro typewriter monospace labels)
+            ctx.fillStyle = '#000000';
+            ctx.font = 'bold 9px monospace';
+            ctx.fillText('Y=1.0', 5, endpoint.y - 6);
+            ctx.fillText('Y=0.0', 5, origin.y + 12);
+
+            // 3. Draw Handle Rod vectors from endpoints to P1 and P2
+            const coordP1 = mapToCanvas(p1);
+            const coordP2 = mapToCanvas(p2);
+
+            // Rod 1 (Start to P1)
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([2, 2]); // Fine dotting for vectors
+            ctx.beginPath();
+            ctx.moveTo(origin.x, origin.y);
+            ctx.lineTo(coordP1.x, coordP1.y);
+            ctx.stroke();
+
+            // Rod 2 (End to P2)
+            ctx.beginPath();
+            ctx.moveTo(endpoint.x, endpoint.y);
+            ctx.lineTo(coordP2.x, coordP2.y);
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset
+
+            // 4. Plot Custom Cubic Bezier Curve
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(origin.x, origin.y);
+            ctx.bezierCurveTo(coordP1.x, coordP1.y, coordP2.x, coordP2.y, endpoint.x, endpoint.y);
+            ctx.stroke();
+
+            // 5. Draw interactive physical node nodes on top
+            // Handle 1 Node: Black Solid Circle with White "1" label
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(coordP1.x, coordP1.y, 11, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 11px monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('1', coordP1.x, coordP1.y);
+
+            // Handle 2 Node: Black Solid Square with White "2" label
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(coordP2.x - 11, coordP2.y - 11, 22, 22);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 11px monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('2', coordP2.x, coordP2.y);
+        }
+
+        // --- Drag interaction tracking handlers (Mouse & Touch compatible) ---
+
+        function initiateDrag(logicalPos) {
+            const coordClick = mapToCanvas(logicalPos);
+            const coordP1 = mapToCanvas(p1);
+            const coordP2 = mapToCanvas(p2);
+
+            // Grab radius offset tolerance: 22px
+            const distToP1 = calculateDistance(coordClick, coordP1);
+            const distToP2 = calculateDistance(coordClick, coordP2);
+
+            if (distToP1 < 22 && distToP1 <= distToP2) {
+                isDragging = 'p1';
+                writeLog("Grabbing Control Point 1 (Circle)");
+            } else if (distToP2 < 22) {
+                isDragging = 'p2';
+                writeLog("Grabbing Control Point 2 (Square)");
+            }
+        }
+
+        function processDrag(logicalPos) {
+            if (!isDragging) return;
+
+            if (isDragging === 'p1') {
+                p1 = { x: logicalPos.x, y: logicalPos.y };
+            } else if (isDragging === 'p2') {
+                p2 = { x: logicalPos.x, y: logicalPos.y };
+            }
+
+            renderUpdates();
+        }
+
+        // Setup DOM mouse triggers
+        canvas.addEventListener('mousedown', (e) => {
+            const logicalPos = mapFromCanvas(e.clientX, e.clientY);
+            initiateDrag(logicalPos);
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const logicalPos = mapFromCanvas(e.clientX, e.clientY);
+            processDrag(logicalPos);
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                writeLog("Updated custom cubic-bezier properties.");
+                isDragging = null;
+            }
+        });
+
+        // Touch triggers for mobile optimization
+        canvas.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 0) return;
+            const touch = e.touches[0];
+            const logicalPos = mapFromCanvas(touch.clientX, touch.clientY);
+            initiateDrag(logicalPos);
+            e.preventDefault(); // Stop mobile scroll pull down
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging || e.touches.length === 0) return;
+            const touch = e.touches[0];
+            const logicalPos = mapFromCanvas(touch.clientX, touch.clientY);
+            processDrag(logicalPos);
+            e.preventDefault();
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+            if (isDragging) {
+                writeLog("Updated custom cubic-bezier properties.");
+                isDragging = null;
+            }
+        });
+
+        // --- STREAMING_CHUNK: Creating the animation engine and track logic... ---
+
+        function writeLog(msg) {
+            readoutTerminal.innerText = msg;
+        }
+
+        function renderUpdates() {
+            drawGraph();
+
+            // Formulate standard CSS timing string
+            const bezierString = `cubic-bezier(${formatDecimal(p1.x)}, ${formatDecimal(p1.y)}, ${formatDecimal(p2.x)}, ${formatDecimal(p2.y)})`;
+            outputCss.innerText = bezierString;
+
+            // Reflect state inside manual numeric elements
+            inputP1X.value = formatDecimal(p1.x);
+            inputP1Y.value = formatDecimal(p1.y);
+            inputP2X.value = formatDecimal(p2.x);
+            inputP2Y.value = formatDecimal(p2.y);
+        }
+
+        // Direct input change hook-ups
+        [inputP1X, inputP1Y, inputP2X, inputP2Y].forEach(el => {
+            el.addEventListener('input', () => {
+                let val1x = Math.max(0, Math.min(1, parseFloat(inputP1X.value) || 0));
+                let val1y = parseFloat(inputP1Y.value) || 0;
+                let val2x = Math.max(0, Math.min(1, parseFloat(inputP2X.value) || 0));
+                let val2y = parseFloat(inputP2Y.value) || 0;
+
+                p1 = { x: val1x, y: val1y };
+                p2 = { x: val2x, y: val2y };
+
+                // Apply sanitized limits back directly on field blur
+                inputP1X.value = val1x;
+                inputP2X.value = val2x;
+
+                drawGraph();
+                outputCss.innerText = `cubic-bezier(${formatDecimal(p1.x)}, ${formatDecimal(p1.y)}, ${formatDecimal(p2.x)}, ${formatDecimal(p2.y)})`;
+            });
+        });
+
+        // --- STREAMING_CHUNK: Connecting UI events and presets... ---
+
+        function resetSimulation() {
+            clearTimeout(timerSimulation);
+            animationActive = false;
+
+            // Clear hardware GPU transition properties
+            runnerCustom.style.transition = 'none';
+            runnerLinear.style.transition = 'none';
+
+            // Return runner squares back to beginning instantly
+            runnerCustom.style.left = '0px';
+            runnerLinear.style.left = '0px';
+
+            // Force browser flow repaint to make sure transition-none was applied immediately
+            void runnerCustom.offsetWidth;
+
+            btnSimulate.innerText = "▶ Run Simulation";
+            labelStateC.innerText = "0.0s";
+            writeLog("Simulation reset. Click Run to begin.");
+        }
+
+        function runSimulation() {
+            resetSimulation();
+
+            animationActive = true;
+            btnSimulate.innerText = "■ Active Run";
+            writeLog("Calculating velocities... Simulating...");
+
+            const durationSec = parseFloat(durationSlider.value);
+            const customBezierFormula = outputCss.innerText;
+
+            // Compute sliding targets inside parents container
+            const parentWidth = document.querySelector('.track').clientWidth;
+            const runnerWidth = 36;
+            const limitTargetX = `${parentWidth - runnerWidth}px`;
+
+            // Start stopwatch progress timer readout
+            let startStamp = performance.now();
+            function runStopwatch() {
+                if (!animationActive) return;
+                let delta = (performance.now() - startStamp) / 1000;
+                if (delta > durationSec) {
+                    delta = durationSec;
+                }
+                labelStateC.innerText = `${delta.toFixed(2)}s`;
+                if (delta < durationSec) {
+                    requestAnimationFrame(runStopwatch);
+                }
+            }
+            requestAnimationFrame(runStopwatch);
+
+            // Trigger physical transition movements
+            requestAnimationFrame(() => {
+                // Apply custom timing curves
+                runnerCustom.style.transition = `left ${durationSec}s ${customBezierFormula}`;
+                runnerCustom.style.left = limitTargetX;
+
+                // Apply steady baseline linear
+                runnerLinear.style.transition = `left ${durationSec}s linear`;
+                runnerLinear.style.left = limitTargetX;
+            });
+
+            // Handle completion callback
+            timerSimulation = setTimeout(() => {
+                animationActive = false;
+                btnSimulate.innerText = "▶ Re-run Simulation";
+                writeLog("Simulation Finished.");
+
+                if (loopEnabled) {
+                    timerSimulation = setTimeout(() => {
+                        runSimulation();
+                    }, 800); // 800ms cool down pause before repeating loop
+                }
+            }, durationSec * 1000);
+        }
+
+        // Click actions
+        btnSimulate.addEventListener('click', () => {
+            runSimulation();
+        });
+
+        btnReset.addEventListener('click', () => {
+            loopEnabled = false;
+            btnLoop.classList.remove('active');
+            resetSimulation();
+        });
+
+        // Loop control configuration
+        btnLoop.addEventListener('click', () => {
+            loopEnabled = !loopEnabled;
+            if (loopEnabled) {
+                btnLoop.classList.add('active');
+                writeLog("Looping enabled.");
+                if (!animationActive) {
+                    runSimulation();
+                }
+            } else {
+                btnLoop.classList.remove('active');
+                writeLog("Looping disabled.");
+            }
+        });
+
+        // Duration Slider logic
+        durationSlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            readoutDuration.innerText = `${val.toFixed(2)}s`;
+            if (animationActive) {
+                resetSimulation();
+            }
+        });
+
+        // Fast Preset Switcher handler
+        window.applyPreset = function(x1, y1, x2, y2) {
+            p1 = { x: x1, y: y1 };
+            p2 = { x: x2, y: y2 };
+            renderUpdates();
+            writeLog("Applied preset configuration.");
+            runSimulation();
+        };
+
+        // Clipboard Copy Tool Implementation
+        outputCss.addEventListener('click', () => {
+            const rawText = outputCss.innerText;
+            
+            // Build absolute container fallback copy logic
+            const tempBox = document.createElement('textarea');
+            tempBox.value = rawText;
+            document.body.appendChild(tempBox);
+            tempBox.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempBox);
+
+            writeLog("Copied CSS Timing rule to clipboard!");
+            outputCss.innerText = "COPIED TO CLIPBOARD!";
+
+            setTimeout(() => {
+                outputCss.innerText = rawText;
+            }, 1000);
+        });
+
+        // Auto restart animation cleanly if browser layout wraps during viewport shifts
+        window.addEventListener('resize', () => {
+            if (animationActive) {
+                resetSimulation();
+            }
+        });
+
+        // Core initial load bootstrapper
+        window.onload = function() {
+            renderUpdates();
+        };
+    </script>
 </body>
 </html>
