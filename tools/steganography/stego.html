@@ -16,6 +16,7 @@
     
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
+
     <style>
         :root {
             --bg: #ffffff;
@@ -23,12 +24,14 @@
             --border: #000000;
             --accent: #000000;
         }
+
         body.dark-mode {
             --bg: #1b1a1a;
             --text: #f0f0f0;
             --border: #f0f0f0;
             --accent: #f0f0f0;
         }
+
         body {
             font-family: 'Courier New', Courier, monospace;
             background: var(--bg);
@@ -37,13 +40,31 @@
             padding: 20px;
             transition: 0.3s;
         }
-        .container { max-width: 800px; margin: 0 auto; }
-        
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         /* Header & Nav */
-        header { border-bottom: 3px solid var(--border); margin-bottom: 30px; padding-bottom: 20px; }
-        h1 { margin: 0; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        header {
+            border-bottom: 3px solid var(--border);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
         .tab-btn {
             flex: 1;
             padding: 15px;
@@ -55,16 +76,38 @@
             cursor: pointer;
             text-transform: uppercase;
         }
-        .tab-btn.active { background: var(--text); color: var(--bg); }
-        
+
+        .tab-btn.active {
+            background: var(--text);
+            color: var(--bg);
+        }
+
         /* Main Panel */
-        .panel { display: none; border: 2px solid var(--border); padding: 30px; }
-        .panel.active { display: block; }
-        
+        .panel {
+            display: none;
+            border: 2px solid var(--border);
+            padding: 30px;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
         /* Inputs */
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; text-transform: uppercase; }
-        input[type="file"], input[type="password"], textarea {
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        input[type="file"],
+        input[type="password"],
+        textarea {
             width: 100%;
             padding: 12px;
             box-sizing: border-box;
@@ -73,8 +116,12 @@
             color: var(--text);
             font-family: inherit;
         }
-        textarea { height: 100px; resize: vertical; }
-        
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
         /* Action Buttons */
         .action-btn {
             width: 100%;
@@ -89,103 +136,180 @@
             text-transform: uppercase;
             margin-top: 10px;
         }
-        .action-btn:hover { opacity: 0.9; }
-        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         /* Output Area */
-        #status { margin-top: 20px; font-weight: bold; }
-        #downloadLink { display: block; margin-top: 20px; text-align: center; font-weight: bold; color: var(--text); }
-        #preview { max-width: 100%; margin-top: 20px; border: 2px solid var(--border); display: none; }
-        
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #downloadLink {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        #preview {
+            max-width: 100%;
+            margin-top: 20px;
+            border: 2px solid var(--border);
+            display: none;
+        }
+
         /* Canvas (Hidden) */
-        canvas { display: none; }
+        canvas {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
 
 <div class="container">
+
     <header>
         <h1>StegoVault /// Level 2 Security</h1>
         <p>Hide AES-256 Encrypted secrets inside image pixels.</p>
-        <button id="themeToggle" style="margin-top: 10px; padding: 5px 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer;">Toggle Theme</button>
+
+        <button id="themeToggle"
+            style="margin-top: 10px; padding: 5px 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer;">
+            Toggle Theme
+        </button>
     </header>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('encode')">Hide Data (Encode)</button>
-        <button class="tab-btn" onclick="switchTab('decode')">Reveal Data (Decode)</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'encode')">
+            Hide Data (Encode)
+        </button>
+
+        <button class="tab-btn" onclick="switchTab(event, 'decode')">
+            Reveal Data (Decode)
+        </button>
     </div>
 
     <div id="encodePanel" class="panel active">
+
         <div class="input-group">
-            <label>1. Upload Cover Image (PNG recommended)</label>
-            <input type="file" id="coverImage" accept="image/png, image/jpeg">
+            <label>1. Upload Cover Image (PNG ONLY)</label>
+            <input type="file" id="coverImage" accept="image/png">
         </div>
 
         <div class="input-group">
             <label>2. Secret Message</label>
-            <textarea id="secretText" placeholder="Enter your confidential data here..."></textarea>
+
+            <textarea id="secretText"
+                placeholder="Enter your confidential data here..."></textarea>
         </div>
 
         <div class="input-group">
             <label>3. Encryption Password (Optional but Recommended)</label>
-            <input type="password" id="encPassword" placeholder="Set a password to encrypt the message before hiding">
+
+            <input type="password"
+                id="encPassword"
+                placeholder="Set a password to encrypt the message before hiding">
         </div>
 
-        <button id="encodeBtn" class="action-btn">Encrypt & Hide Data</button>
+        <button id="encodeBtn" class="action-btn">
+            Encrypt & Hide Data
+        </button>
+
     </div>
 
     <div id="decodePanel" class="panel">
+
         <div class="input-group">
-            <label>1. Upload Stego-Image</label>
-            <input type="file" id="stegoImage" accept="image/*">
+            <label>1. Upload Stego-Image (PNG ONLY)</label>
+            <input type="file" id="stegoImage" accept="image/png">
         </div>
 
         <div class="input-group">
             <label>2. Decryption Password</label>
-            <input type="password" id="decPassword" placeholder="Enter password if the message was encrypted">
+
+            <input type="password"
+                id="decPassword"
+                placeholder="Enter password if the message was encrypted">
         </div>
 
-        <button id="decodeBtn" class="action-btn">Extract & Decrypt</button>
-        
-        <div id="resultArea" style="margin-top: 20px; padding: 15px; border: 2px dashed var(--border); display: none;">
+        <button id="decodeBtn" class="action-btn">
+            Extract & Decrypt
+        </button>
+
+        <div id="resultArea"
+            style="margin-top: 20px; padding: 15px; border: 2px dashed var(--border); display: none;">
+
             <label>Hidden Message:</label>
+
             <p id="revealedText" style="word-break: break-all;"></p>
         </div>
+
     </div>
 
     <div id="status"></div>
+
     <img id="preview" alt="Preview">
+
     <a id="downloadLink"></a>
-    
+
     <canvas id="canvas"></canvas>
+
 </div>
 
 <script src="script.js"></script>
 
 <script>
     // Simple Tab Switcher
-    function switchTab(mode) {
-        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        
-        document.getElementById(mode + 'Panel').classList.add('active');
+    function switchTab(event, mode) {
+
+        document.querySelectorAll('.panel')
+            .forEach(p => p.classList.remove('active'));
+
+        document.querySelectorAll('.tab-btn')
+            .forEach(b => b.classList.remove('active'));
+
+        document.getElementById(mode + 'Panel')
+            .classList.add('active');
+
         event.target.classList.add('active');
-        
+
         // Clear outputs
         document.getElementById('status').innerText = '';
+
         document.getElementById('preview').style.display = 'none';
+
         document.getElementById('downloadLink').innerText = '';
+
         document.getElementById('resultArea').style.display = 'none';
     }
 
-    // Theme Toggle (Matches parent)
+    // Theme Toggle
     const toggle = document.getElementById('themeToggle');
-    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
-    
-    toggle.onclick = () => {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
     }
+
+    toggle.onclick = () => {
+
+        document.body.classList.toggle('dark-mode');
+
+        localStorage.setItem(
+            'theme',
+            document.body.classList.contains('dark-mode')
+                ? 'dark'
+                : 'light'
+        );
+    };
 </script>
 
 </body>
