@@ -26,13 +26,11 @@
     <style>
         /* --- BRUTALIST THEME SETUP --- */
         :root {
-            --bg: #050505;
-            --panel: #111;
-            --border: #333;
-            --text-main: #eee;
-            --text-dim: #888;
-            --accent: #00ff00;
-            --danger: #ff3333;
+            --panel: var(--tag-bg);
+            --text-main: var(--text);
+            --text-dim: var(--text);
+            --accent: var(--text);
+            --danger: var(--text);
             --font-mono: 'Courier New', monospace;
         }
 
@@ -65,10 +63,10 @@
             padding: 20px;
             font-size: 1.2rem;
             font-weight: 900;
-            color: #fff;
+            color: var(--text);
             border-bottom: 2px solid var(--border);
             letter-spacing: 1px;
-            background: #000;
+            background: var(--bg);
         }
         .brand span { color: var(--accent); }
 
@@ -90,17 +88,17 @@
             gap: 10px;
         }
         
-        .nav-item:hover { background: #1a1a1a; color: #fff; padding-left: 25px; }
+        .nav-item:hover { background: var(--tag-bg); color: var(--text); padding-left: 25px; }
         .nav-item.active { background: var(--bg); color: var(--accent); border-right: 4px solid var(--accent); }
         
         .protocol-warning {
             margin: 20px;
             padding: 10px;
-            border: 1px solid var(--danger);
-            background: rgba(255, 50, 50, 0.1);
-            color: var(--danger);
+            border: 1px solid var(--border);
+            background: var(--tag-bg);
+            color: var(--text);
             font-size: 0.7rem;
-            display: none; /* JS toggles this */
+            display: none;
         }
 
         /* MAIN WORKSPACE */
@@ -109,12 +107,20 @@
         .module { display: none; flex-direction: column; height: 100%; padding: 30px; overflow-y: auto; }
         .module.active { display: flex; }
 
-        h2 { font-size: 1.5rem; margin-bottom: 20px; color: #fff; text-transform: uppercase; border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 5px; }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text);
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
 
         /* UPLOAD ZONES */
         .upload-zone {
             border: 2px dashed var(--border);
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--tag-bg);
             border-radius: 4px;
             padding: 60px;
             text-align: center;
@@ -122,89 +128,198 @@
             transition: 0.2s;
             margin-bottom: 20px;
         }
-        .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: rgba(0, 255, 0, 0.05); }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--border);
+            background: var(--tag-bg);
+        }
+
         .upload-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-        .upload-btn { background: #222; color: #fff; border: 1px solid var(--accent); padding: 10px 20px; cursor: pointer; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
-        .upload-btn:hover { background: var(--accent); color: #000; }
+
+        .upload-btn {
+            background: var(--tag-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .upload-btn:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
 
         /* FILE EXPLORER (EXTRACTOR) */
-        .file-explorer { display: none; flex: 1; flex-direction: column; border: 1px solid var(--border); background: #080808; }
+        .file-explorer {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            background: var(--tag-bg);
+        }
         
         .breadcrumb-bar {
             padding: 10px 15px;
-            background: #111;
+            background: var(--tag-bg);
             border-bottom: 1px solid var(--border);
             display: flex;
             gap: 10px;
             font-size: 0.9rem;
             align-items: center;
         }
-        .breadcrumb-link { color: var(--accent); cursor: pointer; text-decoration: underline; }
-        .breadcrumb-sep { color: #555; }
 
-        .folder-tree { list-style: none; padding: 10px; overflow-y: auto; flex: 1; }
+        .breadcrumb-link {
+            color: var(--text);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .breadcrumb-sep { color: var(--text); }
+
+        .folder-tree {
+            list-style: none;
+            padding: 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
         .tree-item {
             padding: 8px 10px;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid var(--border);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 10px;
             font-size: 0.9rem;
         }
-        .tree-item:hover { background: #1a1a1a; }
-        .tree-item.folder { color: #fff; font-weight: bold; }
+
+        .tree-item:hover { background: var(--tag-bg); }
+
+        .tree-item.folder {
+            color: var(--text);
+            font-weight: bold;
+        }
+
         .tree-item.folder::before { content: '📁'; }
-        .tree-item.file { color: var(--text-dim); }
+
+        .tree-item.file {
+            color: var(--text-dim);
+        }
+
         .tree-item.file::before { content: '📄'; }
+
         .tree-item:hover::before { transform: scale(1.2); }
 
         /* COMPRESSOR LIST */
-        .file-list { border: 1px solid var(--border); background: #080808; flex: 1; margin-bottom: 20px; overflow-y: auto; padding: 10px; }
+        .file-list {
+            border: 1px solid var(--border);
+            background: var(--tag-bg);
+            flex: 1;
+            margin-bottom: 20px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
         .list-row {
             display: flex;
             justify-content: space-between;
             padding: 10px;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid var(--border);
             align-items: center;
         }
-        .list-row:hover { background: #111; }
-        .remove-btn { color: var(--danger); border: 1px solid var(--danger); padding: 2px 8px; font-size: 0.7rem; cursor: pointer; background: transparent; }
-        .remove-btn:hover { background: var(--danger); color: #fff; }
+
+        .list-row:hover { background: var(--tag-bg); }
+
+        .remove-btn {
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .remove-btn:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
 
         .action-btn {
             width: 100%;
             padding: 15px;
-            background: #111;
-            color: var(--accent);
-            border: 2px solid var(--accent);
+            background: var(--tag-bg);
+            color: var(--text);
+            border: 2px solid var(--border);
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
             text-transform: uppercase;
         }
-        .action-btn:hover:not(:disabled) { background: var(--accent); color: #000; }
-        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; border-color: #555; color: #555; }
+
+        .action-btn:hover:not(:disabled) {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: var(--border);
+            color: var(--text);
+        }
 
         /* UTILS */
-        .status-msg { margin: 10px 0; padding: 10px; display: none; font-size: 0.8rem; border: 1px solid; }
-        .status-msg.success { border-color: var(--accent); color: var(--accent); background: rgba(0, 255, 0, 0.1); }
-        .status-msg.error { border-color: var(--danger); color: var(--danger); background: rgba(255, 0, 0, 0.1); }
+        .status-msg {
+            margin: 10px 0;
+            padding: 10px;
+            display: none;
+            font-size: 0.8rem;
+            border: 1px solid;
+        }
+
+        .status-msg.success {
+            border-color: var(--border);
+            color: var(--text);
+            background: var(--tag-bg);
+        }
+
+        .status-msg.error {
+            border-color: var(--border);
+            color: var(--text);
+            background: var(--tag-bg);
+        }
         
         .loading-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 100;
         }
+
         .spinner {
-            width: 40px; height: 40px; border: 4px solid #333; border-top-color: var(--accent);
-            border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--text);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
 
     </style>
 </head>
@@ -236,7 +351,7 @@
                 <div class="upload-zone" id="extractDropzone">
                     <span class="upload-icon">📥</span>
                     <p>DRAG & DROP ARCHIVE HERE</p>
-                    <p style="color: #666; font-size: 0.8rem; margin: 10px 0;">Supports .ZIP (Fast), .7Z, .RAR, .TAR</p>
+                    <p style="color: var(--text); font-size: 0.8rem; margin: 10px 0;">Supports .ZIP (Fast), .7Z, .RAR, .TAR</p>
                     <button class="upload-btn" onclick="document.getElementById('archiveInput').click()">Select File</button>
                     <input type="file" id="archiveInput" hidden accept=".zip,.7z,.rar,.tar,.gz" onchange="app.handleArchiveSelect(event)">
                 </div>
@@ -248,7 +363,7 @@
                         <span class="breadcrumb-link" onclick="app.navigate('root')">ROOT</span>
                     </div>
                     <ul class="folder-tree" id="folderTree">
-                        </ul>
+                    </ul>
                 </div>
             </div>
 
@@ -263,7 +378,7 @@
                 </div>
 
                 <div class="file-list" id="compressList">
-                    </div>
+                </div>
                 
                 <div class="status-msg" id="compressStatus"></div>
 
@@ -274,7 +389,7 @@
 
             <div class="loading-overlay" id="loader">
                 <div class="spinner"></div>
-                <div style="color: var(--accent); letter-spacing: 2px;">PROCESSING...</div>
+                <div style="color: var(--text); letter-spacing: 2px;">PROCESSING...</div>
             </div>
 
         </main>
