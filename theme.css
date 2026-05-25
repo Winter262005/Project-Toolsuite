@@ -13,3 +13,24 @@
     --card-hover: #f0f0f0;
     --tag-bg: #333333;
 }
+
+.dark-mode-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--text);
+    color: var(--bg);
+    border: 2px solid var(--border);
+    padding: 10px 24px;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0px var(--border);
+    transition: transform 0.1s;
+}
+
+.dark-mode-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border);
+}

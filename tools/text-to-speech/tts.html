@@ -3,79 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to Speech Reader</title>
+    <title>Text to Speech - Project Toolsuite</title>
+    <meta name="description" content="Listen to text using your browser's built-in speech synthesis.">
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
     <style>
         :root {
-            --bg-color: #1e1e1e;
-            --panel-bg: #2d2d2d;
-            --text-color: #e0e0e0;
             --accent-color: #00d2ff;
-            --control-bg: #333;
+            --focus-border: #555555;
+            --focus-bg: #f5f5f5;
+            --label-muted: #666666;
+            --btn-secondary-bg: #e3e3e3;
+            --play-text: #000000;
+            --stop-bg: #f44336;
+            --stop-text: #ffffff;
+        }
+
+        body.dark-mode {
+            --focus-border: #aaaaaa;
+            --focus-bg: #333333;
+            --label-muted: #aaaaaa;
+            --btn-secondary-bg: #444444;
+            --play-text: #000000;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        h1 { margin-bottom: 20px; font-weight: 300; letter-spacing: 1px; }
+        .page-header {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            border-bottom: 4px solid var(--border);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+            padding-right: 160px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
         .player-container {
             width: 100%;
             max-width: 800px;
-            background: var(--panel-bg);
-            border-radius: 12px;
+            background: var(--tag-bg);
+            border: 2px solid var(--border);
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 4px 4px 0 var(--border);
             display: flex;
             flex-direction: column;
             gap: 20px;
+            box-sizing: border-box;
         }
 
-        /* Text Input */
         textarea {
             width: 100%;
             height: 200px;
-            background: #1a1a1a;
-            border: 1px solid #444;
-            border-radius: 8px;
-            color: #fff;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            color: var(--text);
             padding: 15px;
             font-family: inherit;
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.6;
             resize: vertical;
             box-sizing: border-box;
         }
-        textarea:focus { outline: 1px solid var(--accent-color); }
 
-        /* Settings Row */
+        textarea:focus {
+            outline: none;
+            border-color: var(--focus-border);
+            background-color: var(--focus-bg);
+        }
+
         .settings-row {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 20px;
             align-items: center;
-            background: var(--control-bg);
+            background: var(--bg);
             padding: 15px;
-            border-radius: 8px;
+            border: 2px solid var(--border);
         }
 
-        label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 5px; }
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--label-muted);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
         select {
             width: 100%;
             padding: 8px;
-            background: #222;
-            color: white;
-            border: 1px solid #555;
-            border-radius: 4px;
+            background: var(--tag-bg);
+            color: var(--text);
+            border: 2px solid var(--border);
+            font-family: inherit;
         }
 
         input[type=range] {
@@ -83,20 +127,19 @@
             accent-color: var(--accent-color);
         }
 
-        /* Controls */
         .controls {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 10px;
+            flex-wrap: wrap;
         }
 
         button {
-            background: #444;
-            color: white;
-            border: none;
+            background: var(--btn-secondary-bg);
+            color: var(--text);
+            border: 2px solid var(--border);
             padding: 12px 25px;
-            border-radius: 30px;
             font-size: 1rem;
             cursor: pointer;
             transition: 0.2s;
@@ -104,32 +147,89 @@
             align-items: center;
             gap: 8px;
             font-weight: bold;
+            font-family: inherit;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0 var(--border);
         }
-        button:hover { background: #555; transform: translateY(-2px); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        
-        #btn-play { background: var(--accent-color); color: #000; }
-        #btn-stop { background: #f44336; color: white; }
 
-        /* Status Bar */
+        button:hover:not(:disabled) {
+            background: var(--text);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #btn-play {
+            background: var(--accent-color);
+            color: var(--play-text);
+        }
+
+        #btn-play:hover:not(:disabled) {
+            background: var(--accent-color);
+            color: var(--play-text);
+            filter: brightness(1.1);
+        }
+
+        #btn-stop {
+            background: var(--stop-bg);
+            color: var(--stop-text);
+            border-color: var(--stop-bg);
+        }
+
+        #btn-stop:hover:not(:disabled) {
+            background: var(--stop-bg);
+            color: var(--stop-text);
+            filter: brightness(1.1);
+        }
+
         .status-bar {
             text-align: center;
             font-size: 0.9rem;
-            color: #888;
-            height: 20px;
+            color: var(--label-muted);
+            min-height: 20px;
         }
-        .speaking { color: var(--accent-color); animation: pulse 1.5s infinite; }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .speaking {
+            color: var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
 
         @media (max-width: 600px) {
-            .settings-row { grid-template-columns: 1fr; }
+            .settings-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                padding-right: 0;
+                padding-top: 56px;
+            }
+
+            .dark-mode-toggle {
+                top: auto;
+                bottom: 100%;
+                margin-bottom: 8px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Text to Speech Reader</h1>
+    <header class="page-header">
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+        <h1>Text to Speech Reader</h1>
+    </header>
 
     <div class="player-container">
         <textarea id="text-input" placeholder="Paste your text here to listen..."></textarea>

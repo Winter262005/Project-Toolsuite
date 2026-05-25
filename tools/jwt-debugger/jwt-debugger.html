@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure JWT Debugger - Offline</title>
-    
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #000000;
-            --border: #000000;
-            --card-hover: #000000;
-            --tag-bg: #f0f0f0;
             --accent-color: #007acc;
             --key-color: #9cdcfe;
             --string-color: #ce9178;
@@ -25,11 +22,6 @@
         }
 
         body.dark-mode {
-            --bg: #1b1a1a;
-            --text: #f0f0f0;
-            --border: #f0f0f0;
-            --card-hover: #f0f0f0;
-            --tag-bg: #333333;
             --muted: #aaaaaa;
             --meta-tag-bg: #3c3c3c;
             --meta-value: #cccccc;
@@ -54,24 +46,8 @@
             border-bottom: 4px solid var(--border);
             padding-bottom: 16px;
             margin-bottom: 8px;
+            padding-right: 160px;
         }
-
-        .dark-mode-toggle {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--text);
-            color: var(--bg);
-            border: 2px solid var(--border);
-            padding: 10px 24px;
-            font-family: inherit;
-            font-weight: 900;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 4px 4px 0px var(--border);
-            transition: transform 0.1s;
-        }
-        .dark-mode-toggle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--border); }
 
         h1 { margin-bottom: 10px; font-size: 1.5rem; text-transform: uppercase; }
         p.subtitle { color: var(--muted); margin-top: -10px; font-size: 0.9rem; }
@@ -85,7 +61,6 @@
             width: 100%;
         }
 
-        /* Input Section */
         .input-section {
             grid-column: 1 / -1;
         }
@@ -105,7 +80,6 @@
 
         textarea:focus { outline: 2px solid var(--accent-color); border-color: transparent; }
 
-        /* Output Boxes */
         .panel {
             background-color: var(--tag-bg);
             border-radius: 0;
@@ -125,14 +99,12 @@
             font-size: 0.95rem;
         }
 
-        /* Syntax Highlighting */
         .key { color: var(--key-color); }
         .string { color: var(--string-color); }
         .number { color: var(--number-color); }
         .boolean { color: var(--bool-color); }
         .null { color: #dcdcaa; }
 
-        /* Meta Data (Dates) */
         .meta-info {
             margin-top: 15px;
             padding-top: 15px;
@@ -151,7 +123,6 @@
         }
         .meta-value { color: var(--meta-value); }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .container { grid-template-columns: 1fr; }
         }
@@ -183,30 +154,5 @@
     </div>
 
     <script src="jwt-logic.js"></script>
-    <script>
-function updateThemeButton() {
-    const btn = document.getElementById('themeBtn');
-    if (!btn) return;
-    btn.textContent = document.body.classList.contains('dark-mode') ? 'LIGHT MODE' : 'DARK MODE';
-}
-
-function applyTheme(theme) {
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-    updateThemeButton();
-}
-
-function toggleTheme() {
-    const isDark = document.body.classList.contains('dark-mode');
-    const newTheme = isDark ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
-    applyTheme(newTheme);
-}
-
-applyTheme(localStorage.getItem('theme') || 'light');
-    </script>
 </body>
 </html>

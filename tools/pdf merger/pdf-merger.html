@@ -13,25 +13,17 @@
     <meta name="twitter:title" content="PDF Merger - Project Toolsuite">
     <meta name="twitter:description" content="Combine multiple PDF files into a single document.">
     <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png">
-    
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #000000;
-            --border: #000000;
-            --card-hover: #000000;
-            --tag-bg: #f0f0f0;
             --muted: #888888;
         }
 
         body.dark-mode {
-            --bg: #1b1a1a;
-            --text: #f0f0f0;
-            --border: #f0f0f0;
-            --card-hover: #f0f0f0;
-            --tag-bg: #333333;
             --muted: #aaaaaa;
         }
 
@@ -52,23 +44,6 @@
             position: relative;
             padding-right: 160px;
         }
-
-        .dark-mode-toggle {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--text);
-            color: var(--bg);
-            border: 2px solid var(--border);
-            padding: 10px 24px;
-            font-family: inherit;
-            font-weight: 900;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 4px 4px 0px var(--border);
-            transition: transform 0.1s;
-        }
-        .dark-mode-toggle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--border); }
 
         h1 {
             font-size: 2rem;
@@ -222,32 +197,6 @@
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 <script src="pdf-logic.js"></script>
-<script>
-function updateThemeButton() {
-    const btn = document.getElementById('themeBtn');
-    if (!btn) return;
-    btn.textContent = document.body.classList.contains('dark-mode') ? 'LIGHT MODE' : 'DARK MODE';
-}
-
-function applyTheme(theme) {
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-    updateThemeButton();
-}
-
-function toggleTheme() {
-    const isDark = document.body.classList.contains('dark-mode');
-    const newTheme = isDark ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
-    applyTheme(newTheme);
-}
-
-applyTheme(localStorage.getItem('theme') || 'light');
-</script>
 
 </body>
 </html>
-

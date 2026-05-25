@@ -4,30 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Audio Synthesizer & Sequencer</title>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
     <style>
         :root {
-            --bg: #ffffff;
-            --text: #000000;
-            --border: #000000;
-            --card-hover: #000000;
-            --tag-bg: #f0f0f0;
             --accent-color: #00d2ff;
+            --active-step: #ff0055;
             --note-bg: #e3e3e3;
             --input-bg: #ffffff;
             --scope-bg: #f5f5f5;
             --label-muted: #666666;
+            --grid-line: #cccccc;
         }
 
         body.dark-mode {
-            --bg: #1b1a1a;
-            --text: #f0f0f0;
-            --border: #f0f0f0;
-            --card-hover: #f0f0f0;
-            --tag-bg: #333333;
             --note-bg: #444444;
             --input-bg: #252525;
             --scope-bg: #111111;
             --label-muted: #aaaaaa;
+            --grid-line: #444;
         }
 
         body {
@@ -51,24 +46,8 @@
             padding-bottom: 16px;
             margin-bottom: 20px;
             text-align: center;
+            padding-right: 160px;
         }
-
-        .dark-mode-toggle {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--text);
-            color: var(--bg);
-            border: 2px solid var(--border);
-            padding: 10px 24px;
-            font-family: inherit;
-            font-weight: 900;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 4px 4px 0px var(--border);
-            transition: transform 0.1s;
-        }
-        .dark-mode-toggle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--border); }
 
         h1 { margin-bottom: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
         
@@ -99,7 +78,7 @@
 
         #btn-play { background-color: var(--success, #4caf50); color: white; }
         #btn-stop { background-color: #f44336; color: white; }
-        #btn-clear { background-color: #555; color: white; }
+        #btn-clear { background-color: var(--label-muted); color: white; }
 
         select, input[type=number] {
             background: var(--input-bg);
@@ -110,7 +89,6 @@
             font-family: inherit;
         }
 
-        /* Sequencer Grid */
         .sequencer-container {
             display: flex;
             gap: 10px;
@@ -127,7 +105,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(16, 1fr); /* 16 Steps */
+            grid-template-columns: repeat(16, 1fr);
             gap: 4px;
         }
 
@@ -150,11 +128,9 @@
         .note-btn:hover { border-color: var(--accent-color); }
         .note-btn.active { background-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-color); border-color: var(--text); }
         
-        /* Playhead Animation */
         .step-col.playing .note-btn { opacity: 0.8; border-color: var(--text); }
         .step-col.playing { background-color: var(--tag-bg); border-radius: 0; }
 
-        /* Oscilloscope */
         canvas {
             width: 100%;
             max-width: 800px;
@@ -205,30 +181,5 @@
     <canvas id="scope"></canvas>
 
     <script src="synth-logic.js"></script>
-    <script>
-function updateThemeButton() {
-    const btn = document.getElementById('themeBtn');
-    if (!btn) return;
-    btn.textContent = document.body.classList.contains('dark-mode') ? 'LIGHT MODE' : 'DARK MODE';
-}
-
-function applyTheme(theme) {
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-    updateThemeButton();
-}
-
-function toggleTheme() {
-    const isDark = document.body.classList.contains('dark-mode');
-    const newTheme = isDark ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
-    applyTheme(newTheme);
-}
-
-applyTheme(localStorage.getItem('theme') || 'light');
-    </script>
 </body>
 </html>

@@ -13,28 +13,48 @@
     <meta name="twitter:title" content="QR Code Generator - Project Toolsuite">
     <meta name="twitter:description" content="Generate custom QR codes for any text or URL.">
     <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png">
-    
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
-        /* Global Minimalist Styling */
-        /*Global Styles */
-body {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #ffffff;
-    color: #000000;
-    line-height: 1.7;
-    max-width: 800px;
-    margin: 32px auto;
-    padding: 20px;
-}
+        :root {
+            --focus-border: #555555;
+            --focus-bg: #f5f5f5;
+            --disabled-bg: #eeeeee;
+            --disabled-text: #888888;
+            --disabled-border: #888888;
+            --canvas-border: #eeeeee;
+        }
 
-/* Header & Headings*/
-header {
-    border-bottom: 4px solid #000;
-    margin-bottom: 32px;
-    padding-bottom: 12px;
-}
+        body.dark-mode {
+            --focus-border: #aaaaaa;
+            --focus-bg: #333333;
+            --disabled-bg: #444444;
+            --disabled-text: #888888;
+            --disabled-border: #666666;
+            --canvas-border: #555555;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 32px auto;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 32px;
+            padding-bottom: 12px;
+            position: relative;
+            padding-right: 160px;
+        }
 
 h1 {
     font-size: 2rem;
@@ -63,11 +83,12 @@ textarea,
 select {
     width: 100%;
     padding: 12px;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     font-family: inherit;
     font-size: 1rem;
     box-sizing: border-box;
-    background: #fff;
+    background: var(--tag-bg);
+    color: var(--text);
     border-radius: 0;
     display: block;
     transition: background-color 0.2s, border-color 0.2s;
@@ -81,35 +102,40 @@ input:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: #555;
-    background-color: #f5f5f5;
+    border-color: var(--focus-border);
+    background-color: var(--focus-bg);
 }
 
-/* Custom select arrow */
 select {
     -webkit-appearance: none;
+    appearance: none;
     background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     padding-right: 40px;
 }
 
+body.dark-mode select {
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22%23f0f0f0%22%20d%3D%22M7%2010l5%205%205-5z%22%2F%3E%3C%2Fsvg%3E");
+}
+
 /* Buttons */
 button {
-    font-family: inherit;
-    background-color: #ffffff;
-    color: #000000;
-    border: 2px solid #000;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
     padding: 10px 20px;
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.15s ease;
+    box-shadow: 4px 4px 0 var(--border);
 }
 
 button:hover:not(:disabled) {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--text);
+    color: var(--bg);
     transform: translateY(-2px);
 }
 
@@ -118,58 +144,57 @@ button:active:not(:disabled) {
 }
 
 button:disabled {
-    background-color: #eee;
-    color: #888;
-    border-color: #888;
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text);
+    border-color: var(--disabled-border);
     cursor: not-allowed;
+    box-shadow: none;
 }
 
-/* Result Area */
 #qr-result {
     margin-top: 30px;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 20px;
     display: inline-block;
-    background: #fff;
+    background: var(--tag-bg);
     text-align: center;
     transition: box-shadow 0.15s ease;
 }
 
 #qr-result:hover {
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 4px 4px 0 var(--border);
 }
 
 #canvas-container {
     margin-bottom: 20px;
-    border: 1px solid #eee; /* Light border to define QR edges */
+    border: 1px solid var(--canvas-border);
 }
 
-/*Status Box*/
 #status {
     margin-top: 20px;
     padding: 10px 12px;
-    border: 1px dashed #000;
+    border: 1px dashed var(--border);
     display: inline-block;
     font-size: 0.9rem;
+    background: var(--tag-bg);
 }
 
-/* Helpers*/
 hr {
     border: none;
-    border-top: 1px solid #000;
+    border-top: 1px solid var(--border);
     margin: 32px 0;
 }
 
 a {
-    color: #000;
+    color: var(--text);
     text-decoration: none;
-    border-bottom: 1px dotted #000;
+    border-bottom: 1px dotted var(--border);
     transition: background-color 0.15s, color 0.15s;
 }
 
 a:hover {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--text);
+    color: var(--bg);
 }
 
 /*Footer*/
@@ -199,6 +224,7 @@ footer {
 <body>
 
     <header>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>   
         <h1>QR Code Generator</h1>
         <p>Instant, private QR codes. No tracking, no expiration, no account required.</p>
     </header>
@@ -240,4 +266,3 @@ footer {
     <script src="qr-logic.js"></script>
 </body>
 </html>
-

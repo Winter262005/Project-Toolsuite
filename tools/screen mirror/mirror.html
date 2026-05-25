@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Screen Mirror - Project Toolsuite</title>
     <meta name="description" content="Mirror your screen to other devices easily.">
     <meta property="og:title" content="Screen Mirror - Project Toolsuite">
@@ -11,45 +13,129 @@
     <meta name="twitter:title" content="Screen Mirror - Project Toolsuite">
     <meta name="twitter:description" content="Mirror your screen to other devices easily.">
     <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png">
-    
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
-        body { font-family: 'Courier New', monospace; background: #fff; color: #000; text-align: center; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; border: 3px solid #000; padding: 20px; }
-        
+        :root {
+            --video-bg: #000000;
+            --danger: #dd0000;
+            --range-track: #000000;
+            --range-thumb-bg: #ffffff;
+        }
+
+        body.dark-mode {
+            --range-track: #f0f0f0;
+            --range-thumb-bg: #1b1a1a;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: var(--bg);
+            color: var(--text);
+            text-align: center;
+            padding: 20px;
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 3px solid var(--border);
+            padding: 20px;
+        }
+
+        .page-header {
+            position: relative;
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            padding-right: 160px;
+        }
+
         .video-wrapper {
             position: relative;
             width: 100%;
-            border: 3px solid #000;
+            border: 3px solid var(--border);
             margin-top: 20px;
-            background: #000;
+            background: var(--video-bg);
             min-height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
-        /* Ensure video fills the container */
-        video { width: 100%; height: 100%; display: block; object-fit: contain; }
 
-        input { padding: 10px; border: 2px solid #000; font-family: inherit; width: 200px; text-align: center; }
-        
-        button { 
-            background: #fff; color: #000; border: 2px solid #000; 
-            padding: 10px 20px; cursor: pointer; margin: 5px; 
-            font-weight: bold; text-transform: uppercase;
+        video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
         }
-        button:hover { background: #000; color: #fff; }
 
-        .btn-stop { border-color: #d00; color: #d00; }
-        .btn-stop:hover { background: #d00; color: #fff; }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid var(--border);
+            font-family: inherit;
+            width: 200px;
+            text-align: center;
+            background: var(--tag-bg);
+            color: var(--text);
+        }
 
-        .status { margin: 15px 0; font-weight: bold; font-size: 1.1rem; }
-        .hidden { display: none !important; }
-        
-        hr { border: none; border-top: 1px solid #000; margin: 30px 0; }
-        .code-display { font-size: 2.5rem; letter-spacing: 5px; display: block; margin: 10px 0; }
+        button {
+            background: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: inherit;
+            box-shadow: 4px 4px 0 var(--border);
+            transition: all 0.15s ease;
+        }
+
+        button:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-stop {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .btn-stop:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .status {
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 30px 0;
+        }
+
+        .code-display {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            display: block;
+            margin: 10px 0;
+        }
 
         .controls-bar {
             display: flex;
@@ -58,10 +144,11 @@
             gap: 15px;
             margin-top: 15px;
             padding: 10px;
-            border: 2px solid #000;
-            background: #f4f4f4;
+            border: 2px solid var(--border);
+            background: var(--tag-bg);
+            flex-wrap: wrap;
         }
-        
+
         .volume-control {
             display: flex;
             align-items: center;
@@ -70,9 +157,10 @@
 
         input[type=range] {
             -webkit-appearance: none;
+            appearance: none;
             width: 120px;
             height: 4px;
-            background: #000;
+            background: var(--range-track);
             border: none;
             padding: 0;
         }
@@ -81,17 +169,20 @@
             -webkit-appearance: none;
             height: 20px;
             width: 20px;
-            background: #fff;
-            border: 2px solid #000;
+            background: var(--range-thumb-bg);
+            border: 2px solid var(--border);
             cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Screen Mirror</h1>
-        <p>Share your screen to another device on the same network.</p>
-        
+        <header class="page-header">
+            <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+            <h1>Screen Mirror</h1>
+            <p>Share your screen to another device on the same network.</p>
+        </header>
+
         <div id="setup-zone">
             <div style="margin-bottom: 40px;">
                 <h3>I want to SHARE my screen</h3>
@@ -113,7 +204,7 @@
             </div>
 
             <p class="status" id="status-text">Initializing...</p>
-            
+
             <div class="video-wrapper">
                 <video id="videoElement" autoplay playsinline></video>
             </div>
@@ -121,7 +212,7 @@
             <div class="controls-bar">
                 <button onclick="togglePip()" title="Picture in Picture">PiP</button>
                 <button onclick="toggleFullscreen()" title="Full Screen">[ ]</button>
-                
+
                 <div class="volume-control">
                     <span style="font-weight: bold;">VOL</span>
                     <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="1" oninput="setVolume(this.value)">
