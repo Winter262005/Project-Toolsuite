@@ -23,6 +23,28 @@
         header { border-bottom: 5px solid var(--border); margin-bottom: 30px; }
         h1 { font-size: 2rem; text-transform: uppercase; margin: 0; }
 
+        .back-link { /* Back to index.html button */
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text);
+            border: 2px solid var(--border);
+            padding: 4px 10px;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+            transition: background 0.1s, color 0.1s;
+        }
+ 
+        .back-link:hover { /* Back to index.html button */
+            background: #000;
+            color: #fff;
+        }
+
         .board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -126,6 +148,7 @@
 <body>
 
 <header>
+     <a class="back-link" href="../../index.html">&#8592; Back to Home</a> <!-- Go back home button -->
     <h1>Offline Kanban</h1>
     <p>Categorize and manage tasks locally. Persistence enabled.</p>
 
