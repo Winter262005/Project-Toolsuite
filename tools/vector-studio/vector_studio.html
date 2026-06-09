@@ -30,8 +30,8 @@
         header { height: 50px; border-bottom: 2px solid var(--border); background: var(--panel); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 10; }
         h1 { font-size: 1rem; font-weight: 900; letter-spacing: 1px; margin: 0; text-transform: uppercase; }
         
-        .btn { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 5px 15px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; transition: 0.1s; }
-        .btn:hover { border-color: var(--accent); color: var(--accent); }
+        .btn, .back-home-btn { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 5px 15px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; transition: 0.1s; text-decoration: none; }
+        .btn:hover, .back-home-btn:hover { border-color: var(--accent); color: var(--accent); }
         .btn:active { transform: translateY(1px); }
 
         /* WORKSPACE */
@@ -58,14 +58,6 @@
         
         /* SNACKBAR */
         #status { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); background: var(--accent); color: var(--text); padding: 5px 15px; font-weight: bold; font-size: 0.8rem; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-
-        /* BACK TO HOME BUTTON */
-        .back-home-btn {
-            font-family: inherit; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.05em; padding: 5px 15px; background: var(--bg); color: var(--text);
-            border: 1px solid var(--border); text-decoration: none; border-radius: 0; cursor: pointer;
-            white-space: nowrap; transition: 0.1s;
-        }
-        .back-home-btn:hover { border-color: var(--accent); color: var(--accent); }
     
     </style>
     <link rel="stylesheet" href="../../theme.css">
@@ -73,9 +65,15 @@
 </head>
 <body>
 
+<!-- 
+    Navigation: tools/vector-studio/vector_studio.html
+    Path to root: ../../index.html
+    Structure assumed: Project-Toolsuite/tools/vector-studio/vector_studio.html
+-->
+
 <header>
     <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="../../index.html" class="back-home-btn"> HOME</a>
+        <a href="../../index.html" class="btn back-home-btn" aria-label="Return to home page"> HOME</a>
         <span class="material-icons-outlined" style="color:var(--accent)">polyline</span>
         <h1>Vector Studio</h1>
     </div>
