@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         /* --- BRUTALIST THEME --- */
         :root {
             --bg: #000000;
@@ -40,14 +41,14 @@
         
         .nav-btn {
             background: transparent; border: none; border-bottom: 1px solid #1a1a1a;
-            color: #888; padding: 15px 25px; text-align: left; cursor: pointer;
+            color: var(--muted); padding: 15px 25px; text-align: left; cursor: pointer;
             font-weight: bold; transition: 0.2s; display: block; width: 100%;
         }
         .nav-btn:hover { color: #fff; padding-left: 30px; background: #111; }
         .nav-btn.active { background: #111; color: var(--accent); border-right: 4px solid var(--accent); }
 
         .status-panel { margin-top: auto; padding: 20px; border-top: 1px solid var(--border); background: #050505; }
-        .status-row { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 5px; color: #888; }
+        .status-row { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 5px; color: var(--muted); }
         .status-val { color: var(--accent); font-weight: bold; }
 
         /* VIEWPORT */
@@ -79,7 +80,7 @@
             width: 100%; background: #111; color: #fff; border: 1px solid var(--accent);
             padding: 12px; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.2s;
         }
-        .action-btn:hover { background: var(--accent); color: #000; }
+        .action-btn:hover { background: var(--accent); color: var(--text); }
         
         .input-group { display: flex; gap: 10px; margin-top: 10px; }
         .input-group input { flex: 1; background: #000; border: 1px solid #333; color: #fff; padding: 10px; }
@@ -91,7 +92,7 @@
         #mesh-url { flex: 1; background: #000; border: 1px solid #333; color: #fff; padding: 8px 15px; font-family: sans-serif; }
         #act-go { margin-left: 10px; background: var(--accent); border: none; padding: 0 20px; font-weight: bold; cursor: pointer; height: 32px; }
 
-        .browser-frame { flex: 1; background: #fff; position: relative; overflow: auto; color: #000; padding: 20px; }
+        .browser-frame { flex: 1; background: var(--bg); position: relative; overflow: auto; color: var(--text); padding: 20px; }
         .empty-state {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100%; color: #666; text-align: center;
@@ -104,7 +105,10 @@
         .log-tx { color: var(--accent); }
         .log-rx { color: #ff00ff; }
         .log-sys { color: #666; }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 

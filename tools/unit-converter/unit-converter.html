@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter - Project Toolsuite</title>
+    <meta name="description" content="Convert between all common & tech units instantly. No server processing.">
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        header {
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .dark-mode-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--text);
+            color: var(--bg);
+            border: 2px solid var(--border);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dark-mode-toggle:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--border);
+        }
+
+        .dark-mode-toggle:active {
+            transform: translate(0, 0);
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .category-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .category-selector label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+
+        .category-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 8px;
+        }
+
+        .category-btn {
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-btn:hover {
+            background: var(--text);
+            color: var(--bg);
+            transform: translate(-2px, -2px);
+            box-shadow: 3px 3px 0px var(--border);
+        }
+
+        .category-btn.active {
+            background: var(--text);
+            color: var(--bg);
+            box-shadow: 3px 3px 0px var(--border);
+        }
+
+        .converter-box {
+            border: 3px dashed var(--border);
+            padding: 24px;
+            background: var(--bg);
+        }
+
+        .conversion-pair {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            border-bottom: 1px dotted var(--border);
+            padding-bottom: 4px;
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 12px;
+            border: 2px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--bg);
+            color: var(--text);
+            border-radius: 0;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            background-color: var(--tag-bg);
+        }
+
+        .input-group select {
+            padding-right: 30px;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+
+        #swapBtn {
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+        }
+
+        #swapBtn:hover {
+            background: var(--text);
+            color: var(--bg);
+            transform: rotate(180deg);
+        }
+
+        .precision-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px dashed var(--border);
+            background: var(--bg);
+            margin-bottom: 20px;
+        }
+
+        .precision-control label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .precision-control input {
+            width: 70px;
+            padding: 8px;
+            border: 2px solid var(--border);
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .info-box {
+            border: 2px solid var(--border);
+            padding: 16px;
+            background: var(--bg);
+            margin-bottom: 24px;
+        }
+
+        .info-box h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 8px 0;
+            border-bottom: 2px solid var(--border);
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .info-box p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin: 8px 0 0 0;
+        }
+
+        .history-box {
+            border: 2px solid var(--border);
+            padding: 16px;
+            background: var(--bg);
+        }
+
+        .history-box h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 12px 0;
+            border-bottom: 2px solid var(--border);
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        #history {
+            margin-bottom: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border: 1px dashed var(--border);
+            margin-bottom: 6px;
+            background: var(--bg);
+            font-size: 0.9rem;
+            align-items: center;
+        }
+
+        .history-item-remove {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: bold;
+            padding: 0 6px;
+            font-size: 1rem;
+        }
+
+        .history-item-remove:hover {
+            color: var(--text);
+            opacity: 0.6;
+        }
+
+        .empty-history {
+            opacity: 0.5;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        #clearHistoryBtn {
+            padding: 10px 16px;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        #clearHistoryBtn:hover {
+            background: var(--text);
+            color: var(--bg);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0px var(--border);
+        }
+
+        footer {
+            font-size: 0.9rem;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--border);
+            padding-bottom: 2px;
+        }
+
+        a:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .conversion-pair {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            #swapBtn {
+                width: 100%;
+            }
+
+            .category-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .dark-mode-toggle {
+                position: static;
+                margin-top: 12px;
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <header>
+        <h1>Unit Converter</h1>
+        <p>Convert between 120+ units instantly</p>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+    </header>
+
+    <main>
+        <section>
+            <div class="category-selector">
+                <label>Select Category</label>
+                <div class="category-buttons">
+                    <button class="category-btn active" data-category="length">Length</button>
+                    <button class="category-btn" data-category="mass">Mass</button>
+                    <button class="category-btn" data-category="temperature">Temperature</button>
+                    <button class="category-btn" data-category="volume">Volume</button>
+                    <button class="category-btn" data-category="area">Area</button>
+                    <button class="category-btn" data-category="speed">Speed</button>
+                    <button class="category-btn" data-category="time">Time</button>
+                    <button class="category-btn" data-category="energy">Energy</button>
+                    <button class="category-btn" data-category="power">Power</button>
+                    <button class="category-btn" data-category="pressure">Pressure</button>
+                    <button class="category-btn" data-category="data">Data Storage</button>
+                    <button class="category-btn" data-category="bandwidth">Bandwidth</button>
+                    <button class="category-btn" data-category="frequency">Frequency</button>
+                    <button class="category-btn" data-category="angle">Angle</button>
+                    <button class="category-btn" data-category="resistance">Resistance</button>
+                </div>
+            </div>
+
+            <div class="converter-box">
+                <div class="conversion-pair">
+                    <div class="input-group">
+                        <label for="fromValue">From</label>
+                        <input type="number" id="fromValue" placeholder="Enter value" step="any">
+                        <select id="fromUnit"></select>
+                    </div>
+
+                    <button id="swapBtn" title="Swap units">⇄</button>
+
+                    <div class="input-group">
+                        <label for="toValue">To</label>
+                        <input type="number" id="toValue" placeholder="Result" readonly>
+                        <select id="toUnit"></select>
+                    </div>
+                </div>
+
+                <div class="precision-control">
+                    <label for="precision">Decimal Places</label>
+                    <input type="number" id="precision" min="0" max="10" value="4">
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Formula</h3>
+                <p id="formulaText">Select a category to see conversion formula</p>
+            </div>
+
+            <div class="history-box">
+                <h3>Recent Conversions</h3>
+                <div id="history">
+                    <p class="empty-history">No conversions yet</p>
+                </div>
+                <button id="clearHistoryBtn" style="display: none;">Clear History</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="../../index.html">← Back to Home</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

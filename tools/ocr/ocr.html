@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
        /*Design Tokens */
 :root {
     --font-main: 'Courier New', Courier, monospace;
@@ -35,7 +36,7 @@
     --color-text: #000;
     --color-muted: #666;
     --color-bg: #fff;
-    --color-border: #000;
+    --color-border: var(--border);
 }
 
 /*Global Layout*/
@@ -72,7 +73,7 @@ input[type="file"] {
     padding: var(--space-sm);
     box-sizing: border-box;
     margin: var(--space-md) 0;
-    background: #fff;
+    background: var(--bg);
 }
 
 /* Status Area */
@@ -95,7 +96,7 @@ input[type="file"] {
     border: 2px solid var(--color-border);
     padding: var(--space-sm);
     font-family: var(--font-main);
-    background: #fff;
+    background: var(--bg);
     box-sizing: border-box;
     margin-top: var(--space-sm);
     resize: vertical;
@@ -104,11 +105,11 @@ input[type="file"] {
 
 #output:focus {
     outline: none;
-    background-color: #f5f5f5;
+    background-color: var(--tag-bg);
 }
 
 #output::placeholder {
-    color: #888;
+    color: var(--muted);
 }
 
 /*Progress Bar*/
@@ -121,7 +122,7 @@ progress {
 }
 
 progress::-webkit-progress-bar {
-    background: #fff;
+    background: var(--bg);
 }
 
 progress::-webkit-progress-value {
@@ -143,7 +144,7 @@ button {
 }
 
 button:hover {
-    background-color: #000;
+    background-color: var(--text);
     color: #fff;
     transform: translateY(-2px);
 }
@@ -167,7 +168,7 @@ a {
 }
 
 a:hover {
-    background-color: #000;
+    background-color: var(--text);
     color: #fff;
 }
 
@@ -193,14 +194,18 @@ footer {
     }
 }
 
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
     <header>
         <h1>OCR Text Scanner</h1>
         <p>Extract text from images locally. Private. Secure. No server.</p>
-    </header>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
     <main>
         <section>

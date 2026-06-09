@@ -6,7 +6,7 @@ const terminalOut = document.getElementById('terminal-out');
 const statusInd = document.getElementById('status-indicator');
 const editorPanel = document.getElementById('editorPanel');
 
-// Default boilerplate to ensure clean start
+// Default boilerplate
 const defaultCode = {
     javascript: `// JavaScript Playground
 function greet(name) {
@@ -18,6 +18,7 @@ function greet(name) {
 
 console.log(greet("Developer"));
 console.log("System Ready.");`,
+
     python: `# Python 3.x Playground
 def factorial(n):
     if n == 0 or n == 1:
@@ -25,25 +26,43 @@ def factorial(n):
     else:
         return n * factorial(n - 1)
 
-print(f"Factorial of 5 is: {factorial(5)}")`
+print(f"Factorial of 5 is: {factorial(5)}")`,
+
+    web: `<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <p>Edit this code and click Execute.</p>
+</body>
+</html>`
 };
 
 /**
- * 1. PROFESSIONAL EDITOR CONFIGURATION
- * Fixes indentation issues by using Soft Tabs (Spaces).
+ * PRIORITY 1: Per-language code persistence
+ */
+const savedCode = {
+    javascript: defaultCode.javascript,
+    python: defaultCode.python,
+    web: defaultCode.web
+};
+
+/**
+ * 1. EDITOR CONFIGURATION
  */
 const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
     mode: "javascript",
     theme: "neo",
     lineNumbers: true,
-    autoCloseBrackets: true, // Auto-pair () [] {}
-    viewportMargin: Infinity, // Prevents lag on scroll
-    tabSize: 4,              // Width of the tab
-    indentUnit: 4,           // How many spaces a block indent adds
-    smartIndent: true,       // Context-sensitive indentation
-    indentWithTabs: false,   // CRITICAL: Uses spaces instead of \t
+    autoCloseBrackets: true,
+    viewportMargin: Infinity,
+    tabSize: 4,
+    indentUnit: 4,
+    smartIndent: true,
+    indentWithTabs: false,
     extraKeys: {
-        // Forces Tab key to insert 4 spaces (Soft Tab)
         "Tab": (cm) => {
             if (cm.somethingSelected()) {
                 cm.indentSelection("add");
@@ -54,27 +73,51 @@ const editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
     }
 });
 
-// Set initial value
-editor.setValue(defaultCode.javascript);
+editor.setValue(savedCode.javascript);
 
 /**
- * 2. EXECUTION ENGINE (Zero-API)
+ * Helper: swap terminal / preview panels
+ */
+function showTerminal() {
+    document.getElementById('terminalPanel').style.display = 'block';
+    document.getElementById('previewContainer').style.display = 'none';
+}
+
+function showPreview() {
+    document.getElementById('terminalPanel').style.display = 'none';
+    document.getElementById('previewContainer').style.display = 'flex';
+}
+
+/**
+ * 2. EXECUTION ENGINE
  */
 window.runCode = async function() {
     const code = editor.getValue();
-    terminalOut.innerText = ""; // Clear previous output
     statusInd.innerText = "RUNNING...";
     statusInd.style.color = "yellow";
 
-    // Allow UI to update before freezing for execution
     setTimeout(async () => {
+
+        // WEB MODE
+        if (currentLang === 'web') {
+            showPreview();
+            document.getElementById('previewFrame').srcdoc = code;
+            terminalOut.innerText = "HTML/CSS/JS Preview Updated";
+            finishExec();
+            return;
+        }
+
+        // Ensure terminal is visible for JS/Python
+        showTerminal();
+        terminalOut.innerText = "";
+
+        // JAVASCRIPT MODE
         if (currentLang === 'javascript') {
             try {
-                // Secure Sandbox for JS
                 const sandbox = new Function('console', code);
                 const customConsole = {
                     log: (...args) => {
-                        terminalOut.innerText += args.map(a => 
+                        terminalOut.innerText += args.map(a =>
                             typeof a === 'object' ? JSON.stringify(a) : a
                         ).join(' ') + '\n';
                     },
@@ -91,13 +134,16 @@ window.runCode = async function() {
                 terminalOut.innerText += "RUNTIME ERROR:\n" + err.toString();
                 finishExec(true);
             }
-        } else if (currentLang === 'python') {
+        }
+
+        // PYTHON MODE
+        else if (currentLang === 'python') {
             if (!pyodide) {
                 terminalOut.innerText = ">> PYTHON ENGINE NOT LOADED. PLEASE WAIT...";
+                finishExec(true);
                 return;
             }
             try {
-                // Capture Python Stdout
                 await pyodide.runPythonAsync(`import sys, io\nsys.stdout = io.StringIO()`);
                 await pyodide.runPythonAsync(code);
                 const output = pyodide.runPython("sys.stdout.getvalue()");
@@ -108,6 +154,7 @@ window.runCode = async function() {
                 finishExec(true);
             }
         }
+
     }, 50);
 };
 
@@ -117,50 +164,112 @@ function finishExec(isError = false) {
 }
 
 /**
+ * PRIORITY 2: Clear Console
+ */
+window.clearConsole = function() {
+    terminalOut.innerText = "";
+};
+
+/**
+ * PRIORITY 3: Copy Code
+ */
+window.copyCode = function() {
+    navigator.clipboard.writeText(editor.getValue()).then(() => {
+        terminalOut.innerText = "Code copied to clipboard.";
+    }).catch(() => {
+        terminalOut.innerText = "[ERROR]: Clipboard access denied.";
+    });
+};
+
+/**
+ * PRIORITY 4: Download Code
+ */
+window.downloadCode = function() {
+    let ext = "txt";
+    if (currentLang === "javascript") ext = "js";
+    if (currentLang === "python")     ext = "py";
+    if (currentLang === "web")        ext = "html";
+
+    const blob = new Blob([editor.getValue()], { type: "text/plain" });
+    const a = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = "code." + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+};
+
+/**
  * 3. LANGUAGE SWITCHER
  */
 document.querySelectorAll('.side-icon').forEach(icon => {
     icon.onclick = async function() {
-        // UI Updates
         document.querySelectorAll('.side-icon').forEach(i => i.classList.remove('active'));
         this.classList.add('active');
-        
-        // Logic Updates
+
+        // Save current content before switching
+        savedCode[currentLang] = editor.getValue();
+
         currentLang = this.dataset.lang;
-        editor.setOption("mode", currentLang);
-        
-        // Set boilerplate if editor is empty or default
-        if (editor.getValue().trim() === "" || Object.values(defaultCode).includes(editor.getValue())) {
-            editor.setValue(defaultCode[currentLang]);
+
+        // Set correct syntax mode
+        if (currentLang === 'web') {
+            editor.setOption("mode", "htmlmixed");
+            // Keep terminal hidden until Execute is pressed in WEB mode
+            showPreview();
+            document.getElementById('previewFrame').srcdoc = "";
+        } else {
+            editor.setOption("mode", currentLang);
+            showTerminal();
         }
 
-        // Lazy Load Pyodide
+        // Restore saved content for the new language
+        editor.setValue(savedCode[currentLang]);
+
+        // Lazy-load Pyodide on first switch to Python
         if (currentLang === 'python' && !pyodide) {
             terminalOut.innerText = ">> INITIALIZING PYTHON ENVIRONMENT (WASM)...";
             statusInd.innerText = "LOADING";
+            statusInd.style.color = "yellow";
             pyodide = await loadPyodide();
             terminalOut.innerText = ">> PYTHON 3.x READY.\n";
             statusInd.innerText = "IDLE";
+            statusInd.style.color = "#00ff00";
         }
+
         editor.refresh();
     };
 });
 
 /**
- * 4. RESIZER (Lag-Free)
+ * 4. RESIZER
  */
 const hResizer = document.getElementById('hResizer');
+
 hResizer.addEventListener('mousedown', (e) => {
     e.preventDefault();
-    const onMove = (mv) => {
-        const heightPercent = (mv.clientY / window.innerHeight) * 100;
-        if (heightPercent > 20 && heightPercent < 80) {
-            editorPanel.style.height = heightPercent + "vh";
-            editor.refresh(); // Keeps cursor aligned
+
+    const workspace = document.querySelector('.workspace');
+    const workspaceRect = workspace.getBoundingClientRect();
+
+    function onMouseMove(ev) {
+        const newHeight = ev.clientY - workspaceRect.top;
+
+        if (newHeight > 100 && newHeight < workspaceRect.height - 100) {
+            editorPanel.style.height = `${newHeight}px`;
+            editor.refresh();
         }
-    };
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', () => document.removeEventListener('mousemove', onMove), { once: true });
+    }
+
+    function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
 });
 
 /**
@@ -169,3 +278,13 @@ hResizer.addEventListener('mousedown', (e) => {
 document.getElementById('themeToggle').onclick = () => {
     document.body.classList.toggle('dark-mode');
 };
+
+/**
+ * PRIORITY 6: F5 Keyboard Shortcut
+ */
+document.addEventListener('keydown', e => {
+    if (e.key === 'F5') {
+        e.preventDefault();
+        runCode();
+    }
+});

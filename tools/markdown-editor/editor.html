@@ -20,6 +20,7 @@
     <script src="../../assets/js/notifications.js" defer></script>
 
     <style>
+
        /*Design Tokens*/
 :root {
     --font-main: 'Courier New', Courier, monospace;
@@ -38,7 +39,7 @@
     --color-text: #000;
     --color-muted: #555;
     --color-bg: #fff;
-    --color-border: #000;
+    --color-border: var(--border);
 }
 
 /*Global Layout*/
@@ -111,7 +112,7 @@ textarea {
     font-family: var(--font-main);
     font-size: var(--text-md);
     resize: none;
-    background: #fff;
+    background: var(--bg);
     transition: background-color 0.2s ease;
     min-height: 0;
     overflow-y: auto;
@@ -119,7 +120,7 @@ textarea {
 
 textarea:focus {
     outline: none;
-    background: #f5f5f5;
+    background: var(--tag-bg);
 }
 
 /*Preview Area*/
@@ -127,14 +128,14 @@ textarea:focus {
     flex-grow: 1;
     padding: var(--space-sm);
     overflow-y: auto;
-    background: #fff;
+    background: var(--bg);
     min-height: 0;
 }
 
 /*Preview Content Styling*/
 #preview h1,
 #preview h2 {
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--border);
     padding-bottom: var(--space-xs);
 }
 
@@ -143,18 +144,18 @@ textarea:focus {
 }
 
 #preview code {
-    background: #eee;
+    background: var(--tag-bg);
     padding: 2px 4px;
 }
 
 #preview pre {
-    background: #eee;
+    background: var(--tag-bg);
     padding: var(--space-sm);
     overflow-x: auto;
 }
 
 #preview blockquote {
-    border-left: 4px solid #000;
+    border-left: 4px solid var(--border);
     padding-left: var(--space-sm);
     margin-left: 0;
     color: var(--color-muted);
@@ -181,7 +182,7 @@ textarea:focus {
 }
 
 .cheatsheet {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 10px;
     margin-top: var(--space-lg);
 }
@@ -191,7 +192,7 @@ textarea:focus {
 }
 
 .cheatsheet code {
-    background: #eee;
+    background: var(--tag-bg);
     padding: 2px 4px;
 }
 
@@ -215,7 +216,7 @@ a {
 }
 
 a:hover {
-    background-color: #000;
+    background-color: var(--text);
     color: #fff;
 }
 
@@ -236,14 +237,18 @@ a:hover {
     }
 }
 
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
 <header>
     <h1>Markdown Studio</h1>
     <p>Live editor and previewer. Renders locally.</p>
-</header>
+
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
 <main class="editor-container">
     <div class="box">

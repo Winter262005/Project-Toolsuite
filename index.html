@@ -1,54 +1,442 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Project Toolsuite</title>
-    <meta name="description" content="A collection of fast, minimal, privacy-first tools designed to get work done without friction.">
-    <meta name="google-site-verification" content="rbMDsZDEnPXvV0H4Tf0EHHgfdPQy2doXIuO_JNCV9qM" />
+    <meta
+      name="description"
+      content="A collection of fast, minimal, privacy-first tools designed to get work done without friction."
+    />
+    <meta
+      name="google-site-verification"
+      content="rbMDsZDEnPXvV0H4Tf0EHHgfdPQy2doXIuO_JNCV9qM"
+    />
+    <link rel="stylesheet" href="./theme.css" />
     <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+      }
 
-        :root {
-        --bg: #ffffff;
-        --text: #000000;
-        --border: #000000;
-        --card-hover: #000000;
-        --tag-bg: #f0f0f0;
-    }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 48px 28px;
+      }
 
-body.dark-mode {
-    --bg: #1b1a1a;
-    --text: #f0f0f0;
-    --border: #f0f0f0;
-    --card-hover: #f0f0f0;
-    --tag-bg: #333333;
-    }
+      header {
+        border-bottom: 5px solid var(--border);
+        padding-bottom: 28px;
+        margin-bottom: 60px;
+        position: relative;
+      }
 
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s, color 0.3s;
+      h1 {
+        font-size: 2.6rem;
+        text-transform: uppercase;
+        margin: 0 0 12px;
+        letter-spacing: 0.08em;
+      }
+
+      .dark-mode-toggle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: var(--text);
+        color: var(--bg);
+        border: 2px solid var(--border);
+        padding: 10px 24px;
+        font-family: inherit;
+        font-weight: 900;
+        cursor: pointer;
+        text-transform: uppercase;
+        box-shadow: 4px 4px 0px var(--border);
+        transition: transform 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .theme-option {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .theme-option.hidden {
+        display: none !important;
+      }
+
+      .theme-icon {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        stroke: white;
+        fill: none;
+      }
+
+      .dark-mode-toggle:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px var(--border);
+      }
+
+      .principle-box {
+        border: 3px solid var(--border);
+        padding: 32px;
+        margin-bottom: 50px;
+        background: var(--tag-bg);
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+      }
+
+      .principle-box h2 {
+        margin-top: 0;
+        border-bottom: 3px solid var(--border);
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+      .support-box {
+        margin-bottom: 50px;
+      }
+
+      .support-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-bottom: 10px;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 5px;
+      }
+
+      .mini-cta {
+        border: 2px solid var(--border);
+        background: var(--tag-bg);
+        padding: 16px 20px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .mini-cta span {
+        font-weight: bold;
+        flex: 1;
+      }
+
+      .mini-cta-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .mini-cta-buttons a {
+        text-decoration: none;
+        color: var(--text);
+        border: 2px solid var(--border);
+        padding: 8px 14px;
+        font-weight: bold;
+        transition: all 0.2s;
+        background: var(--bg);
+        white-space: nowrap;
+      }
+
+      .mini-cta-buttons a:hover {
+        background: var(--text);
+        color: var(--bg);
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0px var(--border);
+      }
+      .workspace {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 40px;
+      }
+
+      aside h3 {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        opacity: 0.7;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 5px;
+      }
+      .tag-list {
+        list-style: none;
+        padding: 0;
+      }
+      .tag-item {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: var(--tag-bg);
+        border: 2px solid var(--border);
+        color: var(--text);
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        font-family: inherit;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .tag-item.active {
+        background: var(--text);
+        color: var(--bg);
+        box-shadow: 4px 4px 0 var(--border);
+      }
+      .tag-item:hover {
+        transform: translateX(5px);
+      }
+
+      #toolSearch {
+        width: 100%;
+        padding: 18px;
+        font-family: inherit;
+        border: 3px solid var(--border);
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+        background: transparent;
+        color: inherit;
+        box-sizing: border-box;
+        transition: box-shadow 0.2s ease;
+      }
+
+      #toolCount {
+        margin: -10px 0 24px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+      }
+
+      .tool-link {
+        display: flex;
+        align-items: center;
+        min-height: 52px;
+        padding: 14px 20px;
+        border: 3px solid var(--border);
+        text-decoration: none;
+        color: inherit;
+        font-weight: bold;
+        transition: all 0.2s;
+        background: var(--bg);
+      }
+      .tool-link:hover {
+        background-color: var(--text);
+        color: var(--bg);
+        transform: translate(-3px, -3px);
+        box-shadow: 5px 5px 0px var(--border);
+      }
+
+      #toolSearch::placeholder {
+        opacity: 0.6;
+      }
+
+      #toolSearch:focus {
+        outline: none;
+        box-shadow: 4px 4px 0 var(--border);
+      }
+
+      footer {
+        margin-top: 96px;
+        padding: 48px 0;
+        border-top: 2px solid var(--border);
+        text-align: center;
+      }
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+      }
+      footer a {
+        color: inherit;
+        text-decoration: none;
+        font-weight: 900;
+        border: 1px solid var(--border);
+        padding: 5px 15px;
+      }
+      footer a:hover {
+        background: var(--text);
+        color: var(--bg);
+      }
+
+      @media (max-width: 850px) {
+        .workspace {
+          grid-template-columns: 1fr;
+        }
+        aside {
+          display: flex;
+          overflow-x: auto;
+          gap: 10px;
+          padding-bottom: 10px;
+        }
+        .tag-item {
+          width: auto;
+          white-space: nowrap;
+        }
+      }
+      @media (max-width: 768px) {
+        .container {
+          padding: 32px 20px;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 48px 28px;
+        h1 {
+          font-size: 2rem;
+          margin-bottom: 20px;
         }
 
         header {
-            border-bottom: 5px solid var(--border);
-            padding-bottom: 28px;
-            margin-bottom: 60px;
-            position: relative;
+          margin-bottom: 40px;
+          padding-bottom: 20px;
         }
 
-        h1 { font-size: 2.6rem; text-transform: uppercase; margin: 0 0 12px; letter-spacing: 0.06em; }
-        
+        .dark-mode-toggle,
+        #installBtn {
+          position: static;
+          width: 100%;
+        }
+
+        .dark-mode-toggle {
+          padding: 12px 16px;
+          font-size: 0.9rem;
+          margin-top: 15px;
+          justify-content: center;
+          box-shadow: 3px 3px 0 var(--border);
+        }
+
+        #installBtn {
+          margin-bottom: 10px !important;
+        }
+
+        .principle-box {
+          border: 2px solid var(--border);
+          padding: 28px 40px;
+          background: var(--tag-bg);
+          max-width: 950px;
+          margin-bottom: 40px;
+          margin: 0 auto 40px;
+          min-height: auto;
+        }
+        .principle-box p {
+          margin: 14px 0;
+          line-height: 1.7;
+        }
+        .principle-box li {
+          max-width: 70ch;
+        }
+
+        .principle-box h2 {
+          font-size: 1.3rem;
+          margin: 0 0 18px;
+        }
+
+        .mini-cta,
+        .mini-cta-buttons {
+          flex-direction: column;
+        }
+
+        .mini-cta {
+          gap: 15px;
+          padding: 15px;
+        }
+
+        .mini-cta span,
+        .mini-cta-buttons a {
+          text-align: center;
+        }
+
+        .mini-cta-buttons,
+        .mini-cta-buttons a {
+          width: 90%;
+        }
+
+        .workspace {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        aside,
+        .tag-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        aside {
+          margin-bottom: 20px;
+        }
+
+        .tag-item {
+          width: auto;
+          padding: 8px 12px;
+          font-size: 0.85rem;
+          white-space: nowrap;
+        }
+
+        #toolSearch {
+          font-size: 1rem;
+          padding: 14px;
+          margin-bottom: 20px;
+        }
+
+        .tools-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 15px;
+        }
+
+        .tool-link {
+          padding: 16px;
+          font-size: 0.95rem;
+        }
+
+        footer {
+          margin-top: 60px;
+          padding: 30px 0;
+        }
+
+        .footer-links {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        footer a {
+          font-size: 0.9rem;
+          padding: 4px 10px;
+        }
+      }
+      @media (max-width: 480px) {
+        .container {
+          padding: 16px 12px;
+        }
+
+        h1 {
+          font-size: 1.6rem;
+          margin-bottom: 15px;
+          letter-spacing: 0.02em;
+        }
+
+        header {
+          margin-bottom: 30px;
+          padding-bottom: 15px;
+          border-width: 3px;
+        }
+
         .dark-mode-toggle {
             position: static;
             z-index: 2;
@@ -73,422 +461,575 @@ body.dark-mode {
             align-items: center;
             gap: 6px;
         }
-        
-        .theme-option.hidden {
-            display: none !important;
+
+        .theme-option {
+          gap: 4px;
         }
-        
+
         .theme-icon {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            vertical-align: middle;
-            stroke: white;
-            fill: none;
+          width: 16px;
+          height: 16px;
         }
-        
-        .dark-mode-toggle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--border); }
 
         .principle-box {
-            border: 3px solid var(--border);
-            padding: 30px;
-            margin-bottom: 60px;
-            background: var(--tag-bg);
-            position: relative;
-        }
-        .principle-box h2 { margin-top: 0; border-bottom: 3px solid var(--border); display: inline-block; padding-bottom: 5px; }
-.support-box {
-    margin-bottom: 50px;
-}
-
-.support-label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 10px;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 5px;
-}
-
-.mini-cta {
-    border: 2px solid var(--border);
-    background: var(--tag-bg);
-    padding: 16px 20px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.mini-cta span {
-    font-weight: bold;
-    flex: 1;
-}
-
-.mini-cta-buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.mini-cta-buttons a {
-    text-decoration: none;
-    color: var(--text);
-    border: 2px solid var(--border);
-    padding: 8px 14px;
-    font-weight: bold;
-    transition: all 0.2s;
-    background: var(--bg);
-    white-space: nowrap;
-}
-
-.mini-cta-buttons a:hover {
-    background: var(--text);
-    color: var(--bg);
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px var(--border);
-}
-        .workspace {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 40px;
+          padding: 16px;
+          margin-bottom: 30px;
         }
 
-        aside h3 { font-size: 0.8rem; text-transform: uppercase; opacity: 0.7; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
-        .tag-list { list-style: none; padding: 0; }
+        .principle-box h2 {
+          font-size: 1.1rem;
+          border-width: 2px;
+        }
+
+        .principle-box p {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin: 8px 0;
+        }
+
+        .support-box {
+          margin-bottom: 30px;
+        }
+
+        .mini-cta {
+          padding: 12px;
+          gap: 12px;
+          border-width: 2px;
+        }
+
+        .mini-cta span {
+          font-size: 0.9rem;
+        }
+
+        .mini-cta-buttons a {
+          font-size: 0.8rem;
+          padding: 8px 12px;
+        }
+
+        aside h3 {
+          font-size: 0.7rem;
+          margin-bottom: 8px;
+        }
+
         .tag-item {
-            display: block;
-            width: 100%;
-            text-align: left;
-            background: var(--tag-bg);
-            border: 2px solid var(--border);
-            color: var(--text);
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            font-family: inherit;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
+          padding: 6px 10px;
+          font-size: 0.75rem;
+          margin-bottom: 6px;
+          border-width: 2px;
         }
-        .tag-item.active { background: var(--text); color: var(--bg); }
-        .tag-item:hover { transform: translateX(5px); }
 
         #toolSearch {
-            width: 100%;
-            padding: 18px;
-            font-family: inherit;
-            border: 3px solid var(--border);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-            background: transparent;
-            color: inherit;
-            box-sizing: border-box;
+          font-size: 0.95rem;
+          padding: 12px;
+          margin-bottom: 15px;
+          border-width: 2px;
         }
 
         .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 10px;
         }
 
         .tool-link {
-            display: block;
-            padding: 24px;
-            border: 3px solid var(--border);
-            text-decoration: none;
-            color: inherit;
-            font-weight: bold;
-            transition: all 0.2s;
-            background: var(--bg);
+          padding: 12px;
+          font-size: 0.85rem;
+          border-width: 2px;
         }
+
         .tool-link:hover {
-            background-color: var(--text);
-            color: var(--bg);
-            transform: translate(-5px, -5px);
-            box-shadow: 8px 8px 0px var(--border);
+          transform: translate(-2px, 2px);
+          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         footer {
-            margin-top: 96px;
-            padding: 48px 0;
-            border-top: 2px solid var(--border);
-            text-align: center;
+          margin-top: 40px;
+          padding: 20px 0;
         }
+
+        footer p {
+          font-size: 0.85rem;
+          margin-bottom: 10px;
+        }
+
         .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
+          gap: 6px;
         }
-        footer a { color: inherit; text-decoration: none; font-weight: 900; border: 1px solid var(--border); padding: 5px 15px; }
-        footer a:hover { background: var(--text); color: var(--bg); }
 
-        @media (max-width: 850px) {
-            .workspace { grid-template-columns: 1fr; }
-            aside { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px; }
-            .tag-item { width: auto; white-space: nowrap; }
+        footer a {
+          font-size: 0.75rem;
+          padding: 3px 8px;
+          border-width: 1px;
         }
+      }
     </style>
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="e2150d65-a009-409f-b3bd-b11afccb3a13"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6760380500809289"
-     crossorigin="anonymous"></script>
-</head>
-<body>
-
-<div class="container">
-    <header>
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="e2150d65-a009-409f-b3bd-b11afccb3a13"
+    ></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6760380500809289"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
         <h1>Project Toolsuite</h1>
-        <button id="installBtn" class="dark-mode-toggle" style="right: 180px; display: none;">INSTALL APP</button>
         <button
-        class="dark-mode-toggle"
-        onclick="toggleTheme()"
-        id="themeBtn">
-            <span class="theme-option dark-mode-option hidden">
-                <svg class="theme-icon-dark sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                LIGHT MODE
-            </span>
-            <span class="theme-option light-mode-option">
-                <svg class="theme-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-                DARK MODE
-            </span>
+          id="installBtn"
+          class="dark-mode-toggle"
+          style="right: 180px; display: none"
+        >
+          INSTALL APP
         </button>
-    </header>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">
+          <span class="theme-option dark-mode-option hidden">
+            <svg
+              class="theme-icon-dark sun-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            LIGHT MODE
+          </span>
+          <span class="theme-option light-mode-option">
+            <svg
+              class="theme-icon moon-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            DARK MODE
+          </span>
+        </button>
+      </header>
 
-    <section class="principle-box">
+      <section class="principle-box">
         <h2>Your Work, Your Tools</h2>
-        <p>Open your browser, complete your task, download the result. No friction. No distractions.</p>
-        <p>Project Toolsuite is a privacy-first collection of browser-based utilities designed for moments when speed, simplicity, and reliability matter most.
 
-Whether you're working with files, development tools, graphics, security utilities, or quick productivity workflows, the goal remains the same:
+        <p>Open your browser, complete your task, download the result.</p>
 
-Your work stays yours.</p>
-        <p>And honestly, we need you too.</p>
-        <p>Whether you're a developer, designer, student, tinkerer, or just someone with a cool idea for a useful tool, there’s space for you here.</p>
+        <p>
+          Privacy-first browser-based utilities for development, design,
+          productivity, and security workflows.
+        </p>
+
         <h2>Our Promise</h2>
-        <ul style="list-style: '>> '">
-            <li>No mandatory logins</li>
-            <li>No paywalls blocking essential tools</li>
-            <li>No unnecessary data collection</li>
-            <li>Fast, accessible, browser-native utilities for everyone</li>
+        <ul style="list-style: &quot;>> &quot;">
+          <li>No mandatory logins</li>
+          <li>No paywalls blocking essential tools</li>
+          <li>No unnecessary data collection</li>
+          <li>Fast, accessible, browser-native utilities for everyone</li>
         </ul>
         <p>In development, forever... :)</p>
-    </section>
-<section class="support-box">
-    <div class="mini-cta">
-        <span>
-            Built with privacy first. Support ToolSuite by starring the project or contributing.
-        </span>
+      </section>
+      <section class="support-box">
+        <div class="mini-cta">
+          <span>
+            Built with privacy first. Support ToolSuite by starring the project
+            or contributing.
+          </span>
 
-        <div class="mini-cta-buttons">
-            <a href="https://github.com/Winter262005/Project-Toolsuite" target="_blank">
-                GITHUB
+          <div class="mini-cta-buttons">
+            <a
+              href="https://github.com/Winter262005/Project-Toolsuite"
+              target="_blank"
+            >
+              GITHUB
             </a>
 
-            <a href="contributers.html">
-                CONTRIBUTE
-            </a>
+            <a href="contributers.html"> CONTRIBUTE </a>
+          </div>
         </div>
-    </div>
-</section>
-    <div class="workspace">
+      </section>
+      <div class="workspace">
         <aside>
-            <h3>Filter Tags</h3>
-            <div id="tag-container" class="tag-list">
-                <!-- Tags will be injected here -->
-            </div>
+          <h3>Filter Tags</h3>
+          <div id="tag-container" class="tag-list">
+            <!-- Tags will be injected here -->
+          </div>
         </aside>
 
         <main>
-            <input type="text" id="toolSearch" placeholder="SEARCH DATABASE BY NAME..." autofocus>
-            <div class="tools-grid" id="tools-container">
-                <!-- Tools will be injected here -->
-            </div>
-        </main>
-    </div>
+          <input
+            type="text"
+            id="toolSearch"
+            placeholder="SEARCH DATABASE BY NAME..."
+            aria-label="Search tools"
+            autofocus
+          />
+          <p id="toolCount"></p>
 
-    <footer>
+          <div class="tools-grid" id="tools-container">
+            <!-- Tools will be injected here -->
+          </div>
+        </main>
+      </div>
+
+      <footer>
         <p>© 2026 PROJECT TOOLSUITE — SIMPLE. FAST. FREE.</p>
         <div class="footer-links">
-            <a href="#">ABOUT</a>
-            <a href="privacy.html">PRIVACY</a>
-            <a href="contributers.html">CONTRIBUTORS</a>
+          <a href="#">ABOUT</a>
+          <a href="privacy.html">PRIVACY</a>
+          <a href="contributers.html">CONTRIBUTORS</a>
         </div>
-    </footer>
-</div>
+      </footer>
+    </div>
 
-<script>
-    const tools = [
-        { name: "PDF ToolSuite", path: "tools/pdf merger/pdf-merger.html", tags: ["PDF"] },
-        { name: "File Converters", path: "tools/file converters/converter.html", tags: ["Media"] },
-        { name: "Image to Color Palette", path: "tools/color palette extractor/palette.html", tags: ["Media"] },
-        { name: "QR Generator", path: "tools/qr generator/qr-generator.html", tags: ["Utilities"] },
+    <script>
+      const tools = [
+        {
+          name: "PDF ToolSuite",
+          path: "tools/pdf merger/pdf-merger.html",
+          tags: ["PDF"],
+        },
+        {
+          name: "File Converters",
+          path: "tools/file converters/converter.html",
+          tags: ["Media"],
+        },
+        {
+          name: "Image to Color Palette",
+          path: "tools/color palette extractor/palette.html",
+          tags: ["Media"],
+        },
+        {
+          name: "QR Generator",
+          path: "tools/qr generator/qr-generator.html",
+          tags: ["Utilities"],
+        },
         { name: "OCR Tool", path: "tools/ocr/ocr.html", tags: ["PDF"] },
-        { name: "URL Shortener", path: "tools/url shortener/shortener.html", tags: ["Utilities"] },
-        { name: "Screen Mirror", path: "tools/screen mirror/mirror.html", tags: ["Utilities"] },
-        { name: "Regex Tester", path: "tools/regex-tester/regex.html", tags: ["Dev"] },
-        { name: "EXIF Scrubber", path: "tools/exif scrubber/scrubber.html", tags: ["Security", "Media"] },
-        { name: "Screen Recorder", path: "tools/screen recorder/recorder.html", tags: ["Media", "Utilities"] },
-        { name: "Password Lab", path: "tools/password lab/password-tester.html", tags: ["Security"] },
-        { name: "Glass Studio", path: "tools/glass studio/glass-studio.html", tags: ["Design"] },
-        { name: "Base64 Utility", path: "tools/base64/base64.html", tags: ["Dev"] },
-        { name: "Image Compressor", path: "tools/image compressor/image-compressor.html", tags: ["Media"] },
-        { name: "Favicon Generator", path: "tools/favicon generator/favicon-generator.html", tags: ["Design"] },
-        { name: "Audio Synthesizer", path: "tools/synth-sequencer/synth.html", tags: ["Media", "Audio"] },
-        { name: "Markdown Studio", path: "tools/markdown-editor/editor.html", tags: ["Productivity"] },
-        { name: "JSON Formatter", path: "tools/json-formatter/json-formatter.html", tags: ["Dev"] },
-        { name: "Text to Speech", path: "tools/text-to-speech/tts.html", tags: ["Media", "Utilities"] },
-        { name: "Bezier Curve Generator", path: "tools/bezier-generator/bezier.html", tags: ["Design", "Dev"] },
-        { name: "Logic Gate Simulator", path: "tools/logic-simulator/logic.html", tags: ["Education", "Dev"] },
-        { name: "Regex Crossword", path: "tools/regex-crossword/regex-crossword.html", tags: ["Education", "Dev"] },
-        { name: "Diff Checker", path: "tools/diff-checker/diff.html", tags: ["Dev", "Utilities"] },
-        { name: "CSS Clip-Path Generator", path: "tools/clip-path-generator/clip-path.html", tags: ["Design", "Dev"] },
-        { name: "SVG Optimizer", path: "tools/svg-optimizer/svg-optimizer.html", tags: ["Design", "Dev"] },
-        { name: "Hex Inspector", path: "tools/hex-inspector/hex.html", tags: ["Dev", "System"] },
-        { name: "Audio Trimmer", path: "tools/audio-trimmer/audio-trimmer.html", tags: ["Media", "Utilities"] },
-        { name: "JWT Debugger", path: "tools/jwt-debugger/jwt-debugger.html", tags: ["Security", "Dev"] },
-        { name: "Kanban Board", path: "tools/kanban-board/kanban.html", tags: ["Productivity"] },
-        { name: "PDF Organizer", path: "tools/pdf-organizer/pdf-organizer.html", tags: ["PDF"] },
-        { name: "PDF Signer", path: "tools/pdf-signer/pdf-signer.html", tags: ["PDF"] },
-        { name: "Bulk Watermarker", path: "tools/bulk watermarker/bulkwatermarker.html", tags: ["PDF"] },
-        { name: "Typing Test", path: "tools/typing-test/typing-test.html", tags: ["Utilities"] },
-        { name: "Hash Generator", path: "tools/hash generator/hash-generator.html", tags: ["Security"] },
-        { name: "Steganography Tool", path: "tools/steganography/stego.html", tags: ["Security"] },
-        { name: "Online Compiler", path: "tools/compiler/compiler.html", tags: ["Dev"] },
-        { name: "PDF Studio", path: "tools/pdf-toolkit/pdf_studio.html", tags: ["PDF"] },
-        { name: "Git Studio", path: "tools/git-studio/git_studio.html", tags: ["Dev"] },
-        { name: "Vector Studio", path: "tools/vector-studio/vector_studio.html", tags: ["Maths"] },
-        { name: "Archive Studio", path: "tools/archive-studio/archive_studio.html", tags: ["File"] },
-        { name: "Vision Studio", path: "tools/vision-studio/vision_core.html", tags: ["Design"] },
-        { name: "Mesh Studio", path: "tools/mesh-studio/mesh_core.html", tags: ["Dev"] },
-        { name: "Email Validator", path: "tools/email-validator/email-validator.html", tags: ["Dev", "Utilities"] },
-        { name: "CI/CD Visualizer", path: "tools/cicd-visualizer/cicd-visualizer.html", tags: ["Dev", "Design"] },
-    ];
+        {
+          name: "URL Shortener",
+          path: "tools/url shortener/shortener.html",
+          tags: ["Utilities"],
+        },
+        {
+          name: "Screen Mirror",
+          path: "tools/screen mirror/mirror.html",
+          tags: ["Utilities"],
+        },
+        {
+          name: "Regex Tester",
+          path: "tools/regex-tester/regex.html",
+          tags: ["Dev"],
+        },
+        {
+          name: "EXIF Scrubber",
+          path: "tools/exif scrubber/scrubber.html",
+          tags: ["Security", "Media"],
+        },
+        {
+          name: "Screen Recorder",
+          path: "tools/screen recorder/recorder.html",
+          tags: ["Media", "Utilities"],
+        },
+        {
+          name: "Password Lab",
+          path: "tools/password lab/password-tester.html",
+          tags: ["Security"],
+        },
+        {
+          name: "Glass Studio",
+          path: "tools/glass studio/glass-studio.html",
+          tags: ["Design"],
+        },
+        {
+          name: "Base64 Utility",
+          path: "tools/base64/base64.html",
+          tags: ["Dev"],
+        },
+        {
+          name: "Image Compressor",
+          path: "tools/image compressor/image-compressor.html",
+          tags: ["Media"],
+        },
+        {
+          name: "Favicon Generator",
+          path: "tools/favicon generator/favicon-generator.html",
+          tags: ["Design"],
+        },
+        {
+          name: "Audio Synthesizer",
+          path: "tools/synth-sequencer/synth.html",
+          tags: ["Media", "Audio"],
+        },
+        {
+          name: "Markdown Studio",
+          path: "tools/markdown-editor/editor.html",
+          tags: ["Productivity"],
+        },
+        {
+          name: "JSON Formatter",
+          path: "tools/json-formatter/json-formatter.html",
+          tags: ["Dev"],
+        },
+        {
+          name: "Text to Speech",
+          path: "tools/text-to-speech/tts.html",
+          tags: ["Media", "Utilities"],
+        },
+        {
+          name: "Bezier Curve Generator",
+          path: "tools/bezier-generator/bezier.html",
+          tags: ["Design", "Dev"],
+        },
+        {
+          name: "Logic Gate Simulator",
+          path: "tools/logic-simulator/logic.html",
+          tags: ["Education", "Dev"],
+        },
+        {
+          name: "LinkedIn text formatter",
+          path: "tools/linkedin-text-formatter/formatter.html",
+          tags: ["Design", "Dev"],
+        },
+        {
+          name: "Regex Crossword",
+          path: "tools/regex-crossword/regex-crossword.html",
+          tags: ["Education", "Dev"],
+        },
+        {
+          name: "Diff Checker",
+          path: "tools/diff-checker/diff.html",
+          tags: ["Dev", "Utilities"],
+        },
+        {
+          name: "CSS Clip-Path Generator",
+          path: "tools/clip-path-generator/clip-path.html",
+          tags: ["Design", "Dev"],
+        },
+        {
+          name: "SVG Optimizer",
+          path: "tools/svg-optimizer/svg-optimizer.html",
+          tags: ["Design", "Dev"],
+        },
+        {
+          name: "Hex Inspector",
+          path: "tools/hex-inspector/hex.html",
+          tags: ["Dev", "System"],
+        },
+        {
+          name: "Audio Trimmer",
+          path: "tools/audio-trimmer/audio-trimmer.html",
+          tags: ["Media", "Utilities"],
+        },
+        {
+          name: "JWT Debugger",
+          path: "tools/jwt-debugger/jwt-debugger.html",
+          tags: ["Security", "Dev"],
+        },
+        {
+          name: "Kanban Board",
+          path: "tools/kanban-board/kanban.html",
+          tags: ["Productivity"],
+        },
+        {
+          name: "PDF Organizer",
+          path: "tools/pdf-organizer/pdf-organizer.html",
+          tags: ["PDF"],
+        },
+        {
+          name: "PDF Signer",
+          path: "tools/pdf-signer/pdf-signer.html",
+          tags: ["PDF"],
+        },
+        {
+          name: "Bulk Watermarker",
+          path: "tools/bulk watermarker/bulkwatermarker.html",
+          tags: ["PDF"],
+        },
+        {
+          name: "Typing Test",
+          path: "tools/typing-test/typing-test.html",
+          tags: ["Utilities"],
+        },
+        {
+          name: "Hash Generator",
+          path: "tools/hash generator/hash-generator.html",
+          tags: ["Security"],
+        },
+        {
+          name: "Steganography Tool",
+          path: "tools/steganography/stego.html",
+          tags: ["Security"],
+        },
+        {
+          name: "AES Encryption & Decryption",
+          path: "tools/aes-encryption-decryption/aes.html",
+          tags: ["Security"],
+        },
+        {
+          name: "Online Compiler",
+          path: "tools/compiler/compiler.html",
+          tags: ["Dev"],
+        },
+        {
+          name: "PDF Studio",
+          path: "tools/pdf-toolkit/pdf_studio.html",
+          tags: ["PDF"],
+        },
+        {
+          name: "Git Studio",
+          path: "tools/git-studio/git_studio.html",
+          tags: ["Dev"],
+        },
+        {
+          name: "Vector Studio",
+          path: "tools/vector-studio/vector_studio.html",
+          tags: ["Maths"],
+        },
+        {
+          name: "Archive Studio",
+          path: "tools/archive-studio/archive_studio.html",
+          tags: ["File"],
+        },
+        {
+          name: "Vision Studio",
+          path: "tools/vision-studio/vision_core.html",
+          tags: ["Design"],
+        },
+        {
+          name: "Mesh Studio",
+          path: "tools/mesh-studio/mesh_core.html",
+          tags: ["Dev"],
+        },
+        {
+          name: "Email Validator",
+          path: "tools/email-validator/email-validator.html",
+          tags: ["Dev", "Utilities"],
+        },
+        {
+          name: "CI/CD Visualizer",
+          path: "tools/cicd-visualizer/cicd-visualizer.html",
+          tags: ["Dev", "Design"],
+        },
+      ];
 
-    let activeTag = 'all';
+      let activeTag = "all";
 
-    function renderTags() {
-        const tagBox = document.getElementById('tag-container');
-        const uniqueTags = ['all', ...new Set(tools.flatMap(t => t.tags))].sort((a, b) => {
-            if (a === 'all') return -1;
-            if (b === 'all') return 1;
-            return a.localeCompare(b);
+      function renderTags() {
+        const tagBox = document.getElementById("tag-container");
+        const uniqueTags = [
+          "all",
+          ...new Set(tools.flatMap((t) => t.tags)),
+        ].sort((a, b) => {
+          if (a === "all") return -1;
+          if (b === "all") return 1;
+          return a.localeCompare(b);
         });
 
-        tagBox.innerHTML = '';
-        uniqueTags.forEach(tag => {
-            const btn = document.createElement('button');
-            btn.className = `tag-item ${activeTag === tag ? 'active' : ''}`;
-            btn.textContent = tag === 'all' ? 'All Tools' : tag;
-            btn.onclick = () => {
-                activeTag = tag;
-                renderTags(); // Refresh tags to update active class
-                renderTools();
-            };
-            tagBox.appendChild(btn);
+        tagBox.innerHTML = "";
+        uniqueTags.forEach((tag) => {
+          const btn = document.createElement("button");
+          btn.className = `tag-item ${activeTag === tag ? "active" : ""}`;
+          btn.textContent = tag === "all" ? "All Tools" : tag;
+          btn.onclick = () => {
+            activeTag = tag;
+            renderTags(); // Refresh tags to update active class
+            renderTools();
+          };
+          tagBox.appendChild(btn);
         });
-    }
+      }
 
-    function renderTools() {
-        const query = document.getElementById('toolSearch').value.toLowerCase();
-        const container = document.getElementById('tools-container');
-        
-        const filtered = tools.filter(t => {
-            const matchesSearch = t.name.toLowerCase().includes(query);
-            const matchesTag = activeTag === 'all' || (t.tags && t.tags.includes(activeTag));
-            return matchesSearch && matchesTag;
+      function renderTools() {
+        console.log("renderTools running");
+        const query = document.getElementById("toolSearch").value.toLowerCase();
+        const container = document.getElementById("tools-container");
+
+        const filtered = tools.filter((t) => {
+          const matchesSearch = t.name.toLowerCase().includes(query);
+          const matchesTag =
+            activeTag === "all" || (t.tags && t.tags.includes(activeTag));
+          return matchesSearch && matchesTag;
         });
+        document.getElementById("toolCount").textContent =
+          `${filtered.length} tool${filtered.length !== 1 ? "s" : ""} found`;
 
-        if (filtered.length === 0) {
-            container.innerHTML = `<p style="grid-column: 1/-1; opacity: 0.5;">No tools found matching your criteria.</p>`;
-            return;
+        if (query) {
+          filtered.sort((a, b) => {
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+
+            const aStarts = aName.startsWith(query);
+            const bStarts = bName.startsWith(query);
+            if (aStarts !== bStarts) return aStarts ? -1 : 1;
+
+            const aWord = aName.includes(" " + query);
+            const bWord = bName.includes(" " + query);
+            if (aWord !== bWord) return aWord ? -1 : 1;
+
+            const aIndex = aName.indexOf(query);
+            const bIndex = bName.indexOf(query);
+            if (aIndex !== bIndex) return aIndex - bIndex;
+
+            return aName.localeCompare(bName);
+          });
         }
 
-        container.innerHTML = filtered.map(t => `
+        if (filtered.length === 0) {
+          container.innerHTML = `<p style="grid-column: 1/-1; opacity: 0.5;">No tools found matching your criteria.</p>`;
+          return;
+        }
+        console.log(document.getElementById("toolCount"));
+        console.log(document.getElementById("tools-container"));
+        container.innerHTML = filtered
+          .map(
+            (t) => `
             <a href="${t.path}" class="tool-link">${t.name}</a>
-        `).join('');
-    }
+        `,
+          )
+          .join("");
+      }
 
+      document.getElementById("toolSearch").oninput = renderTools;
 
+      // Initial Execution
+      renderTags();
+      renderTools();
 
-    document.getElementById('toolSearch').oninput = renderTools;
+      let deferredPrompt;
+      const installBtn = document.getElementById("installBtn");
 
-    // Initial Execution
-    renderTags();
-    renderTools();
-
-    let deferredPrompt;
-    const installBtn = document.getElementById('installBtn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
+      window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        installBtn.style.display = 'block';
-    });
+        installBtn.style.display = "block";
+      });
 
-    installBtn.addEventListener('click', (e) => {
-        installBtn.style.display = 'none';
+      installBtn.addEventListener("click", (e) => {
+        installBtn.style.display = "none";
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
-            deferredPrompt = null;
+          deferredPrompt = null;
         });
-    });
-</script>
-    <script>
-function updateThemeButton() {
-    const btn = document.getElementById('themeBtn');
-
-    if (!btn) return;
-
-    const isDark = document.body.classList.contains('dark-mode');
-    const darkModeOption = btn.querySelector('.dark-mode-option');
-    const lightModeOption = btn.querySelector('.light-mode-option');
-    
-    if (isDark) {
-        // Dark mode is active, show LIGHT option (sun + LIGHT text)
-        if (darkModeOption) darkModeOption.classList.remove('hidden');
-        if (lightModeOption) lightModeOption.classList.add('hidden');
-    } else {
-        // Light mode is active, show DARK option (moon + DARK text)
-        if (darkModeOption) darkModeOption.classList.add('hidden');
-        if (lightModeOption) lightModeOption.classList.remove('hidden');
-    }
-}
-
-function applyTheme(theme) {
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-    } else {
-        document.body.classList.remove('dark-mode');
-    }
-
-    updateThemeButton();
-}
-
-function toggleTheme() {
-    const isDark = document.body.classList.contains('dark-mode');
-
-    const newTheme = isDark ? 'light' : 'dark';
-
-    localStorage.setItem('theme', newTheme);
-
-    applyTheme(newTheme);
-}
-
-applyTheme(localStorage.getItem('theme') || 'light');
-</script>
-</body>
+      });
+    </script>
+    <script src="./theme.js"></script>
+  </body>
 </html>

@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         :root {
             --bg: #ffffff;
             --text: #000000;
-            --border: #000000;
+            --border: var(--border);
             --error: #ff4d4d;
             --warn: #fbbf24;
             --success: #22c55e;
@@ -129,9 +130,9 @@
             font-size: 1rem;
         }
         
-        .status-valid { background: var(--success); color: #000; }
-        .status-warn { background: var(--warn); color: #000; }
-        .status-invalid { background: var(--error); color: #000; }
+        .status-valid { background: var(--success); color: var(--text); }
+        .status-warn { background: var(--warn); color: var(--text); }
+        .status-invalid { background: var(--error); color: var(--text); }
 
         .check-list {
             list-style: none;
@@ -176,7 +177,10 @@
             font-weight: bold;
         }
 
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
@@ -233,29 +237,9 @@
     <script src="email-validator.js"></script>
     <script>
         // Theme initialization
-        function updateThemeButton() {
-            const btn = document.getElementById('themeBtn');
-            if (!btn) return;
-            btn.textContent = document.body.classList.contains('dark-mode') ? 'LIGHT MODE' : 'DARK MODE';
-        }
 
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
-            updateThemeButton();
-        }
 
-        function toggleTheme() {
-            const isDark = document.body.classList.contains('dark-mode');
-            const newTheme = isDark ? 'light' : 'dark';
-            localStorage.setItem('theme', newTheme);
-            applyTheme(newTheme);
-        }
 
-        applyTheme(localStorage.getItem('theme') || 'light');
         
         function handleEnter(e) {
             if (e.key === 'Enter') {

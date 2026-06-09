@@ -18,10 +18,11 @@
     <script src="../../assets/js/notifications.js" defer></script>
 
     <style>
+
         :root {
             --bg: #ffffff;
             --text: #000000;
-            --border: #000000;
+            --border: var(--border);
             --accent: #000000;
         }
 
@@ -171,7 +172,10 @@
         canvas {
             display: none;
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 
 <body>
@@ -182,7 +186,7 @@
         <h1>StegoVault /// Level 2 Security</h1>
         <p>Hide AES-256 Encrypted secrets inside image pixels.</p>
 
-        <button id="themeToggle"
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn"
             style="margin-top: 10px; padding: 5px 10px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer;">
             Toggle Theme
         </button>

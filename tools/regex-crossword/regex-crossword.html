@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Regex Crossword</title>
     <style>
+
         :root {
             --bg-color: #1e1e1e;
             --panel-bg: #2d2d2d;
@@ -28,7 +29,7 @@
         }
 
         h1 { margin-bottom: 10px; }
-        p.subtitle { color: #888; margin-top: -10px; margin-bottom: 30px; }
+        p.subtitle { color: var(--muted); margin-top: -10px; margin-bottom: 30px; }
 
         .controls {
             margin-bottom: 30px;
@@ -49,7 +50,7 @@
             cursor: pointer;
             font-size: 1rem;
         }
-        button:hover { background: var(--accent-color); color: #000; }
+        button:hover { background: var(--accent-color); color: var(--text); }
         select:focus { outline: 2px solid var(--accent-color); }
 
         /* Game Board */
@@ -110,7 +111,10 @@
         }
         .confetti { font-size: 3rem; margin-bottom: 10px; }
 
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 

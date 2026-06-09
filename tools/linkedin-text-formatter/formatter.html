@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Text Formatter - Project Toolsuite</title>
+
+    <link rel="stylesheet" href="../../theme.css" />
+    <script src="../../theme.js"></script>
+
+    <link rel="stylesheet" href="../../assets/css/notifications.css" />
+    <script src="../../assets/js/notifications.js" defer></script>
+
+    <style>
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 16px;
+      }
+
+      header {
+        border-bottom: 4px solid var(--border);
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 150px;
+        resize: vertical;
+        padding: 14px;
+        border: 2px solid var(--border);
+        font-family: inherit;
+        font-size: 1rem;
+      }
+
+      textarea:focus {
+        outline: none;
+        background: var(--tag-bg);
+      }
+
+      .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 16px 0;
+      }
+
+      button {
+        border: 2px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        padding: 12px 18px;
+        font-family: inherit;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+
+      button:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      hr {
+        margin: 40px 0 20px;
+        border: none;
+        border-top: 1px solid var(--border);
+      }
+
+      a {
+        color: var(--text);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--border);
+      }
+
+      a:hover {
+        background: #000;
+        color: #fff;
+      }
+
+      @media (max-width: 600px) {
+        button {
+          width: 100%;
+        }
+
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>LinkedIn Text Formatter</h1>
+      <p>Convert normal text into LinkedIn-friendly bold and italic styles.</p>
+      <p>These styles work when copied into LinkedIn, X, Instagram, Threads, Discord, and most modern apps.</p>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
+
+    <main>
+      <label>Input</label>
+      <textarea id="input" placeholder="Type your text here..."></textarea>
+
+      <div class="btn-group">
+        <button id="boldBtn">Bold</button>
+        <button id="italicBtn">Italic</button>
+        <button id="boldItalicBtn">Bold Italic</button>
+        <button id="smallCapsBtn">Small Caps</button>
+        <button id="underlineBtn">Underline</button>
+        <button id="strikeBtn">Strikethrough</button>
+      </div>
+
+      <label>Output</label>
+      <textarea id="output" readonly></textarea>
+
+      <div class="btn-group">
+        <button id="copyBtn">Copy Output</button>
+        <button id="clearBtn">Clear</button>
+      </div>
+    </main>
+
+    <footer>
+      <hr />
+      <p><a href="../../index.html">← Back to Home</a></p>
+    </footer>
+
+    <script src="formatter.js"></script>
+  </body>
+</html>

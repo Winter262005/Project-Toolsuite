@@ -19,14 +19,15 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
     * {
         box-sizing: border-box;
     }
 
     body {
         font-family: 'Courier New', Courier, monospace;
-        background-color: #ffffff;
-        color: #000000;
+        background-color: var(--bg);
+        color: var(--text);
         line-height: 1.6;
         max-width: 900px;
         margin: 0 auto;
@@ -34,7 +35,7 @@
     }
 
     header {
-        border-bottom: 4px solid #000;
+        border-bottom: 4px solid var(--border);
         margin-bottom: 32px;
         padding-bottom: 16px;
     }
@@ -47,7 +48,7 @@
 
     header p {
         font-size: 1rem;
-        color: #333;
+        color: var(--muted);
         margin: 0;
     }
 
@@ -67,10 +68,10 @@
     textarea {
         width: 100%;
         padding: 14px;
-        border: 2px solid #000;
+        border: 2px solid var(--border);
         font-family: inherit;
         font-size: 1rem;
-        background: #fff;
+        background: var(--bg);
         resize: vertical;
         min-height: 150px;
         transition: background-color 0.2s, border-color 0.2s;
@@ -78,8 +79,8 @@
 
     textarea:focus {
         outline: none;
-        background-color: #f5f5f5;
-        border-color: #333;
+        background-color: var(--tag-bg);
+        border-color: var(--muted);
     }
 
     .btn-group {
@@ -91,9 +92,9 @@
 
     button {
         font-family: inherit;
-        background-color: #ffffff;
-        color: #000000;
-        border: 2px solid #000;
+        background-color: var(--bg);
+        color: var(--text);
+        border: 2px solid var(--border);
         padding: 12px 20px;
         text-transform: uppercase;
         font-weight: bold;
@@ -102,7 +103,7 @@
     }
 
     button:hover {
-        background-color: #000;
+        background-color: var(--text);
         color: #fff;
     }
 
@@ -117,7 +118,7 @@
 
     hr {
         border: none;
-        border-top: 1px solid #000;
+        border-top: 1px solid var(--border);
         margin: 40px 0 20px;
     }
 
@@ -126,14 +127,14 @@
     }
 
     a {
-        color: #000;
+        color: var(--text);
         text-decoration: none;
-        border-bottom: 1px dotted #000;
+        border-bottom: 1px dotted var(--border);
         padding-bottom: 2px;
     }
 
     a:hover {
-        background-color: #000;
+        background-color: var(--text);
         color: #fff;
     }
 
@@ -152,7 +153,8 @@
             text-align: center;
         }
     }
-</style>
+
+    </style>
 
  
 
@@ -162,7 +164,8 @@
     <header>
         <h1>Base64 Converter</h1>
         <p>Encode and decode text instantly. No server processing.</p>
-    </header>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
     <main>
         <section>

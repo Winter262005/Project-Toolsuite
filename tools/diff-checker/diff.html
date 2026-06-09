@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Code Diff Checker</title>
     <style>
+
         :root {
             --bg-color: #1e1e1e;
             --panel-bg: #2d2d2d;
@@ -52,7 +53,7 @@
             flex-direction: column;
         }
 
-        label { margin-bottom: 5px; font-weight: bold; color: #888; }
+        label { margin-bottom: 5px; font-weight: bold; color: var(--muted); }
 
         textarea {
             flex-grow: 1;
@@ -125,14 +126,18 @@
         .diff-removed { background-color: var(--diff-del-bg); color: var(--diff-del-text); text-decoration: line-through; opacity: 0.8; }
         .diff-header { background-color: #252526; color: #aaa; padding: 5px; font-style: italic; }
 
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
     <header>
         <h1>Visual Diff Checker</h1>
         <button class="secondary" onclick="clearAll()">Clear All</button>
-    </header>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
     <div class="input-container">
         <div class="input-box">

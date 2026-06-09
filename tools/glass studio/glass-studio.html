@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
     /* RESET / BASE */
 * {
     box-sizing: border-box;
@@ -24,8 +25,8 @@
 
 body {
     font-family: 'Courier New', Courier, monospace;
-    background-color: #ffffff;
-    color: #000000;
+    background-color: var(--bg);
+    color: var(--text);
     margin: 0;
     display: flex;
     min-height: 100vh;
@@ -36,8 +37,8 @@ body {
 .sidebar { 
     width: 360px; 
     max-width: 100%;
-    background: #fff; 
-    border-right: 4px solid #000; 
+    background: var(--bg); 
+    border-right: 4px solid var(--border); 
     display: flex; 
     flex-direction: column; 
     z-index: 10; 
@@ -45,7 +46,7 @@ body {
 
 .sidebar-header { 
     padding: 24px; 
-    border-bottom: 4px solid #000; 
+    border-bottom: 4px solid var(--border); 
 }
 
 h1 { 
@@ -83,7 +84,7 @@ label {
 .val-badge { 
     font-size: 0.7rem;
     font-weight: bold; 
-    border: 1px solid #000;
+    border: 1px solid var(--border);
     padding: 2px 6px;
 }
 
@@ -101,8 +102,8 @@ input[type="range"]::-webkit-slider-thumb {
     appearance: none; 
     width: 18px; 
     height: 18px; 
-    background: #fff; 
-    border: 2px solid #000; 
+    background: var(--bg); 
+    border: 2px solid var(--border); 
     cursor: pointer; 
 }
 
@@ -116,9 +117,9 @@ select,
 input[type="color"] { 
     width: 100%; 
     padding: 12px; 
-    background: #fff; 
-    border: 2px solid #000; 
-    color: #000; 
+    background: var(--bg); 
+    border: 2px solid var(--border); 
+    color: var(--text); 
     font-family: 'Courier New', monospace;
     margin-top: 8px;
 }
@@ -131,12 +132,12 @@ input[type="color"]:focus-visible {
 
 /* CODE BLOCK */
 .code-block { 
-    background: #fff; 
+    background: var(--bg); 
     padding: 16px; 
     margin-top: 30px; 
     font-size: 0.75rem; 
-    color: #000; 
-    border: 1px dashed #000; 
+    color: var(--text); 
+    border: 1px dashed var(--border); 
     position: relative; 
     white-space: pre-wrap; 
     word-break: break-word;
@@ -215,7 +216,7 @@ input[type="color"]:focus-visible {
     .sidebar {
         width: 100%;
         border-right: none;
-        border-bottom: 4px solid #000;
+        border-bottom: 4px solid var(--border);
     }
 
     .canvas {
@@ -240,8 +241,11 @@ input[type="color"]:focus-visible {
         padding: 26px;
     }
 }
-</style>
 
+    </style>
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 

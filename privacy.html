@@ -4,26 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Manifesto | Project Toolsuite</title>
+<link rel="stylesheet" href="./theme.css">
+<script src="./theme.js"></script>
 
 <style>
 body {
     font-family: 'Courier New', Courier, monospace;
-    background: #ffffff;
-    color: #000;
+    background: var(--bg);
+    color: var(--text);
     margin: 0;
     padding: 0;
+    transition: background 0.3s, color 0.3s;
 }
 
 /* HERO HEADER */
 header {
     padding: 80px 24px;
-    border-bottom: 6px solid #000;
-    background: #f5f5f5;
+    border-bottom: 6px solid var(--border);
+    background: var(--tag-bg);
+    position: relative;
 }
 
 .header-inner {
     max-width: 1000px;
     margin: auto;
+    position: relative;
 }
 
 .logo-mark {
@@ -41,7 +46,7 @@ h1 {
 
 .last-updated {
     font-size: 0.9rem;
-    border-top: 2px solid #000;
+    border-top: 2px solid var(--border);
     display: inline-block;
     padding-top: 8px;
 }
@@ -54,19 +59,19 @@ main {
 }
 
 .card {
-    background: #fff;
+    background: var(--bg);
     border-radius: 14px;
     padding: 44px;
     margin-bottom: 64px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    border: 2px solid #000;
+    border: 2px solid var(--border);
 }
 
 h2 {
     text-transform: uppercase;
     font-size: 1.4rem;
     margin-bottom: 24px;
-    border-bottom: 3px solid #000;
+    border-bottom: 3px solid var(--border);
     display: inline-block;
     padding-bottom: 6px;
 }
@@ -87,9 +92,9 @@ p {
 
 .feature {
     padding: 26px;
-    border: 2px dashed #000;
+    border: 2px dashed var(--border);
     border-radius: 12px;
-    background: #fafafa;
+    background: var(--tag-bg);
 }
 
 .feature strong {
@@ -112,26 +117,26 @@ li {
 .footer {
     text-align: center;
     padding: 80px 24px;
-    border-top: 6px solid #000;
-    background: #f5f5f5;
+    border-top: 6px solid var(--border);
+    background: var(--tag-bg);
 }
 
 .btn {
     display: inline-block;
-    background: #000;
-    color: #fff;
+    background: var(--text);
+    color: var(--bg);
     padding: 18px 44px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     text-decoration: none;
     transition: all 0.25s ease;
 }
 
 .btn:hover {
-    background: #fff;
-    color: #000;
+    background: var(--bg);
+    color: var(--text);
     transform: translateY(-4px);
 }
 
@@ -160,6 +165,7 @@ li {
         <h1>Privacy by Design</h1>
         <div class="last-updated">Version: 2025.12</div>
     </div>
+    <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
 </header>
 
 <main>

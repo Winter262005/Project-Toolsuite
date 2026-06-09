@@ -68,14 +68,15 @@
     ></script>
 
     <style>
+
       /*
       GLOBAL
       */
 
       body {
         font-family: "Courier New", Courier, monospace;
-        background-color: #ffffff;
-        color: #000000;
+        background-color: var(--bg);
+        color: var(--text);
         line-height: 1.7;
         max-width: 900px;
         margin: 32px auto;
@@ -87,7 +88,7 @@
       */
 
       header {
-        border-bottom: 4px solid #000;
+        border-bottom: 4px solid var(--border);
         margin-bottom: 32px;
         padding-bottom: 12px;
       }
@@ -102,7 +103,7 @@
       h2 {
         font-size: 1rem;
         text-transform: uppercase;
-        background-color: #000;
+        background-color: var(--text);
         color: #fff;
         display: inline-block;
         padding: 4px 10px;
@@ -121,7 +122,7 @@
 
       hr {
         border: none;
-        border-top: 1px solid #000;
+        border-top: 1px solid var(--border);
         margin: 24px 0;
       }
 
@@ -149,10 +150,10 @@
 
         font-family: inherit;
 
-        border: 2px solid #000;
+        border: 2px solid var(--border);
 
-        background: #fff;
-        color: #000;
+        background: var(--bg);
+        color: var(--text);
 
         transition:
           border-color 0.2s,
@@ -167,7 +168,7 @@
       input[type="text"]:hover,
       textarea:hover,
       select:hover {
-        background-color: #f5f5f5;
+        background-color: var(--tag-bg);
       }
 
       input[type="file"]:focus,
@@ -185,10 +186,10 @@
       button {
         font-family: inherit;
 
-        background-color: #ffffff;
-        color: #000000;
+        background-color: var(--bg);
+        color: var(--text);
 
-        border: 2px solid #000;
+        border: 2px solid var(--border);
 
         padding: 12px 24px;
 
@@ -207,7 +208,7 @@
       }
 
       button:hover {
-        background-color: #000;
+        background-color: var(--text);
         color: #fff;
       }
 
@@ -226,7 +227,7 @@
       #status {
         margin-top: 20px;
         padding: 12px 16px;
-        border: 1px dashed #000;
+        border: 1px dashed var(--border);
         display: inline-block;
         min-width: 220px;
         font-size: 0.9rem;
@@ -237,9 +238,9 @@
       */
 
       a {
-        color: #000;
+        color: var(--text);
         text-decoration: none;
-        border-bottom: 1px dotted #000;
+        border-bottom: 1px dotted var(--border);
         padding-bottom: 1px;
 
         transition:
@@ -248,7 +249,7 @@
       }
 
       a:hover {
-        background-color: #000;
+        background-color: var(--text);
         color: #fff;
       }
 
@@ -281,8 +282,11 @@
           text-align: center;
         }
       }
+    
     </style>
-  </head>
+      <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
+</head>
 
   <body>
     <header>
@@ -292,7 +296,8 @@
         Convert file formats locally in your browser.
         No uploads. No limits.
       </p>
-    </header>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
     <main>
 

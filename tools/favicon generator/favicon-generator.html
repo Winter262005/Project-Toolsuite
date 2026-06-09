@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         /* RESET */
 * {
     box-sizing: border-box;
@@ -26,8 +27,8 @@
 /* BASE */
 body {
     font-family: 'Courier New', Courier, monospace;
-    background: #fff;
-    color: #000;
+    background: var(--bg);
+    color: var(--text);
     max-width: 900px;
     margin: 30px auto;
     padding: 20px;
@@ -36,7 +37,7 @@ body {
 
 /* HEADER */
 header {
-    border-bottom: 4px solid #000;
+    border-bottom: 4px solid var(--border);
     margin-bottom: 35px;
     padding-bottom: 10px;
 }
@@ -63,8 +64,8 @@ input[type="file"],
 select {
     width: 100%;
     padding: 12px;
-    border: 2px solid #000;
-    background: #fff;
+    border: 2px solid var(--border);
+    background: var(--bg);
     font-family: inherit;
     margin-top: 6px;
 }
@@ -88,8 +89,8 @@ select {
 button {
     margin-top: 20px;
     padding: 12px 22px;
-    border: 2px solid #000;
-    background: #fff;
+    border: 2px solid var(--border);
+    background: var(--bg);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -110,15 +111,15 @@ button:disabled {
     display: inline-block;
     margin-top: 15px;
     padding: 8px 12px;
-    border: 1px dashed #000;
+    border: 1px dashed var(--border);
     font-size: 0.85rem;
 }
 
 /* PREVIEW */
 .preview-container {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 20px;
-    background: #fafafa;
+    background: var(--tag-bg);
 }
 
 .preview-grid {
@@ -128,10 +129,10 @@ button:disabled {
 }
 
 .favicon-preview {
-    border: 1px solid #000;
+    border: 1px solid var(--border);
     padding: 10px;
     text-align: center;
-    background: #fff;
+    background: var(--bg);
 }
 
 .favicon-preview img {
@@ -141,9 +142,9 @@ button:disabled {
 
 /* DOWNLOAD */
 .download-section {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 20px;
-    background: #f9f9f9;
+    background: var(--tag-bg);
 }
 
 .download-grid {
@@ -153,7 +154,7 @@ button:disabled {
 }
 
 .download-btn {
-    border: 2px solid #000;
+    border: 2px solid var(--border);
     padding: 10px;
     text-align: center;
     font-size: 0.85rem;
@@ -173,14 +174,14 @@ footer {
 
 hr {
     border: none;
-    border-top: 1px solid #000;
+    border-top: 1px solid var(--border);
     margin-bottom: 10px;
 }
 
 a {
-    color: #000;
+    color: var(--text);
     text-decoration: none;
-    border-bottom: 1px dotted #000;
+    border-bottom: 1px dotted var(--border);
 }
 
 a:hover {
@@ -199,17 +200,21 @@ a:hover {
 }
 
 
+    
     </style>
    
 
 
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
 <header>
     <h1>Favicon Generator</h1>
     <p>Create favicons in multiple sizes from any image. All processing happens locally in your browser.</p>
-</header>
+
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
 <main>
     <section>

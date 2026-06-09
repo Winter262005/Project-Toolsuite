@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         :root {
             --bg: #ffffff;
             --text: #000000;
-            --border: #000000;
+            --border: var(--border);
             --tag-bg: #f0f0f0;
             --card-bg: #ffffff;
             --hover: #e0e0e0;
@@ -250,7 +251,10 @@
         }
 
         .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
@@ -263,7 +267,7 @@
             <button class="btn" onclick="addStage()">+ Add Stage</button>
             <button class="btn" onclick="exportYAML()">Export YAML</button>
             <button class="btn" onclick="clearPipeline()">Clear</button>
-            <button id="themeBtn" class="btn primary" onclick="toggleTheme()">Dark Mode</button>
+            <button id="themeBtn" class="btn primary dark-mode-toggle" onclick="toggleTheme()">Dark Mode</button>
         </div>
     </header>
 
@@ -319,23 +323,6 @@
     </div>
 
     <script src="cicd-visualizer.js"></script>
-    <script>
-        function updateThemeButton() {
-            const btn = document.getElementById('themeBtn');
-            if (!btn) return;
-            btn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-        }
-        function applyTheme(theme) {
-            if (theme === 'dark') document.body.classList.add('dark-mode');
-            else document.body.classList.remove('dark-mode');
-            updateThemeButton();
-        }
-        function toggleTheme() {
-            const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-            localStorage.setItem('theme', newTheme);
-            applyTheme(newTheme);
-        }
-        applyTheme(localStorage.getItem('theme') || 'light');
-    </script>
+    
 </body>
 </html>

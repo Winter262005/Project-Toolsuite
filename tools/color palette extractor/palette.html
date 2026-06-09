@@ -17,14 +17,15 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
     * {
         box-sizing: border-box;
     }
 
     body {
         font-family: 'Courier New', Courier, monospace;
-        background-color: #ffffff;
-        color: #000000;
+        background-color: var(--bg);
+        color: var(--text);
         line-height: 1.6;
         max-width: 900px;
         margin: 0 auto;
@@ -32,7 +33,7 @@
     }
 
     header {
-        border-bottom: 4px solid #000;
+        border-bottom: 4px solid var(--border);
         margin-bottom: 32px;
         padding-bottom: 16px;
     }
@@ -45,7 +46,7 @@
 
     header p {
         font-size: 1rem;
-        color: #333;
+        color: var(--muted);
         margin: 0;
     }
 
@@ -57,36 +58,36 @@
 
     input[type="file"] {
         font-family: inherit;
-        border: 2px solid #000;
+        border: 2px solid var(--border);
         padding: 10px;
         width: 100%;
-        background: #fff;
+        background: var(--bg);
         cursor: pointer;
         transition: background 0.2s;
     }
 
     input[type="file"]:hover {
-        background: #f5f5f5;
+        background: var(--tag-bg);
     }
 
     #status {
         padding: 10px;
-        border: 1px dashed #000;
+        border: 1px dashed var(--border);
         font-size: 0.9rem;
-        background: #fafafa;
+        background: var(--tag-bg);
     }
 
     #imagePreviewContainer {
         margin-top: 24px;
-        border: 2px solid #000;
+        border: 2px solid var(--border);
         padding: 10px;
-        background-color: #f9f9f9;
+        background-color: var(--tag-bg);
         display: none;
     }
 
     #previewImg {
         max-width: 100%;
-        border: 1px solid #000;
+        border: 1px solid var(--border);
         display: block;
     }
 
@@ -98,23 +99,23 @@
     }
 
     .color-swatch {
-        border: 2px solid #000;
+        border: 2px solid var(--border);
         padding: 8px;
         text-align: center;
         cursor: pointer;
         transition: transform 0.15s, box-shadow 0.15s;
-        background: #fff;
+        background: var(--bg);
     }
 
     .color-swatch:hover {
         transform: translateY(-2px);
-        box-shadow: 2px 2px 0 #000;
+        box-shadow: 2px 2px 0 var(--border);
     }
 
     .color-box {
         width: 100%;
         height: 80px;
-        border: 1px solid #000;
+        border: 1px solid var(--border);
         margin-bottom: 6px;
     }
 
@@ -126,7 +127,7 @@
 
     hr {
         border: none;
-        border-top: 1px solid #000;
+        border-top: 1px solid var(--border);
         margin: 40px 0 20px;
     }
 
@@ -135,14 +136,14 @@
     }
 
     a {
-        color: #000;
+        color: var(--text);
         text-decoration: none;
-        border-bottom: 1px dotted #000;
+        border-bottom: 1px dotted var(--border);
         padding-bottom: 2px;
     }
 
     a:hover {
-        background-color: #000;
+        background-color: var(--text);
         color: #fff;
     }
 
@@ -156,15 +157,19 @@
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
         }
     }
-</style>
 
+    </style>
+
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
     <header>
         <h1>Color Palette Extractor</h1>
         <p>Upload an image to instantly extract its dominant color palette. No data leaves your browser.</p>
-    </header>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
     <main>
         <section class="upload-section">

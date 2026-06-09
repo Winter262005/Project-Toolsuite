@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         :root {
             --bg-color: #1e1e1e;
             --panel-bg: #2d2d2d;
@@ -102,7 +103,7 @@
         .preview-box {
             text-align: center;
         }
-        .preview-box h4 { margin: 0 0 10px 0; color: #888; }
+        .preview-box h4 { margin: 0 0 10px 0; color: var(--muted); }
         .svg-render {
             max-height: 140px;
             max-width: 300px;
@@ -140,7 +141,10 @@
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
@@ -150,7 +154,8 @@
             <button onclick="document.getElementById('file-input').click()" class="secondary">📂 Upload SVG</button>
             <input type="file" id="file-input" accept=".svg">
         </div>
-    </header>
+    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
     <div class="toolbar">
         <span>Settings:</span>

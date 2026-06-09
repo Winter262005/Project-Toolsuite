@@ -23,6 +23,18 @@ class VectorEngine {
         this.setupEvents();
         this.loop(); 
         
+        // Add beforeunload warning for unsaved changes
+        window.addEventListener('beforeunload', (e) => {
+            if (this.hasUnsavedChanges()) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved drawings. Are you sure you want to leave?';
+                return e.returnValue;
+            }
+        });
+        
+        // Try to restore previously saved shapes
+        this.loadFromLocalStorage();
+        
         console.log(">> VECTOR ENGINE INITIALIZED");
     }
 
@@ -147,6 +159,7 @@ class VectorEngine {
                     const text = prompt("Enter text:", "Label");
                     if (text) {
                         this.shapes.push({ type: 'text', x: sx, y: sy, text: text, ...style });
+                        this.saveToLocalStorage(); // Auto-save after adding text
                         this.tool = 'select';
                         this.updateToolbar();
                         this.isDragging = false;
@@ -210,7 +223,10 @@ class VectorEngine {
                     if (s.w === 0 || s.h === 0) isValid = false;
                 }
                 
-                if (isValid) this.shapes.push(s);
+                if (isValid) {
+                    this.shapes.push(s);
+                    this.saveToLocalStorage(); // Auto-save after adding shape
+                }
                 this.currentShape = null;
             }
             this.isDragging = false;
@@ -223,6 +239,7 @@ class VectorEngine {
                     if (id === 'fillColor') this.selection.fill = e.target.value;
                     if (id === 'strokeColor') this.selection.stroke = e.target.value;
                     if (id === 'strokeWidth') this.selection.width = parseInt(e.target.value);
+                    this.saveToLocalStorage(); // Auto-save after property change
                 }
             });
         });
@@ -386,10 +403,48 @@ class VectorEngine {
         document.getElementById('strokeWidth').value = this.selection.width;
     }
 
+    // Check if there are unsaved shapes
+    hasUnsavedChanges() {
+        return this.shapes && this.shapes.length > 0;
+    }
+
+    // Save shapes to localStorage
+    saveToLocalStorage() {
+        if (this.shapes.length > 0) {
+            localStorage.setItem('vector_studio_shapes', JSON.stringify(this.shapes));
+            console.log('Shapes auto-saved to localStorage');
+        }
+    }
+
+    // Load shapes from localStorage
+    loadFromLocalStorage() {
+        const savedShapes = localStorage.getItem('vector_studio_shapes');
+        if (savedShapes) {
+            try {
+                const parsed = JSON.parse(savedShapes);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    this.shapes = parsed;
+                    console.log(`Restored ${this.shapes.length} shapes from localStorage`);
+                    return true;
+                }
+            } catch(e) {
+                console.error('Failed to restore shapes:', e);
+            }
+        }
+        return false;
+    }
+
+    // Clear localStorage (call when user explicitly clears canvas)
+    clearLocalStorage() {
+        localStorage.removeItem('vector_studio_shapes');
+        console.log('localStorage cleared');
+    }
+
     deleteSelected() {
         if (this.selection) {
             this.shapes = this.shapes.filter(s => s !== this.selection);
             this.selection = null;
+            this.saveToLocalStorage(); // Auto-save after deletion
         }
     }
 
@@ -397,6 +452,7 @@ class VectorEngine {
         if(confirm("Clear Canvas?")) {
             this.shapes = [];
             this.selection = null;
+            this.clearLocalStorage(); // Clear saved shapes too
         }
     }
 

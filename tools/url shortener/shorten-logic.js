@@ -25,40 +25,25 @@ shortenBtn.onclick = async () => {
     resultContainer.style.display = "none";
 
     try {
-        const apiUrl =
-            `https://is.gd/create.php?format=json&url=${encodeURIComponent(url)}`;
+        const response = await fetch("https://spoo.me", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept": "application/json"
+            },
+            body: `url=${encodeURIComponent(url)}`
+        });
 
-        const proxyUrl =
-            `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+        const data = await response.json();
 
-        const response = await fetch(proxyUrl);
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-
-        // Read as TEXT first
-        const text = await response.text();
-
-        // Detect proxy failure messages
-        if (
-            text.startsWith('Error') ||
-            text.startsWith('<!DOCTYPE html') ||
-            text.startsWith('<html')
-        ) {
-            throw new Error("Proxy returned invalid response");
-        }
-
-        // Convert to JSON safely
-        const data = JSON.parse(text);
-
-        if (data.shorturl) {
-            shortUrlDiv.textContent = data.shorturl;
+        if (response.ok && data.short_url) {
+            shortUrlDiv.textContent = data.short_url;
             resultContainer.style.display = "block";
             status.textContent = "Success!";
         } else {
-            status.textContent =
-                "Error: " + (data.errormessage || "Could not shorten URL.");
+            const errorMsg = data.UrlError || data.error || "Could not shorten URL.";
+            status.textContent = "Error: " + errorMsg;
+            notify.error("Failed to shorten URL: " + errorMsg);
         }
 
     } catch (err) {

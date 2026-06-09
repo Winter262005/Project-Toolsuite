@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         /* Base Reset */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Courier New', monospace; background: #000; color: #fff; overflow: hidden; }
@@ -29,19 +30,19 @@
         .container { display: flex; height: 100vh; }
         
         /* Sidebar */
-        .sidebar { width: 280px; background: #f5f5f5; border-right: 4px solid #000; display: flex; flex-direction: column; flex-shrink: 0; }
-        .sidebar-header { background: #000; color: #fff; padding: 20px; border-bottom: 4px solid #000; }
+        .sidebar { width: 280px; background: var(--tag-bg); border-right: 4px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+        .sidebar-header { background: #000; color: #fff; padding: 20px; border-bottom: 4px solid var(--border); }
         .sidebar-header h1 { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
         .tool-list { list-style: none; overflow-y: auto; flex: 1; }
-        .tool-item { padding: 16px 20px; border-bottom: 3px solid #000; cursor: pointer; background: #f5f5f5; color: #000; font-weight: bold; transition: 0.1s; display: flex; align-items: center; }
-        .tool-item:hover { background: #fff; padding-left: 24px; }
+        .tool-item { padding: 16px 20px; border-bottom: 3px solid var(--border); cursor: pointer; background: var(--tag-bg); color: var(--text); font-weight: bold; transition: 0.1s; display: flex; align-items: center; }
+        .tool-item:hover { background: var(--bg); padding-left: 24px; }
         .tool-item.active { background: #000; color: #fff; }
         .tool-item.active::before { content: '►'; margin-right: 10px; }
 
         /* Main Content */
         .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .header { background: #000; border-bottom: 4px solid #fff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; }
-        .btn { background: #fff; color: #000; border: 3px solid #000; padding: 10px 20px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 4px 4px 0 #000; transition: 0.1s; }
+        .btn { background: var(--bg); color: var(--text); border: 3px solid var(--border); padding: 10px 20px; font-family: inherit; font-weight: bold; cursor: pointer; box-shadow: 4px 4px 0 var(--border); transition: 0.1s; }
         .btn:active { transform: translate(4px, 4px); box-shadow: none; }
 
         /* Workspace & Views */
@@ -62,44 +63,47 @@
         /* UI Overlays */
         .controls { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 20; }
         .control-btn { width: 40px; height: 40px; border: 3px solid #fff; background: #000; color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .control-btn:hover { background: #fff; color: #000; }
+        .control-btn:hover { background: var(--bg); color: var(--text); }
         
         .legend { position: absolute; bottom: 20px; left: 20px; background: #000; border: 3px solid #fff; padding: 15px; font-size: 12px; z-index: 20; }
         .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
         .legend-color { width: 15px; height: 15px; border: 1px solid #fff; }
 
         /* Info Panel */
-        .info-panel { width: 350px; background: #f5f5f5; border-left: 4px solid #000; overflow-y: auto; color: #000; display: flex; flex-direction: column; }
-        .panel-header { background: #000; color: #fff; padding: 15px; font-weight: bold; border-bottom: 4px solid #000; }
+        .info-panel { width: 350px; background: var(--tag-bg); border-left: 4px solid var(--border); overflow-y: auto; color: var(--text); display: flex; flex-direction: column; }
+        .panel-header { background: #000; color: #fff; padding: 15px; font-weight: bold; border-bottom: 4px solid var(--border); }
         .panel-content { padding: 20px; }
         .commit-info-item { margin-bottom: 15px; }
         .commit-info-label { font-size: 11px; font-weight: bold; margin-bottom: 4px; color: #555; }
-        .commit-info-value { border: 2px solid #000; padding: 8px; background: #fff; font-size: 13px; word-break: break-all; }
+        .commit-info-value { border: 2px solid var(--border); padding: 8px; background: var(--bg); font-size: 13px; word-break: break-all; }
 
         /* Lists (Branches, Files, History) */
         .list-container { padding: 40px; color: #fff; max-width: 1000px; margin: 0 auto; }
-        .list-item { background: #fff; color: #000; padding: 12px; border: 3px solid #000; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .list-item { background: var(--bg); color: var(--text); padding: 12px; border: 3px solid var(--border); margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
         .list-item:hover { background: #000; color: #fff; }
         .list-item.current { background: #000; color: #fff; border-color: #00ff00; }
         
         /* Stats Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px; }
-        .stat-box { background: #fff; color: #000; border: 4px solid #000; padding: 20px; text-align: center; }
+        .stat-box { background: var(--bg); color: var(--text); border: 4px solid var(--border); padding: 20px; text-align: center; }
         .stat-value { font-size: 36px; font-weight: bold; }
 
         /* Diff View */
         .diff-view-content { padding: 20px; color: #fff; }
         .diff-file { border: 2px solid #fff; margin-bottom: 20px; background: #111; }
-        .diff-header { background: #fff; color: #000; padding: 10px; font-weight: bold; }
+        .diff-header { background: var(--bg); color: var(--text); padding: 10px; font-weight: bold; }
         .diff-lines { padding: 10px; font-size: 12px; line-height: 1.4; }
         .diff-add { color: #00ff00; background: rgba(0, 255, 0, 0.1); display: block; }
         .diff-remove { color: #ff0000; background: rgba(255, 0, 0, 0.1); display: block; }
-        .diff-context { color: #888; display: block; }
+        .diff-context { color: var(--muted); display: block; }
 
         /* Footer */
         .footer { background: #000; border-top: 4px solid #fff; padding: 10px 30px; color: #fff; font-size: 12px; }
         .tooltip { position: absolute; background: #000; color: #fff; border: 2px solid #fff; padding: 5px 10px; font-size: 12px; pointer-events: none; display: none; z-index: 1000; }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
     <div class="container">

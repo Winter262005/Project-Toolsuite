@@ -17,12 +17,13 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         /* Design Tokens (Matching JSON Formatter) */
         :root {
             --font-main: 'Courier New', Courier, monospace;
             --color-text: #000;
             --color-bg: #fff;
-            --color-border: #000;
+            --color-border: var(--border);
             --highlight-bg: #ffeb3b; /* Yellow for matches */
             --group-bg: #b3e5fc; /* Blue for groups */
         }
@@ -55,7 +56,7 @@
             border: 2px solid var(--color-border);
             margin-bottom: 20px;
             padding: 5px 10px;
-            background: #f9f9f9;
+            background: var(--tag-bg);
         }
         
         .slash { font-weight: bold; font-size: 1.2rem; padding: 0 5px; }
@@ -101,7 +102,7 @@
             padding: 15px;
             white-space: pre-wrap;
             word-break: break-all;
-            background: #fff;
+            background: var(--bg);
             font-family: inherit;
             position: relative;
         }
@@ -119,7 +120,7 @@
             background: #f4f4f4;
             height: fit-content;
         }
-        aside h3 { margin-top: 0; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 5px; }
+        aside h3 { margin-top: 0; text-transform: uppercase; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
         
         .cheat-item {
             display: flex;
@@ -132,22 +133,26 @@
         .cheat-item:hover { background: #e0e0e0; }
         .token { font-weight: bold; font-family: monospace; background: #ddd; padding: 2px 4px; }
 
-        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #000; }
-        a { color: #000; text-decoration: none; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+        a { color: var(--text); text-decoration: none; }
 
         /* Responsive */
         @media (max-width: 800px) {
             .workspace { grid-template-columns: 1fr; }
             aside { display: none; } /* Hide cheat sheet on small screens */
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
 <header>
     <h1>Offline Regex Tester</h1>
     <p>Test Regular Expressions securely in your browser. Real-time matching.</p>
-</header>
+
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
 <div class="workspace">
     <main>

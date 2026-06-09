@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -42,8 +43,8 @@
         /* SIDEBAR */
         .sidebar {
             width: 280px;
-            background: #f5f5f5;
-            border-right: 4px solid #000;
+            background: var(--tag-bg);
+            border-right: 4px solid var(--border);
             overflow-y: auto;
             flex-shrink: 0;
         }
@@ -52,7 +53,7 @@
             background: #000;
             color: #fff;
             padding: 20px;
-            border-bottom: 4px solid #000;
+            border-bottom: 4px solid var(--border);
         }
 
         .sidebar-header h1 {
@@ -67,17 +68,17 @@
 
         .tool-item {
             padding: 16px 20px;
-            border-bottom: 3px solid #000;
+            border-bottom: 3px solid var(--border);
             cursor: pointer;
-            background: #f5f5f5;
-            color: #000;
+            background: var(--tag-bg);
+            color: var(--text);
             transition: all 0.1s;
             font-weight: bold;
             position: relative;
         }
 
         .tool-item:hover {
-            background: #fff;
+            background: var(--bg);
             transform: translateX(4px);
         }
 
@@ -120,26 +121,26 @@
         }
 
         .btn {
-            background: #fff;
-            color: #000;
-            border: 3px solid #000;
+            background: var(--bg);
+            color: var(--text);
+            border: 3px solid var(--border);
             padding: 10px 20px;
             font-family: 'Courier New', monospace;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 4px 4px 0 #000;
+            box-shadow: 4px 4px 0 var(--border);
             transition: all 0.1s;
             font-size: 14px;
         }
 
         .btn:hover {
             transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0 #000;
+            box-shadow: 2px 2px 0 var(--border);
         }
 
         .btn:active {
             transform: translate(4px, 4px);
-            box-shadow: 0 0 0 #000;
+            box-shadow: 0 0 0 var(--border);
         }
 
         .btn-primary {
@@ -156,8 +157,8 @@
         .btn-danger {
             background: #ff0000;
             color: #fff;
-            border: 3px solid #000;
-            box-shadow: 4px 4px 0 #000;
+            border: 3px solid var(--border);
+            box-shadow: 4px 4px 0 var(--border);
         }
 
         input[type="file"] {
@@ -176,20 +177,20 @@
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            border-right: 4px solid #000;
+            border-right: 4px solid var(--border);
         }
 
         .tool-panel {
             width: 320px;
-            background: #f5f5f5;
-            color: #000;
+            background: var(--tag-bg);
+            color: var(--text);
             padding: 20px;
             overflow-y: auto;
-            border-left: 4px solid #000;
+            border-left: 4px solid var(--border);
         }
 
         .tool-panel h3 {
-            border-bottom: 3px solid #000;
+            border-bottom: 3px solid var(--border);
             padding-bottom: 10px;
             margin-bottom: 20px;
             font-size: 18px;
@@ -212,23 +213,23 @@
         textarea {
             width: 100%;
             padding: 8px;
-            border: 3px solid #000;
+            border: 3px solid var(--border);
             font-family: 'Courier New', monospace;
-            background: #fff;
+            background: var(--bg);
             font-size: 14px;
         }
 
         input[type="color"] {
             width: 100%;
             height: 40px;
-            border: 3px solid #000;
+            border: 3px solid var(--border);
             cursor: pointer;
         }
 
         /* PDF CANVAS */
         .pdf-canvas-container {
-            background: #fff;
-            border: 4px solid #000;
+            background: var(--bg);
+            border: 4px solid var(--border);
             margin-bottom: 20px;
             position: relative;
             box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
@@ -248,8 +249,8 @@
         }
 
         .thumbnail {
-            border: 4px solid #000;
-            background: #fff;
+            border: 4px solid var(--border);
+            background: var(--bg);
             cursor: move;
             position: relative;
             box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
@@ -282,8 +283,8 @@
         .thumbnail-btn {
             width: 28px;
             height: 28px;
-            border: 3px solid #000;
-            background: #fff;
+            border: 3px solid var(--border);
+            background: var(--bg);
             cursor: pointer;
             font-size: 14px;
             font-weight: bold;
@@ -327,8 +328,8 @@
         .signature-pad {
             width: 100%;
             height: 200px;
-            border: 3px solid #000;
-            background: #fff;
+            border: 3px solid var(--border);
+            background: var(--bg);
             cursor: crosshair;
             display: block;
         }
@@ -343,8 +344,8 @@
         .watermark-preview {
             width: 100%;
             height: 150px;
-            border: 3px solid #000;
-            background: #fff;
+            border: 3px solid var(--border);
+            background: var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -364,23 +365,23 @@
         /* STATUS MESSAGES */
         .status-message {
             padding: 12px;
-            border: 3px solid #000;
+            border: 3px solid var(--border);
             margin-bottom: 15px;
-            background: #fff;
-            color: #000;
+            background: var(--bg);
+            color: var(--text);
             font-weight: bold;
         }
 
         .status-message.success {
             background: #4caf50;
             color: #fff;
-            border-color: #000;
+            border-color: var(--text);
         }
 
         .status-message.error {
             background: #f44336;
             color: #fff;
-            border-color: #000;
+            border-color: var(--text);
         }
 
         /* LOADING */
@@ -398,8 +399,8 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #f5f5f5;
-            border: 2px solid #000;
+            background: var(--tag-bg);
+            border: 2px solid var(--border);
         }
 
         ::-webkit-scrollbar-thumb {
@@ -434,7 +435,7 @@
             width: 12px;
             height: 12px;
             background: #00ff00;
-            border: 2px solid #000;
+            border: 2px solid var(--border);
             position: absolute;
             bottom: -6px;
             right: -6px;
@@ -449,7 +450,7 @@
             height: 24px;
             background: #ff0000;
             color: #fff;
-            border: 2px solid #000;
+            border: 2px solid var(--border);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -470,7 +471,7 @@
             width: 12px;
             height: 12px;
             background: #00ff00;
-            border: 2px solid #000;
+            border: 2px solid var(--border);
             position: absolute;
         }
 
@@ -496,7 +497,7 @@
             height: 24px;
             background: #ff0000;
             color: #fff;
-            border: 2px solid #000;
+            border: 2px solid var(--border);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -558,7 +559,10 @@
             transform-origin: top center;
             transition: transform 0.2s ease;
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
     <div class="container">

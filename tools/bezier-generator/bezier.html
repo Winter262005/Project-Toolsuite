@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cubic Bezier Generator</title>
     <style>
+
         /* CSS Variables for raw brutalist theme matching */
         :root {
             --bg-color: #FFFFFF;
-            --text-color: #000000;
+            --text-color: var(--text);
             --border-thick: 2px solid #000000;
             --border-heavy: 5px solid #000000;
             --border-dashed: 1px dashed #000000;
@@ -78,7 +79,7 @@
         .panel {
             border: var(--border-thick);
             padding: 20px;
-            background-color: #FFFFFF;
+            background-color: var(--bg);
             margin-bottom: 20px;
         }
 
@@ -98,7 +99,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #FFFFFF;
+            background: var(--bg);
             border: var(--border-thick);
             margin-bottom: 15px;
             position: relative;
@@ -107,7 +108,7 @@
         canvas {
             display: block;
             cursor: crosshair;
-            background: #FFFFFF;
+            background: var(--bg);
             touch-action: none;
         }
 
@@ -115,8 +116,8 @@
         button {
             font-family: inherit;
             font-size: 0.95rem;
-            background-color: #FFFFFF;
-            color: #000000;
+            background-color: var(--bg);
+            color: var(--text);
             border: var(--border-thick);
             padding: 10px 15px;
             cursor: pointer;
@@ -128,18 +129,18 @@
         }
 
         button:hover {
-            background-color: #000000;
+            background-color: var(--text);
             color: #FFFFFF;
         }
 
         /* Button Active / Inverted state */
         button.active {
-            background-color: #000000;
+            background-color: var(--text);
             color: #FFFFFF;
         }
         button.active:hover {
-            background-color: #FFFFFF;
-            color: #000000;
+            background-color: var(--bg);
+            color: var(--text);
         }
 
         /* Input Controls Setup */
@@ -165,8 +166,8 @@
         input[type="number"] {
             font-family: inherit;
             font-size: 1rem;
-            background-color: #FFFFFF;
-            color: #000000;
+            background-color: var(--bg);
+            color: var(--text);
             border: var(--border-thick);
             padding: 10px;
             width: 100%;
@@ -181,7 +182,7 @@
         }
 
         input[type="number"]:focus {
-            background-color: #000000;
+            background-color: var(--text);
             color: #FFFFFF;
         }
 
@@ -213,7 +214,7 @@
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
-            background: #FFFFFF;
+            background: var(--bg);
             border: var(--border-thick);
             cursor: pointer;
         }
@@ -240,7 +241,7 @@
             border: var(--border-thick);
             height: 40px;
             position: relative;
-            background-color: #FFFFFF;
+            background-color: var(--bg);
             overflow: hidden;
             box-sizing: border-box;
         }
@@ -266,7 +267,7 @@
         .runner {
             width: 36px;
             height: 36px;
-            background-color: #000000;
+            background-color: var(--text);
             color: #FFFFFF;
             position: absolute;
             top: 0;
@@ -303,12 +304,12 @@
             font-size: 1.1rem;
             cursor: pointer;
             word-break: break-all;
-            background: #FFFFFF;
+            background: var(--bg);
             transition: background-color 0.1s, color 0.1s;
         }
 
         .output-box:hover {
-            background-color: #000000;
+            background-color: var(--text);
             color: #FFFFFF;
         }
 
@@ -336,20 +337,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #FFFFFF;
+            background-color: var(--bg);
             margin-bottom: 20px;
         }
 
         /* Standard Minimal Link Styles */
         a {
-            color: #000000;
+            color: var(--text);
             text-decoration: none;
-            border-bottom: 1px dotted #000000;
+            border-bottom: 1px dotted var(--border);
             font-weight: bold;
         }
 
         a:hover {
-            background-color: #000000;
+            background-color: var(--text);
             color: #FFFFFF;
         }
 
@@ -361,7 +362,10 @@
             text-align: center;
             text-transform: uppercase;
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
@@ -370,7 +374,8 @@
             <h1>Bezier Generator</h1>
             <div class="header-underline"></div>
             <p class="subtitle">A Pure High-Contrast Mechanical Timing Editor</p>
-        </header>
+        
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
         <main class="main-grid">
             <!-- Left Column: Interactive Diagram Plotter -->

@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contributors | Project Toolsuite</title>
 
+<link rel="stylesheet" href="./theme.css">
+    <script src="./theme.js"></script>
+
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.7;
             max-width: 900px;
             margin: 48px auto;
@@ -17,20 +20,11 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        body.dark-mode {
-            background-color: #1b1a1a;
-            color: #f0f0f0;
-        }
-
         header {
-            border-bottom: 4px solid #000;
+            border-bottom: 4px solid var(--border);
             margin-bottom: 72px;
             padding-bottom: 20px;
             position: relative;
-        }
-
-        .dark-mode header {
-            border-bottom-color: #f0f0f0;
         }
 
         h1 {
@@ -43,15 +37,11 @@
         h2 {
             font-size: 1.3rem;
             text-transform: uppercase;
-            border-bottom: 2px solid #000;
+            border-bottom: 2px solid var(--border);
             display: inline-block;
             margin-top: 64px;
             margin-bottom: 24px;
             padding-bottom: 4px;
-        }
-
-        .dark-mode h2 {
-            border-bottom-color: #f0f0f0;
         }
 
         section {
@@ -77,19 +67,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 18px 20px;
-            border: 2px solid currentColor;
+            border: 2px solid var(--border);
             transition: transform 0.25s, background-color 0.25s, color 0.25s;
         }
 
         .contributors-list li:hover {
-            background-color: #000;
-            color: #fff;
+            background-color: var(--text);
+            color: var(--bg);
             transform: translateY(-4px);
-        }
-
-        .dark-mode .contributors-list li:hover {
-            background-color: #f0f0f0;
-            color: #121212;
         }
 
         .contributor-name {
@@ -100,7 +85,7 @@
         a {
             color: inherit;
             text-decoration: none;
-            border-bottom: 1px dotted currentColor;
+            border-bottom: 1px dotted var(--border);
             padding: 2px 4px;
             transition: background-color 0.25s, color 0.25s;
         }
@@ -108,12 +93,8 @@
         footer {
             margin-top: 96px;
             font-size: 0.9rem;
-            border-top: 1px solid #000;
+            border-top: 1px solid var(--border);
             padding-top: 24px;
-        }
-
-        .dark-mode footer {
-            border-top-color: #f0f0f0;
         }
 
         footer p {
@@ -121,37 +102,8 @@
         }
 
         footer a:hover {
-            background-color: #000;
-            color: #fff;
-        }
-
-        .dark-mode footer a:hover {
-            background-color: #f0f0f0;
-            color: #121212;
-        }
-
-        .dark-mode-toggle {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: none;
-            border: 2px solid currentColor;
-            padding: 8px 20px;
-            cursor: pointer;
-            font-family: inherit;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: background-color 0.25s, color 0.25s;
-        }
-
-        .dark-mode-toggle:hover {
-            background-color: #000;
-            color: #fff;
-        }
-
-        .dark-mode .dark-mode-toggle:hover {
-            background-color: #f0f0f0;
-            color: #121212;
+            background-color: var(--text);
+            color: var(--bg);
         }
 
         @media (max-width: 640px) {
@@ -163,12 +115,6 @@
             .contributors-list {
                 grid-template-columns: 1fr;
             }
-
-            .dark-mode-toggle {
-                position: static;
-                width: 100%;
-                margin-top: 18px;
-            }
         }
     </style>
 </head>
@@ -176,7 +122,7 @@
 <body>
     <header>
         <h1>Project Toolsuite</h1>
-        <button class="dark-mode-toggle" id="themeToggle">Dark</button>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
     </header>
 
     <main>
@@ -194,12 +140,32 @@
                     <a href="https://github.com/VITianYash42" class="contributor-link" target="_blank">@VITianYash42</a>
                 </li>
                 <li>
+                    <span class="contributor-name">Dru-429</span>
+                    <a href="https://github.com/Dru-429" class="contributor-link" target="_blank">@Dru-429</a>
+                </li>
+                <li>
                     <span class="contributor-name">AdityaMittal08</span>
                     <a href="https://github.com/AdityaMittal08" class="contributor-link" target="_blank">@AdityaMittal08</a>
                 </li>
                 <li>
+                    <span class="contributor-name">Ishwarpatra</span>
+                    <a href="https://github.com/Ishwarpatra" class="contributor-link" target="_blank">@Ishwarpatra</a>
+                </li>
+                <li>
+                    <span class="contributor-name">JaiHarsan</span>
+                    <a href="https://github.com/JaiHarsan" class="contributor-link" target="_blank">@JaiHarsan</a>
+                </li>
+                <li>
+                    <span class="contributor-name">rach-kanc</span>
+                    <a href="https://github.com/rach-kanc" class="contributor-link" target="_blank">@rach-kanc</a>
+                </li>
+                <li>
                     <span class="contributor-name">SamXop123</span>
                     <a href="https://github.com/SamXop123" class="contributor-link" target="_blank">@SamXop123</a>
+                </li>
+                <li>
+                    <span class="contributor-name">KaustAbhinand</span>
+                    <a href="https://github.com/KaustAbhinand" class="contributor-link" target="_blank">@KaustAbhinand</a>
                 </li>
                 <li>
                     <span class="contributor-name">Pranavkale11</span>
@@ -214,6 +180,14 @@
                     <a href="https://github.com/SuyashSoni10" class="contributor-link" target="_blank">@SuyashSoni10</a>
                 </li>
                 <li>
+                    <span class="contributor-name">ritiktyagiai</span>
+                    <a href="https://github.com/ritiktyagiai" class="contributor-link" target="_blank">@ritiktyagiai</a>
+                </li>
+                <li>
+                    <span class="contributor-name">Aharshi3614</span>
+                    <a href="https://github.com/Aharshi3614" class="contributor-link" target="_blank">@Aharshi3614</a>
+                </li>
+                <li>
                     <span class="contributor-name">nikhil1205-ai</span>
                     <a href="https://github.com/nikhil1205-ai" class="contributor-link" target="_blank">@nikhil1205-ai</a>
                 </li>
@@ -222,12 +196,24 @@
                     <a href="https://github.com/VedanshN" class="contributor-link" target="_blank">@VedanshN</a>
                 </li>
                 <li>
+                    <span class="contributor-name">aditijha509</span>
+                    <a href="https://github.com/aditijha509" class="contributor-link" target="_blank">@aditijha509</a>
+                </li>
+                <li>
                     <span class="contributor-name">androidvitb</span>
                     <a href="https://github.com/androidvitb" class="contributor-link" target="_blank">@androidvitb</a>
                 </li>
                 <li>
                     <span class="contributor-name">anshul-lh44</span>
                     <a href="https://github.com/anshul-lh44" class="contributor-link" target="_blank">@anshul-lh44</a>
+                </li>
+                <li>
+                    <span class="contributor-name">CharlapallyDivyani</span>
+                    <a href="https://github.com/CharlapallyDivyani" class="contributor-link" target="_blank">@CharlapallyDivyani</a>
+                </li>
+                <li>
+                    <span class="contributor-name">Laasya2007</span>
+                    <a href="https://github.com/Laasya2007" class="contributor-link" target="_blank">@Laasya2007</a>
                 </li>
                 <li>
                     <span class="contributor-name">Shlok-Dwivedi</span>
@@ -242,16 +228,24 @@
                     <a href="https://github.com/vishakhaojha57" class="contributor-link" target="_blank">@vishakhaojha57</a>
                 </li>
                 <li>
+                    <span class="contributor-name">architsinghal0005</span>
+                    <a href="https://github.com/architsinghal0005" class="contributor-link" target="_blank">@architsinghal0005</a>
+                </li>
+                <li>
+                    <span class="contributor-name">helen1806</span>
+                    <a href="https://github.com/helen1806" class="contributor-link" target="_blank">@helen1806</a>
+                </li>
+                <li>
+                    <span class="contributor-name">shreyagupta2006</span>
+                    <a href="https://github.com/shreyagupta2006" class="contributor-link" target="_blank">@shreyagupta2006</a>
+                </li>
+                <li>
                     <span class="contributor-name">Shweta-Bairagi0312</span>
                     <a href="https://github.com/Shweta-Bairagi0312" class="contributor-link" target="_blank">@Shweta-Bairagi0312</a>
                 </li>
                 <li>
                     <span class="contributor-name">yhcb21</span>
                     <a href="https://github.com/yhcb21" class="contributor-link" target="_blank">@yhcb21</a>
-                </li>
-                <li>
-                    <span class="contributor-name">Dhruv Sahoo</span>
-                    <a href="https://github.com/Dru-429" class="contributor-link" target="_blank">@dru-429</a>
                 </li>
 </ul>
         </section>
@@ -276,22 +270,6 @@
         </p>
     </footer>
 
-    <script>
-        const toggle = document.getElementById("themeToggle")
-        const body = document.body
-        const saved = localStorage.getItem("theme")
-
-        if (saved === "dark") {
-            body.classList.add("dark-mode")
-            toggle.textContent = "Light"
-        }
-
-        toggle.addEventListener("click", () => {
-            body.classList.toggle("dark-mode")
-            const dark = body.classList.contains("dark-mode")
-            toggle.textContent = dark ? "Light" : "Dark"
-            localStorage.setItem("theme", dark ? "dark" : "light")
-        })
-    </script>
+    <script src="./theme.js"></script>
 </body>
 </html>

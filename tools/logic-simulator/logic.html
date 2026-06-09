@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Digital Logic Simulator</title>
     <style>
+
         :root {
             --bg-color: #09090b;
             --panel-bg: #18181b;
@@ -148,7 +149,7 @@
             position: relative;
             border: 1px solid var(--bg-color);
         }
-        .terminal:hover { transform: scale(1.3); background: #fff; }
+        .terminal:hover { transform: scale(1.3); background: var(--bg); }
         .terminal.output { margin-right: -15px; }
         .terminal.input { margin-left: -15px; }
         
@@ -211,7 +212,10 @@
             background: #991b1b;
             color: #fff;
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 

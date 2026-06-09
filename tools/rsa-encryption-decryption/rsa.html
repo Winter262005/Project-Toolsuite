@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Encryption & Decryption - Project Toolsuite</title>
+    <meta name="description" content="Securely generate RSA keys, encrypt and decrypt text using RSA-OAEP 2048-bit, 3072-bit, and 4096-bit in your browser. Privacy-first, zero server interaction.">
+    <meta property="og:title" content="RSA Encryption & Decryption - Project Toolsuite">
+    <meta property="og:description" content="Securely generate RSA keys, encrypt and decrypt text using RSA-OAEP in your browser.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
+    <link rel="stylesheet" href="../../assets/css/notifications.css">
+    <script src="../../assets/js/notifications.js" defer></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        /* Key Generator Section */
+        .keygen-section {
+            border: 2px solid var(--border);
+            padding: 20px;
+            background-color: var(--tag-bg);
+            margin-bottom: 32px;
+        }
+
+        .keygen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .keygen-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .keygen-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .keygen-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .keygen-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .key-output-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 24px;
+            overflow-x: auto;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 24px;
+            font-family: inherit;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            color: var(--muted);
+        }
+
+        .tab-btn.active {
+            border-bottom-color: var(--text);
+            color: var(--text);
+        }
+
+        .tab-btn:hover {
+            background-color: var(--tag-bg);
+            color: var(--text);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Control Grid for Settings */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+            background: var(--tag-bg);
+            padding: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 12px;
+            display: block;
+        }
+
+        .settings-grid label {
+            margin-top: 0;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            background: var(--bg);
+            color: var(--text);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            background-color: var(--tag-bg);
+            border-color: var(--muted);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .key-textarea {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            min-height: 180px;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        button {
+            font-family: inherit;
+            background-color: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
+            padding: 12px 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        button:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-accent {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-accent:hover {
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Status & Alert Info boxes */
+        .info-box {
+            background-color: var(--tag-bg);
+            border: 2px solid var(--border);
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .alert-warning {
+            border-left: 6px solid #d9534f;
+            background-color: rgba(217, 83, 79, 0.05);
+        }
+
+        .alert-info {
+            border-left: 6px solid #5bc0de;
+            background-color: rgba(91, 192, 222, 0.05);
+        }
+
+        .alert-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Educational Section */
+        .edu-section {
+            margin-top: 40px;
+            border-top: 2px solid var(--border);
+            padding-top: 24px;
+        }
+
+        .edu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .edu-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .edu-card {
+            border: 1px dashed var(--border);
+            padding: 16px;
+            background-color: rgba(128, 128, 128, 0.02);
+        }
+
+        .edu-card h3 {
+            margin-top: 0;
+            text-transform: uppercase;
+            font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+
+        /* Footer */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 40px 0 20px;
+        }
+
+        footer {
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--border);
+            padding-bottom: 2px;
+        }
+
+        a:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        #status {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px dashed var(--border);
+            padding: 6px 12px;
+            display: inline-block;
+        }
+
+        .label-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 12px;
+        }
+
+        .label-container label {
+            margin-top: 0;
+        }
+
+        .char-counter {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .char-counter.limit-exceeded {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        /* Responsive Layout fixes */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+
+            button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .keygen-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .keygen-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RSA Encrypt & Decrypt</h1>
+        <p>Asymmetric Encryption & Decryption tool operating entirely in your browser.</p>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+    </header>
+
+    <main>
+        <!-- Security Warnings -->
+        <div class="info-box alert-warning">
+            <div class="alert-title">⚠️ PRIVACY-FIRST RSA CRYPTOGRAPHY</div>
+            <p style="margin: 0; font-size: 0.9rem;">
+                <strong>Key Management Notice:</strong> Private keys should never be shared or uploaded to untrusted sites. All keys are generated and cryptography operations are executed 100% locally in your browser sandbox using the Web Crypto API. No data is stored or transmitted.
+            </p>
+        </div>
+
+        <!-- RSA Key Generator Section -->
+        <section class="keygen-section">
+            <div class="keygen-header">
+                <h2 class="keygen-title">🔑 RSA Key Pair Generator</h2>
+                <div class="keygen-controls">
+                    <label for="genKeySize" style="margin-top: 0;">Key Size:</label>
+                    <select id="genKeySize" style="width: auto; padding: 6px 12px; font-size: 0.9rem;">
+                        <option value="2048" selected>2048-bit (Standard)</option>
+                        <option value="3072">3072-bit (Strong)</option>
+                        <option value="4096">4096-bit (Strongest)</option>
+                    </select>
+                    <button type="button" id="btnGenerateKeyPair" class="btn-sm btn-accent">Generate Key Pair</button>
+                </div>
+            </div>
+            
+            <div class="keygen-grid">
+                <div class="key-output-box">
+                    <div class="label-container">
+                        <label for="genPublicKey">Public Key (For Encryption)</label>
+                        <button type="button" class="btn-sm" id="btnUseGenPublicKey" style="padding: 2px 8px; margin: 0; font-size: 0.75rem;" disabled>Use in Encrypt Tab</button>
+                    </div>
+                    <textarea id="genPublicKey" class="key-textarea" readonly placeholder="Click 'Generate Key Pair' to generate a public key..."></textarea>
+                    <div class="btn-group" style="margin: 8px 0 0 0;">
+                        <button type="button" id="btnCopyGenPublic" class="btn-sm" disabled>Copy</button>
+                        <button type="button" id="btnDownloadGenPublic" class="btn-sm" disabled>Download</button>
+                    </div>
+                </div>
+
+                <div class="key-output-box">
+                    <div class="label-container">
+                        <label for="genPrivateKey">Private Key (For Decryption)</label>
+                        <button type="button" class="btn-sm" id="btnUseGenPrivateKey" style="padding: 2px 8px; margin: 0; font-size: 0.75rem;" disabled>Use in Decrypt Tab</button>
+                    </div>
+                    <textarea id="genPrivateKey" class="key-textarea" readonly placeholder="Click 'Generate Key Pair' to generate a private key..."></textarea>
+                    <div class="btn-group" style="margin: 8px 0 0 0;">
+                        <button type="button" id="btnCopyGenPrivate" class="btn-sm" disabled>Copy</button>
+                        <button type="button" id="btnDownloadGenPrivate" class="btn-sm" disabled>Download</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="encrypt">Encrypt</button>
+            <button class="tab-btn" data-tab="decrypt">Decrypt</button>
+        </div>
+
+        <!-- ENCRYPT TAB -->
+        <div class="tab-content active" id="encrypt-tab">
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <label for="encKeySize">RSA Key Size (Required for import validation)</label>
+                    <select id="encKeySize">
+                        <option value="2048" selected>2048-bit</option>
+                        <option value="3072">3072-bit</option>
+                        <option value="4096">4096-bit</option>
+                    </select>
+                </div>
+                <div class="setting-item" style="justify-content: flex-end;">
+                    <div class="info-box alert-info" style="margin: 0; padding: 12px; font-size: 0.85rem; border-left-width: 4px;">
+                        Max plaintext size:<br>
+                        <strong>2048-bit:</strong> 190 chars | <strong>3072-bit:</strong> 318 chars | <strong>4096-bit:</strong> 446 chars
+                    </div>
+                </div>
+            </div>
+
+            <label for="encPublicKey">Public Key (PEM format)</label>
+            <textarea id="encPublicKey" class="key-textarea" placeholder="Paste the public key starting with -----BEGIN PUBLIC KEY----- here..."></textarea>
+
+            <div class="label-container">
+                <label for="encPlaintext">Plaintext Message</label>
+                <span id="encCharCounter" class="char-counter">0 characters</span>
+            </div>
+            <textarea id="encPlaintext" placeholder="Type or paste the message you want to encrypt. Note the maximum character limits for the selected key size..."></textarea>
+
+            <div class="btn-group">
+                <button id="btnEncrypt" class="btn-accent">Encrypt Text</button>
+                <button id="btnClearEncrypt">Clear Form</button>
+            </div>
+
+            <label for="encCiphertext">Encrypted Ciphertext (Base64)</label>
+            <textarea id="encCiphertext" readonly placeholder="The encrypted output will appear here..."></textarea>
+
+            <div class="btn-group" id="encResultActions" style="display: none;">
+                <button id="btnCopyCiphertext">Copy Ciphertext</button>
+            </div>
+        </div>
+
+        <!-- DECRYPT TAB -->
+        <div class="tab-content" id="decrypt-tab">
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <label for="decKeySize">RSA Key Size (Required for import validation)</label>
+                    <select id="decKeySize">
+                        <option value="2048" selected>2048-bit</option>
+                        <option value="3072">3072-bit</option>
+                        <option value="4096">4096-bit</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="decPrivateKey">Private Key (PEM format)</label>
+            <textarea id="decPrivateKey" class="key-textarea" placeholder="Paste the private key starting with -----BEGIN PRIVATE KEY----- here..."></textarea>
+
+            <label for="decCiphertext">Ciphertext to Decrypt (Base64 format)</label>
+            <textarea id="decCiphertext" placeholder="Paste the Base64-encoded encrypted ciphertext here..."></textarea>
+
+            <div class="btn-group">
+                <button id="btnDecrypt" class="btn-accent">Decrypt Text</button>
+                <button id="btnClearDecrypt">Clear Form</button>
+            </div>
+
+            <label for="decPlaintext">Decrypted Plaintext</label>
+            <textarea id="decPlaintext" readonly placeholder="The decrypted plain text will appear here..."></textarea>
+
+            <div class="btn-group" id="decResultActions" style="display: none;">
+                <button id="btnCopyPlaintext">Copy Plaintext</button>
+            </div>
+        </div>
+
+        <!-- System Status Box -->
+        <div class="info-box alert-info">
+            <span id="status">System Ready: Generate keys or choose a tab to begin...</span>
+        </div>
+
+        <!-- Educational Section -->
+        <section class="edu-section">
+            <h2>Understanding RSA Cryptography</h2>
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <h3>How Asymmetric Crypto Works</h3>
+                    <p style="margin: 0; font-size: 0.85rem;">
+                        Unlike symmetric encryption (like AES) which uses a single secret key, RSA uses a mathematically-linked **key pair**:
+                    </p>
+                    <ul style="padding-left: 20px; font-size: 0.85rem; margin-top: 8px;">
+                        <li><strong>Public Key:</strong> Can be shared freely with anyone. Used strictly to **encrypt** messages.</li>
+                        <li><strong>Private Key:</strong> Must be kept secure and private. Used strictly to **decrypt** messages encrypted by the matching public key.</li>
+                    </ul>
+                </div>
+
+                <div class="edu-card">
+                    <h3>Plaintext Size Limits & Padding</h3>
+                    <p style="margin: 0; font-size: 0.85rem;">
+                        This tool uses <strong>RSA-OAEP (Optimal Asymmetric Encryption Padding)</strong> with SHA-256:
+                    </p>
+                    <ul style="padding-left: 20px; font-size: 0.85rem; margin-top: 8px;">
+                        <li>OAEP pads plaintext messages dynamically to prevent eavesdroppers from recognizing repeating patterns.</li>
+                        <li>This padding has a fixed size overhead of 66 bytes when using SHA-256. Therefore, the maximum plaintext character limit is strictly capped depending on key bits.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <hr>
+        <p><a href="../../index.html">← Back to Home</a></p>
+        <p style="margin: 0; font-size: 0.8rem; opacity: 0.6;">Local Client-Side Cryptography — No Data Shared</p>
+    </footer>
+
+    <script src="rsa.js"></script>
+</body>
+</html>

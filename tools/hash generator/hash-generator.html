@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
+
         /* Global Minimalist Styling */
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             max-width: 900px;
             margin: 40px auto;
@@ -29,7 +30,7 @@
         }
 
         header {
-            border-bottom: 5px solid #000;
+            border-bottom: 5px solid var(--border);
             margin-bottom: 30px;
         }
 
@@ -55,7 +56,7 @@
         /* Tab Navigation */
         .tab-nav {
             display: flex;
-            border-bottom: 2px solid #000;
+            border-bottom: 2px solid var(--border);
             margin-bottom: 20px;
             overflow-x: auto;
         }
@@ -74,16 +75,16 @@
         }
 
         .tab-btn.active {
-            border-bottom-color: #000;
+            border-bottom-color: var(--text);
             font-weight: bold;
         }
 
         .tab-btn:hover {
-            background-color: #f0f0f0;
+            background-color: var(--tag-bg);
         }
 
         .dark-mode .tab-btn:hover {
-            background-color: #333;
+            background-color: var(--muted);
         }
 
         /* Tab Content */
@@ -102,7 +103,7 @@
         select {
             display: block;
             font-family: 'Courier New', Courier, monospace;
-            border: 2px solid #000;
+            border: 2px solid var(--border);
             padding: 10px;
             width: 100%;
             box-sizing: border-box;
@@ -122,9 +123,9 @@
 
         button {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #ffffff;
-            color: #000000;
-            border: 2px solid #000;
+            background-color: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
             padding: 10px 20px;
             text-transform: uppercase;
             font-weight: bold;
@@ -140,14 +141,14 @@
         }
 
         button:hover:enabled {
-            background-color: #000;
+            background-color: var(--text);
             color: #fff;
         }
 
         /* Hash Results */
         .hash-result {
-            background-color: #f9f9f9;
-            border: 1px solid #000;
+            background-color: var(--tag-bg);
+            border: 1px solid var(--border);
             padding: 15px;
             margin: 15px 0;
         }
@@ -183,7 +184,7 @@
 
         /* File Upload Area */
         .file-drop-area {
-            border: 2px dashed #000;
+            border: 2px dashed var(--border);
             padding: 40px;
             text-align: center;
             margin: 20px 0;
@@ -191,7 +192,7 @@
         }
 
         .file-drop-area.dragover {
-            background-color: #f0f0f0;
+            background-color: var(--tag-bg);
         }
 
         .file-list {
@@ -202,9 +203,9 @@
             display: flex;
             align-items: center;
             padding: 10px;
-            border: 1px solid #000;
+            border: 1px solid var(--border);
             margin-bottom: 10px;
-            background-color: #f9f9f9;
+            background-color: var(--tag-bg);
         }
 
         .file-name {
@@ -232,14 +233,14 @@
         }
 
         .compare-box {
-            border: 1px solid #000;
+            border: 1px solid var(--border);
             padding: 15px;
         }
 
         .compare-result {
             margin-top: 20px;
             padding: 15px;
-            border: 2px solid #000;
+            border: 2px solid var(--border);
             text-align: center;
             font-weight: bold;
         }
@@ -258,7 +259,7 @@
         #status {
             margin-top: 15px;
             padding: 8px 10px;
-            border: 1px dashed #000;
+            border: 1px dashed var(--border);
             display: inline-block;
             min-width: 220px;
             font-size: 0.9rem;
@@ -286,7 +287,7 @@
             padding: 10px;
             border: 1px solid #ccc;
             margin-bottom: 10px;
-            background-color: #f9f9f9;
+            background-color: var(--tag-bg);
         }
 
         .history-input {
@@ -330,18 +331,18 @@
 
         hr {
             border: none;
-            border-top: 1px solid #000;
+            border-top: 1px solid var(--border);
             margin: 30px 0 10px;
         }
 
         a {
-            color: #000;
+            color: var(--text);
             text-decoration: none;
-            border-bottom: 1px dotted #000;
+            border-bottom: 1px dotted var(--border);
         }
 
         a:hover {
-            background-color: #000;
+            background-color: var(--text);
             color: #fff;
         }
 
@@ -365,14 +366,18 @@
             margin-right: 5px;
             width: auto;
         }
+    
     </style>
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
 </head>
 <body>
 
 <header>
     <h1>Multi-Utility Hash Generator</h1>
     <p>Generate and compare cryptographic hashes. All processing happens locally in your browser.</p>
-</header>
+
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
 <main>
     <!-- Tab Navigation -->

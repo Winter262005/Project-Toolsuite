@@ -1,0 +1,119 @@
+const input = document.getElementById("input");
+const output = document.getElementById("output");
+
+function transformText(style) {
+  const text = input.value;
+
+  if (!text.trim()) {
+    output.value = "";
+    return;
+  }
+
+  output.value = [...text].map((char) => convertChar(char, style)).join("");
+}
+
+function toSmallCaps(text) {
+  const map = {
+    a: "ᴀ",
+    b: "ʙ",
+    c: "ᴄ",
+    d: "ᴅ",
+    e: "ᴇ",
+    f: "ꜰ",
+    g: "ɢ",
+    h: "ʜ",
+    i: "ɪ",
+    j: "ᴊ",
+    k: "ᴋ",
+    l: "ʟ",
+    m: "ᴍ",
+    n: "ɴ",
+    o: "ᴏ",
+    p: "ᴘ",
+    q: "ǫ",
+    r: "ʀ",
+    s: "ꜱ",
+    t: "ᴛ",
+    u: "ᴜ",
+    v: "ᴠ",
+    w: "ᴡ",
+    x: "x",
+    y: "ʏ",
+    z: "ᴢ",
+  };
+
+  return [...text].map((char) => map[char.toLowerCase()] || char).join("");
+}
+
+function convertChar(char, style) {
+  const code = char.charCodeAt(0);
+
+  const isUpper = code >= 65 && code <= 90;
+  const isLower = code >= 97 && code <= 122;
+
+  if (!isUpper && !isLower) return char;
+
+  const index = isUpper ? code - 65 : code - 97;
+
+  const maps = {
+    bold: {
+      upper: 0x1d5d4,
+      lower: 0x1d5ee,
+    },
+    italic: {
+      upper: 0x1d608,
+      lower: 0x1d622,
+    },
+    boldItalic: {
+      upper: 0x1d63c,
+      lower: 0x1d656,
+    },
+  };
+
+  const base = isUpper ? maps[style].upper : maps[style].lower;
+
+  return String.fromCodePoint(base + index);
+}
+
+document.getElementById("boldBtn").addEventListener("click", () => {
+  transformText("bold");
+});
+
+document.getElementById("italicBtn").addEventListener("click", () => {
+  transformText("italic");
+});
+
+document.getElementById("boldItalicBtn").addEventListener("click", () => {
+  transformText("boldItalic");
+});
+
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  if (!output.value) return;
+
+  await navigator.clipboard.writeText(output.value);
+
+  if (window.showNotification) {
+    showNotification("Copied to clipboard!", "success");
+  }
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  input.value = "";
+  output.value = "";
+});
+
+document.getElementById("smallCapsBtn").addEventListener("click", () => {
+    output.value = toSmallCaps(input.value);
+});
+
+document.getElementById("underlineBtn").addEventListener("click", () => {
+    output.value = [...input.value]
+        .map(char => char === " " ? " " : char + "\u0332")
+        .join("");
+});
+
+document.getElementById("strikeBtn").addEventListener("click", () => {
+    output.value = [...input.value]
+        .map(char => char === " " ? " " : char + "\u0336")
+        .join("");
+});
