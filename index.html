@@ -959,11 +959,13 @@
 
       function renderTools() {
         console.log("renderTools running");
-        const query = document.getElementById("toolSearch").value.toLowerCase();
+        const normalize = (str) =>
+          str.toLowerCase().replace(/\s+/g, "");
+        const query = normalize(document.getElementById("toolSearch").value);
         const container = document.getElementById("tools-container");
 
         const filtered = tools.filter((t) => {
-          const matchesSearch = t.name.toLowerCase().includes(query);
+          const matchesSearch = normalize(t.name).includes(query);
           const matchesTag =
             activeTag === "all" || (t.tags && t.tags.includes(activeTag));
           return matchesSearch && matchesTag;
