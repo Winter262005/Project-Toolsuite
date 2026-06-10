@@ -225,23 +225,23 @@
       }
 
       .tool-link {
-        display: flex;
-        align-items: center;
-        min-height: 52px;
-        padding: 14px 20px;
-        border: 3px solid var(--border);
-        text-decoration: none;
-        color: inherit;
-        font-weight: bold;
-        transition: all 0.2s;
-        background: var(--bg);
-      }
-      .tool-link:hover {
-        background-color: var(--text);
-        color: var(--bg);
-        transform: translate(-3px, -3px);
-        box-shadow: 5px 5px 0px var(--border);
-      }
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          min-height: 52px;
+          padding: 14px 20px;
+          border: 3px solid var(--border);
+          text-decoration: none;
+          color: inherit;
+          font-weight: bold;
+          transition: all 0.2s;
+          background: var(--bg);
+       }
+      .tool-link small {
+        display: block;
+        font-size: 0.8rem;
+        opacity: 0.7;
+       }
 
       #toolSearch::placeholder {
         opacity: 0.6;
@@ -994,20 +994,25 @@
           });
         }
 
-        if (filtered.length === 0) {
-          container.innerHTML = `<p style="grid-column: 1/-1; opacity: 0.5;">No tools found matching your criteria.</p>`;
-          return;
-        }
-        console.log(document.getElementById("toolCount"));
-        console.log(document.getElementById("tools-container"));
-        container.innerHTML = filtered
-          .map(
-            (t) => `
-            <a href="${t.path}" class="tool-link">${t.name}</a>
-        `,
-          )
-          .join("");
-      }
+    if (filtered.length === 0) {
+     container.innerHTML = `
+       <p style="grid-column: 1/-1; opacity: 0.5;">
+         No tools found matching your criteria.
+      </p>`;
+  return;
+ }
+
+container.innerHTML = filtered
+  .map(
+    (t) => `
+      <a href="${t.path}" class="tool-link">
+        <div>${t.name}</div>
+        <small>${t.tags.join(", ")}</small>
+      </a>
+    `,
+  )
+    .join("");
+  }
 
       document.getElementById("toolSearch").oninput = renderTools;
 
