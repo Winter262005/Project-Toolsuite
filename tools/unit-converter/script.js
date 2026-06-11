@@ -39,12 +39,12 @@ const conversionData = {
         baseUnit: 'Celsius',
         toBase: {
             'Celsius': (val) => val,
-            'Fahrenheit': (val) => (val - 32) * 5/9,
+            'Fahrenheit': (val) => (val - 32) * 5 / 9,
             'Kelvin': (val) => val - 273.15
         },
         fromBase: {
             'Celsius': (val) => val,
-            'Fahrenheit': (val) => val * 9/5 + 32,
+            'Fahrenheit': (val) => val * 9 / 5 + 32,
             'Kelvin': (val) => val + 273.15
         },
         formula: '°C = (°F - 32) × 5/9 | K = °C + 273.15'
@@ -255,28 +255,28 @@ categoryBtns.forEach(btn => {
 function initializeCategory(category) {
     const data = conversionData[category];
     currentCategory = category;
-    
+
     // Populate unit selects
     fromUnitSelect.innerHTML = '';
     toUnitSelect.innerHTML = '';
-    
+
     data.units.forEach((unit, index) => {
         const fromOption = document.createElement('option');
         fromOption.value = unit;
         fromOption.textContent = unit;
         if (index === 0) fromOption.selected = true;
         fromUnitSelect.appendChild(fromOption);
-        
+
         const toOption = document.createElement('option');
         toOption.value = unit;
         toOption.textContent = unit;
         if (index === 1 && data.units.length > 1) toOption.selected = true;
         toUnitSelect.appendChild(toOption);
     });
-    
+
     // Update formula
     formulaText.textContent = data.formula;
-    
+
     // Clear inputs
     fromValueInput.value = '';
     toValueInput.value = '';
@@ -286,28 +286,27 @@ function initializeCategory(category) {
 function performConversion() {
     const fromValue = parseFloat(fromValueInput.value);
     const category = conversionData[currentCategory];
-    
+
     if (isNaN(fromValue)) {
         toValueInput.value = '';
         return;
     }
-    
+
     let result;
-    
+
     if (category.fromBase) {
         // For temperature (special case)
         const baseValue = category.toBase[fromUnitSelect.value](fromValue);
         result = category.fromBase[toUnitSelect.value](baseValue);
     } else {
         // Standard conversion
-        const toBaseValue = fromValue / category.toBase[fromUnitSelect.value];
-        result = toBaseValue * category.toBase[toUnitSelect.value];
+        const baseValue = fromValue * category.toBase[fromUnitSelect.value];
+        result = baseValue / category.toBase[toUnitSelect.value];
     }
-    
+
     const precision = parseInt(precisionInput.value);
     toValueInput.value = parseFloat(result.toFixed(precision));
-    
-    // Add to history
+
     addToHistory(
         `${fromValue} ${fromUnitSelect.value} → ${toValueInput.value} ${toUnitSelect.value}`
     );
@@ -324,11 +323,11 @@ swapBtn.addEventListener('click', () => {
     const tempUnit = fromUnitSelect.value;
     fromUnitSelect.value = toUnitSelect.value;
     toUnitSelect.value = tempUnit;
-    
+
     const tempValue = fromValueInput.value;
     fromValueInput.value = toValueInput.value;
     toValueInput.value = tempValue;
-    
+
     performConversion();
 });
 
@@ -346,15 +345,15 @@ function addToHistory(entry) {
 
 function renderHistory() {
     historyContainer.innerHTML = '';
-    
+
     if (conversionHistory.length === 0) {
         historyContainer.innerHTML = '<p class="empty-history">No conversions yet</p>';
         clearHistoryBtn.style.display = 'none';
         return;
     }
-    
+
     clearHistoryBtn.style.display = 'block';
-    
+
     conversionHistory.forEach((entry, index) => {
         const item = document.createElement('div');
         item.className = 'history-item';
@@ -362,13 +361,13 @@ function renderHistory() {
             <span>${entry}</span>
             <button class="history-item-remove" data-index="${index}">✕</button>
         `;
-        
+
         item.querySelector('.history-item-remove').addEventListener('click', () => {
             conversionHistory.splice(index, 1);
             saveHistory();
             renderHistory();
         });
-        
+
         historyContainer.appendChild(item);
     });
 }

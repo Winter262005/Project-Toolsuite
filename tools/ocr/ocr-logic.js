@@ -1,6 +1,8 @@
 'use strict';
 
 const fileInput = document.getElementById('fileInput');
+const imageUrl = document.getElementById('imageUrl');
+const loadUrlBtn = document.getElementById('loadUrlBtn');
 const status = document.getElementById('status');
 const progress = document.getElementById('progress');
 const output = document.getElementById('output');
@@ -10,24 +12,25 @@ fileInput.onchange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Reset UI
+    runOCR(file);
+};
+async function runOCR(imageSource) {
     output.value = "";
     status.textContent = "Initializing Engine...";
     progress.style.display = "block";
     progress.value = 0;
 
     try {
-        // Run Tesseract OCR
         const result = await Tesseract.recognize(
-            file,
-            'eng', // Language
-            { 
+            imageSource,
+            'eng',
+            {
                 logger: m => {
                     if (m.status === 'recognizing text') {
                         status.textContent = `Scanning: ${Math.round(m.progress * 100)}%`;
                         progress.value = m.progress;
                     }
-                } 
+                }
             }
         );
 
@@ -39,6 +42,15 @@ fileInput.onchange = async (e) => {
         status.textContent = "Error: Could not read image.";
         console.error(err);
     }
+}loadUrlBtn.onclick = async () => {
+    const url = imageUrl.value.trim();
+
+    if (!url) {
+        status.textContent = "Please enter an image URL.";
+        return;
+    }
+
+    runOCR(url);
 };
 
 copyBtn.onclick = () => {

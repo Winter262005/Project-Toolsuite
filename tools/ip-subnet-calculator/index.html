@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Subnet Calculator - Project Toolsuite</title>
+    <meta name="description" content="Offline-first IPv4 subnet calculator. Calculate network ranges, broadcast addresses, usable hosts, binary masks, and subnet metadata.">
+    <link rel="stylesheet" href="../../theme.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="../../theme.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-main">
+            <h1>IP Subnet Calculator</h1>
+            <p>Calculate network addresses, host ranges, subnet masks, and binary layouts offline.</p>
+        </div>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">
+            <span class="theme-option dark-mode-option hidden">
+                <svg class="theme-icon-dark sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                LIGHT MODE
+            </span>
+            <span class="theme-option light-mode-option">
+                <svg class="theme-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                DARK MODE
+            </span>
+        </button>
+    </header>
+
+    <main class="calculator-layout">
+        <!-- Input section -->
+        <section class="card input-card">
+            <h2 class="card-title">Subnet Inputs</h2>
+            
+            <div class="form-group">
+                <label for="ipAddress" class="form-label">IPv4 Address</label>
+                <input type="text" id="ipAddress" placeholder="e.g. 192.168.1.10" value="192.168.1.10" autocomplete="off" spellcheck="false">
+                <span class="error-msg" id="ipError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="cidrPrefix" class="form-label">CIDR Prefix</label>
+                <div class="cidr-input-wrapper">
+                    <span class="cidr-prefix-slash">/</span>
+                    <input type="number" id="cidrPrefix" min="0" max="32" value="24">
+                </div>
+                <span class="error-msg" id="cidrError"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">CIDR Range Slider</label>
+                <input type="range" id="cidrSlider" min="0" max="32" value="24" class="slider-control">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Quick Presets</label>
+                <div class="presets-container">
+                    <button type="button" class="preset-btn" data-value="8">/8 (Class A)</button>
+                    <button type="button" class="preset-btn" data-value="16">/16 (Class B)</button>
+                    <button type="button" class="preset-btn" data-value="24">/24 (Class C)</button>
+                    <button type="button" class="preset-btn" data-value="30">/30 (P2P)</button>
+                    <button type="button" class="preset-btn" data-value="32">/32 (Host)</button>
+                </div>
+            </div>
+
+            <button type="button" id="calculateBtn" class="action-btn">Calculate Subnet</button>
+        </section>
+
+        <!-- Output section -->
+        <div class="results-column">
+            <!-- Summary Results Card -->
+            <section class="card results-card" id="resultsCard">
+                <h2 class="card-title">Calculated Subnet Details</h2>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <span class="result-label">Network Address</span>
+                        <div class="result-value-wrapper">
+                            <span id="resNetwork" class="result-value">192.168.1.0</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resNetwork">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Broadcast Address</span>
+                        <div class="result-value-wrapper">
+                            <span id="resBroadcast" class="result-value">192.168.1.255</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resBroadcast">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">First Usable Host</span>
+                        <div class="result-value-wrapper">
+                            <span id="resFirstHost" class="result-value">192.168.1.1</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resFirstHost">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Last Usable Host</span>
+                        <div class="result-value-wrapper">
+                            <span id="resLastHost" class="result-value">192.168.1.254</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resLastHost">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Subnet Mask</span>
+                        <div class="result-value-wrapper">
+                            <span id="resSubnetMask" class="result-value">255.255.255.0</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resSubnetMask">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">CIDR Prefix</span>
+                        <div class="result-value-wrapper">
+                            <span id="resCidr" class="result-value">/24</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resCidr">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Total Addresses</span>
+                        <div class="result-value-wrapper">
+                            <span id="resTotalHosts" class="result-value">256</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resTotalHosts">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <span class="result-label">Usable Hosts</span>
+                        <div class="result-value-wrapper">
+                            <span id="resUsableHosts" class="result-value">254</span>
+                            <button class="copy-btn" title="Copy to clipboard" data-target="resUsableHosts">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Metadata Cards (Class & Designation) -->
+            <section class="card meta-card" id="metaCard">
+                <h2 class="card-title">Network Info & Properties</h2>
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">IP Class</span>
+                        <span id="metaClass" class="meta-value-badge class-c">Class C</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Network Type</span>
+                        <span id="metaScope" class="meta-value-badge type-private">Private (RFC 1918)</span>
+                    </div>
+                    <div class="meta-item full-width">
+                        <span class="meta-label">Details</span>
+                        <span id="metaDescription" class="meta-value-text">Commonly used for local area networks (LANs). Not routable on the public Internet.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Special Networks explanation box (dynamically shown or tailored) -->
+            <section class="card edge-case-card hidden" id="edgeCaseCard">
+                <h2 class="card-title info-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Special Network Node
+                </h2>
+                <p id="edgeCaseExplanation" class="edge-explanation-text">
+                    For /31 networks, RFC 3021 applies. Standard network and broadcast addresses are eliminated, making both addresses usable hosts for point-to-point links.
+                </p>
+            </section>
+
+            <!-- Binary Visualization -->
+            <section class="card binary-card" id="binaryCard">
+                <h2 class="card-title">Subnet Binary Breakdown</h2>
+                <div class="binary-visualizer">
+                    <div class="binary-row">
+                        <span class="binary-label">IP Address:</span>
+                        <div class="binary-octets" id="binIp">
+                            <span>11000000</span>.<span>10101000</span>.<span>00000001</span>.<span>00001010</span>
+                        </div>
+                    </div>
+                    <div class="binary-row">
+                        <span class="binary-label">Subnet Mask:</span>
+                        <div class="binary-octets" id="binMask">
+                            <span class="mask-bits">11111111</span>.<span class="mask-bits">11111111</span>.<span class="mask-bits">11111111</span>.<span class="host-bits">00000000</span>
+                        </div>
+                    </div>
+                    <div class="binary-row divider-row"></div>
+                    <div class="binary-row">
+                        <span class="binary-label">Network Address:</span>
+                        <div class="binary-octets" id="binNetwork">
+                            <span>11000000</span>.<span>10101000</span>.<span>00000001</span>.<span>00000000</span>
+                        </div>
+                    </div>
+                    <div class="binary-row">
+                        <span class="binary-label">Broadcast Address:</span>
+                        <div class="binary-octets" id="binBroadcast">
+                            <span>11000000</span>.<span>10101000</span>.<span>00000001</span>.<span>11111111</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="binary-legend">
+                    <div class="legend-item"><span class="legend-box mask-bits"></span> Subnet Part</div>
+                    <div class="legend-item"><span class="legend-box host-bits"></span> Host Part</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <a href="../../index.html">&larr; Back to Home</a>
+    </footer>
+</div>
+
+<div id="copyToast" class="toast hidden">Copied to clipboard!</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -8,45 +8,39 @@ class VectorEngine {
         this.canvas = document.getElementById('mainCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.container = document.getElementById('canvas-container');
-        
+
         // State
-        this.shapes = []; 
-        this.tool = 'select'; 
+        this.shapes = [];
+        this.tool = 'select';
         this.isDragging = false;
         this.selection = null;
         this.selections = [];
         this.dragStart = { x: 0, y: 0 };
-        this.currentShape = null; 
-        
+        this.currentShape = null;
+        this.dragStartState = null;
+
+        this.undoStack = [];
+        this.redoStack = [];
+
         // Init
         this.resize();
         window.addEventListener('resize', () => this.resize());
         this.setupEvents();
-        this.loop(); 
-        
-        // Add beforeunload warning for unsaved changes
-        window.addEventListener('beforeunload', (e) => {
-            if (this.hasUnsavedChanges()) {
-                e.preventDefault();
-                e.returnValue = 'You have unsaved drawings. Are you sure you want to leave?';
-                return e.returnValue;
-            }
-        });
-        
+        this.loop();
+
         // Try to restore previously saved shapes
         this.loadFromLocalStorage();
-        
+
         console.log(">> VECTOR ENGINE INITIALIZED");
     }
 
     // --- MATH UTILS ---
-    
+
     snap(val) {
         const gridSize = parseInt(document.getElementById('gridSize').value) || 20;
         return Math.round(val / gridSize) * gridSize;
     }
 
-    // Point in Polygon test (for Parallelogram/Diamond)
     pointInPoly(p, vs) {
         let inside = false;
         for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
@@ -59,31 +53,30 @@ class VectorEngine {
     }
 
     distToSegment(p, v, w) {
-        const l2 = (v.x - w.x)**2 + (v.y - w.y)**2;
-        if (l2 === 0) return Math.sqrt((p.x - v.x)**2 + (p.y - v.y)**2);
+        const l2 = (v.x - w.x) ** 2 + (v.y - w.y) ** 2;
+        if (l2 === 0) return Math.sqrt((p.x - v.x) ** 2 + (p.y - v.y) ** 2);
         let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
         t = Math.max(0, Math.min(1, t));
-        return Math.sqrt((p.x - (v.x + t * (w.x - v.x)))**2 + (p.y - (v.y + t * (w.y - v.y)))**2);
+        return Math.sqrt((p.x - (v.x + t * (w.x - v.x))) ** 2 + (p.y - (v.y + t * (w.y - v.y))) ** 2);
     }
 
-    // Hit Testing
     hitTest(mx, my) {
         for (let i = this.shapes.length - 1; i >= 0; i--) {
             const s = this.shapes[i];
-            
+
             if (s.type === 'rect') {
                 if (mx >= s.x && mx <= s.x + s.w && my >= s.y && my <= s.y + s.h) return s;
-            } 
+            }
             else if (s.type === 'circle') {
                 const dx = mx - s.x; const dy = my - s.y;
-                if (Math.sqrt(dx*dx + dy*dy) <= s.r) return s;
-            } 
+                if (Math.sqrt(dx * dx + dy * dy) <= s.r) return s;
+            }
             else if (s.type === 'oval') {
                 const rx = Math.abs(s.w / 2);
                 const ry = Math.abs(s.h / 2);
                 const h = s.x + s.w / 2;
                 const k = s.y + s.h / 2;
-                if (((mx - h)**2 / rx**2) + ((my - k)**2 / ry**2) <= 1) return s;
+                if (((mx - h) ** 2 / rx ** 2) + ((my - k) ** 2 / ry ** 2) <= 1) return s;
             }
             else if (s.type === 'diamond') {
                 const vs = [
@@ -107,7 +100,7 @@ class VectorEngine {
             else if (s.type === 'line' || s.type === 'arrow') {
                 const d = this.distToSegment({ x: mx, y: my }, { x: s.x, y: s.y }, { x: s.ex, y: s.ey });
                 if (d < 10) return s;
-            } 
+            }
             else if (s.type === 'text') {
                 if (mx >= s.x && mx <= s.x + (s.text.length * 10) && my >= s.y - 15 && my <= s.y + 5) return s;
             }
@@ -118,6 +111,23 @@ class VectorEngine {
     // --- INTERACTION ---
 
     setupEvents() {
+        window.addEventListener('keydown', (e) => {
+            const target = e.target;
+            const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+            if (isInput) return;
+
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z') {
+                e.preventDefault();
+                this.undo();
+            } else if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') || ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'z')) {
+                e.preventDefault();
+                this.redo();
+            } else if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (this.selection) e.preventDefault();
+                this.deleteSelected();
+            }
+        });
+
         this.canvas.addEventListener('mousedown', (e) => {
             const mx = e.offsetX;
             const my = e.offsetY;
@@ -125,6 +135,8 @@ class VectorEngine {
             if (this.tool === 'select') {
                 const hit = this.hitTest(mx, my);
                 if (hit) {
+                    this.dragStartState = JSON.parse(JSON.stringify(this.shapes));
+                    
                     if (e.shiftKey || e.ctrlKey) {
                         // Toggle shape in/out of selections array
                         const idx = this.selections.indexOf(hit);
@@ -162,7 +174,7 @@ class VectorEngine {
                 this.isDragging = true;
                 const sx = this.snap(mx);
                 const sy = this.snap(my);
-                
+
                 const style = {
                     fill: document.getElementById('fillColor').value,
                     stroke: document.getElementById('strokeColor').value,
@@ -176,6 +188,7 @@ class VectorEngine {
                 } else if (this.tool === 'text') {
                     const text = prompt("Enter text:", "Label");
                     if (text) {
+                        this.saveState();
                         this.shapes.push({ type: 'text', x: sx, y: sy, text: text, ...style });
                         this.saveToLocalStorage();
                         this.tool = 'select';
@@ -212,11 +225,11 @@ class VectorEngine {
                 // Drag Drawing
                 const sx = this.snap(mx);
                 const sy = this.snap(my);
-                
+
                 if (this.currentShape.type === 'circle') {
                     const dx = sx - this.currentShape.x;
                     const dy = sy - this.currentShape.y;
-                    this.currentShape.r = Math.sqrt(dx*dx + dy*dy);
+                    this.currentShape.r = Math.sqrt(dx * dx + dy * dy);
                 } else if (['line', 'arrow'].includes(this.currentShape.type)) {
                     this.currentShape.ex = sx;
                     this.currentShape.ey = sy;
@@ -231,18 +244,40 @@ class VectorEngine {
             if (this.currentShape) {
                 const s = this.currentShape;
                 let isValid = true;
-                
+
                 if (['rect', 'oval', 'diamond', 'parallelogram'].includes(s.type)) {
                     if (s.w === 0 || s.h === 0) isValid = false;
                 }
-                
+
                 if (isValid) {
+                    this.saveState();
                     this.shapes.push(s);
                     this.saveToLocalStorage();
                 }
                 this.currentShape = null;
+            } else if (this.tool === 'select' && this.isDragging && this.selection) {
+                if (this.dragStartState && JSON.stringify(this.shapes) !== JSON.stringify(this.dragStartState)) {
+                    this.saveState(this.dragStartState);
+                    this.saveToLocalStorage();
+                }
             }
+            this.dragStartState = null;
             this.isDragging = false;
+        });
+        
+        // Delete using Backspace or Delete Key
+        window.addEventListener('keydown', (event)=>{
+            const isDeleteKey = event.key === 'Delete' || event.key ==='Backspace';
+
+            const isTyping=
+                event.target.tagName === 'INPUT' ||
+                event.target.tagName === 'TEXTAREA' ||
+                event.target.isContentEditable;
+
+            if (isDeleteKey && !isTyping && this.selection){
+                event.preventDefault();
+                this.deleteSelected();
+            }
         });
 
         // Properties Listeners
@@ -273,9 +308,10 @@ class VectorEngine {
         const h = this.canvas.height;
 
         // Clear & Grid
-        ctx.fillStyle = '#111';
+        const isDark = document.body.classList.contains('dark-mode');
+        ctx.fillStyle = isDark ? '#0f172a' : '#e7e5e4';
         ctx.fillRect(0, 0, w, h);
-        this.drawGrid(w, h);
+        this.drawGrid(w, h, isDark);
 
         // Draw Shapes
         this.shapes.forEach(s => this.drawShape(ctx, s));
@@ -287,9 +323,9 @@ class VectorEngine {
         requestAnimationFrame(() => this.loop());
     }
 
-    drawGrid(w, h) {
+    drawGrid(w, h, isDark) {
         const gridSize = parseInt(document.getElementById('gridSize').value) || 20;
-        this.ctx.strokeStyle = '#222';
+        this.ctx.strokeStyle = isDark ? '#1e293b' : '#d6d3d1';
         this.ctx.lineWidth = 1;
         this.ctx.beginPath();
         for (let x = 0; x < w; x += gridSize) { this.ctx.moveTo(x, 0); this.ctx.lineTo(x, h); }
@@ -301,15 +337,15 @@ class VectorEngine {
         ctx.fillStyle = s.fill;
         ctx.strokeStyle = s.stroke;
         ctx.lineWidth = s.width;
-        
+
         ctx.beginPath();
 
         if (s.type === 'rect') {
             ctx.rect(s.x, s.y, s.w, s.h);
-        } 
+        }
         else if (s.type === 'circle') {
             ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        } 
+        }
         else if (s.type === 'oval') {
             const rx = Math.abs(s.w / 2);
             const ry = Math.abs(s.h / 2);
@@ -336,7 +372,7 @@ class VectorEngine {
             ctx.moveTo(s.x, s.y);
             ctx.lineTo(s.ex, s.ey);
             ctx.stroke();
-            
+
             if (s.type === 'arrow') {
                 const angle = Math.atan2(s.ey - s.y, s.ex - s.x);
                 const headLen = 15;
@@ -348,12 +384,12 @@ class VectorEngine {
                 ctx.stroke();
             }
             return;
-        } 
+        }
         else if (s.type === 'text') {
             ctx.font = `bold 16px Courier New`;
-            ctx.fillStyle = s.stroke; 
+            ctx.fillStyle = s.stroke;
             ctx.fillText(s.text, s.x, s.y);
-            return; 
+            return;
         }
 
         ctx.fill();
@@ -365,7 +401,7 @@ class VectorEngine {
         ctx.lineWidth = 1;
         ctx.setLineDash([5, 5]);
         ctx.beginPath();
-        
+
         if (['rect', 'oval', 'diamond', 'parallelogram'].includes(s.type)) {
             const bx = s.w < 0 ? s.x + s.w : s.x;
             const by = s.h < 0 ? s.y + s.h : s.y;
@@ -415,14 +451,43 @@ class VectorEngine {
         document.getElementById('strokeWidth').value = this.selection.width;
     }
 
-    hasUnsavedChanges() {
-        return this.shapes && this.shapes.length > 0;
+    saveState(state = null) {
+        const stateToSave = state || JSON.parse(JSON.stringify(this.shapes));
+        this.undoStack.push(stateToSave);
+        if (this.undoStack.length > 50) {
+            this.undoStack.shift();
+        }
+        this.redoStack = [];
+    }
+
+    undo() {
+        if (this.undoStack.length > 0) {
+            this.redoStack.push(JSON.parse(JSON.stringify(this.shapes)));
+            this.shapes = this.undoStack.pop();
+            this.selection = null;
+            this.saveToLocalStorage();
+        }
+    }
+
+    redo() {
+        if (this.redoStack.length > 0) {
+            this.undoStack.push(JSON.parse(JSON.stringify(this.shapes)));
+            this.shapes = this.redoStack.pop();
+            this.selection = null;
+            this.saveToLocalStorage();
+        }
     }
 
     saveToLocalStorage() {
-        if (this.shapes.length > 0) {
-            localStorage.setItem('vector_studio_shapes', JSON.stringify(this.shapes));
-            console.log('Shapes auto-saved to localStorage');
+        try {
+            if (this.shapes.length > 0) {
+                localStorage.setItem('vector_studio_shapes', JSON.stringify(this.shapes));
+                console.log('Shapes auto-saved to localStorage');
+            } else {
+                this.clearLocalStorage();
+            }
+        } catch (e) {
+            console.error('Failed to auto-save shapes to localStorage:', e);
         }
     }
 
@@ -436,7 +501,7 @@ class VectorEngine {
                     console.log(`Restored ${this.shapes.length} shapes from localStorage`);
                     return true;
                 }
-            } catch(e) {
+            } catch (e) {
                 console.error('Failed to restore shapes:', e);
             }
         }
@@ -450,11 +515,13 @@ class VectorEngine {
 
     deleteSelected() {
         if (this.selections.length > 0) {
+            this.saveState();
             this.shapes = this.shapes.filter(s => !this.selections.includes(s));
             this.selection = null;
             this.selections = [];
             this.saveToLocalStorage();
         } else if (this.selection) {
+            this.saveState();
             this.shapes = this.shapes.filter(s => s !== this.selection);
             this.selection = null;
             this.saveToLocalStorage();
@@ -463,6 +530,7 @@ class VectorEngine {
 
     clear() {
         if (confirm("Clear Canvas?")) {
+            this.saveState();
             this.shapes = [];
             this.selection = null;
             this.selections = [];
@@ -477,14 +545,16 @@ class VectorEngine {
             link.href = this.canvas.toDataURL();
             link.click();
         } else if (format === 'svg') {
-            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${this.canvas.width}" height="${this.canvas.height}" style="background:#111">`;
-            
+            const isDark = document.body.classList.contains('dark-mode');
+            const bg = isDark ? '#0f172a' : '#e7e5e4';
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${this.canvas.width}" height="${this.canvas.height}" style="background:${bg}">`;
+
             this.shapes.forEach(s => {
                 const common = `fill="${s.fill}" stroke="${s.stroke}" stroke-width="${s.width}"`;
-                
+
                 if (s.type === 'rect') {
                     svg += `<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" ${common}/>`;
-                } 
+                }
                 else if (s.type === 'circle') {
                     svg += `<circle cx="${s.x}" cy="${s.y}" r="${s.r}" ${common}/>`;
                 }
@@ -496,7 +566,7 @@ class VectorEngine {
                     svg += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" ${common}/>`;
                 }
                 else if (s.type === 'diamond') {
-                    const pts = `${s.x + s.w/2},${s.y} ${s.x + s.w},${s.y + s.h/2} ${s.x + s.w/2},${s.y + s.h} ${s.x},${s.y + s.h/2}`;
+                    const pts = `${s.x + s.w / 2},${s.y} ${s.x + s.w},${s.y + s.h / 2} ${s.x + s.w / 2},${s.y + s.h} ${s.x},${s.y + s.h / 2}`;
                     svg += `<polygon points="${pts}" ${common}/>`;
                 }
                 else if (s.type === 'parallelogram') {
@@ -522,7 +592,7 @@ class VectorEngine {
                 }
             });
             svg += `</svg>`;
-            
+
             const blob = new Blob([svg], { type: 'image/svg+xml' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -530,7 +600,7 @@ class VectorEngine {
             link.download = 'vector_diagram.svg';
             link.click();
         }
-        
+
         const status = document.getElementById('status');
         status.innerText = `EXPORTED ${format.toUpperCase()}`;
         status.style.opacity = 1;

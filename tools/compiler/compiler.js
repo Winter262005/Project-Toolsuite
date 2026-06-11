@@ -273,13 +273,6 @@ hResizer.addEventListener('mousedown', (e) => {
 });
 
 /**
- * 5. THEME TOGGLE
- */
-document.getElementById('themeToggle').onclick = () => {
-    document.body.classList.toggle('dark-mode');
-};
-
-/**
  * PRIORITY 6: F5 Keyboard Shortcut
  */
 document.addEventListener('keydown', e => {

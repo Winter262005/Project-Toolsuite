@@ -225,23 +225,33 @@
       }
 
       .tool-link {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          min-height: 52px;
+          padding: 14px 20px;
+          border: 3px solid var(--border);
+          text-decoration: none;
+          color: inherit;
+          font-weight: bold;
+          transition: all 0.2s;
+          background: var(--bg);
+       }
+      .tool-tags {
+        margin-top: 6px;
         display: flex;
-        align-items: center;
-        min-height: 52px;
-        padding: 14px 20px;
-        border: 3px solid var(--border);
-        text-decoration: none;
-        color: inherit;
-        font-weight: bold;
-        transition: all 0.2s;
-        background: var(--bg);
-      }
-      .tool-link:hover {
-        background-color: var(--text);
-        color: var(--bg);
-        transform: translate(-3px, -3px);
-        box-shadow: 5px 5px 0px var(--border);
-      }
+        flex-wrap: wrap;
+        gap: 6px;
+     }
+
+     .tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      opacity: 0.8;
+      white-space: nowrap;
+}
 
       #toolSearch::placeholder {
         opacity: 0.6;
@@ -280,7 +290,7 @@
         .workspace {
           grid-template-columns: 1fr;
         }
-        aside {
+        .tag-list {
           display: flex;
           overflow-x: auto;
           gap: 10px;
@@ -371,7 +381,6 @@
           gap: 20px;
         }
 
-        aside,
         .tag-list {
           display: flex;
           flex-wrap: wrap;
@@ -438,9 +447,28 @@
         }
 
         .dark-mode-toggle {
-          padding: 10px 14px;
-          font-size: 0.8rem;
-          box-shadow: 2px 2px 0 var(--border);
+            position: static;
+            z-index: 2;
+            background: var(--text);
+            color: var(--bg);
+            border: 2px solid var(--border);
+            padding: 10px 24px;
+            font-family: inherit;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0px var(--border);
+            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .theme-option {
@@ -512,10 +540,23 @@
         }
 
         .tool-link {
-          padding: 12px;
-          font-size: 0.85rem;
-          border-width: 2px;
-        }
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          min-height: 52px;
+          padding: 14px 20px;
+          border: 3px solid var(--border);
+          text-decoration: none;
+          color: inherit;
+          font-weight: bold;
+          transition: all 0.2s;
+          background: var(--bg);
+       }
+      .tool-link small {
+        display: block;
+        font-size: 0.8rem;
+        opacity: 0.7;
+       }
 
         .tool-link:hover {
           transform: translate(-2px, 2px);
@@ -909,6 +950,21 @@
           path: "tools/cicd-visualizer/cicd-visualizer.html",
           tags: ["Dev", "Design"],
         },
+        {
+          name: "IP Subnet Calculator",
+          path: "tools/ip-subnet-calculator/index.html",
+          tags: ["Dev", "Utilities"],
+        },
+        {
+          name: "RSA Encryption & Decryption",
+          path: "tools/rsa-encryption-decryption/rsa.html",
+          tags: ["Security", "Dev"],
+        },
+        {
+          name: "Unit Converter",
+          path: "tools/unit-converter/unit-converter.html",
+          tags: ["Utilities", "Maths"],
+        },
       ];
 
       let activeTag = "all";
@@ -940,11 +996,13 @@
 
       function renderTools() {
         console.log("renderTools running");
-        const query = document.getElementById("toolSearch").value.toLowerCase();
+        const normalize = (str) =>
+          str.toLowerCase().replace(/\s+/g, "");
+        const query = normalize(document.getElementById("toolSearch").value);
         const container = document.getElementById("tools-container");
 
         const filtered = tools.filter((t) => {
-          const matchesSearch = t.name.toLowerCase().includes(query);
+          const matchesSearch = normalize(t.name).includes(query);
           const matchesTag =
             activeTag === "all" || (t.tags && t.tags.includes(activeTag));
           return matchesSearch && matchesTag;
@@ -973,20 +1031,27 @@
           });
         }
 
-        if (filtered.length === 0) {
-          container.innerHTML = `<p style="grid-column: 1/-1; opacity: 0.5;">No tools found matching your criteria.</p>`;
-          return;
-        }
-        console.log(document.getElementById("toolCount"));
-        console.log(document.getElementById("tools-container"));
-        container.innerHTML = filtered
-          .map(
-            (t) => `
-            <a href="${t.path}" class="tool-link">${t.name}</a>
-        `,
-          )
-          .join("");
-      }
+    if (filtered.length === 0) {
+     container.innerHTML = `
+      <p style="grid-column: 1/-1; opacity: 0.5;">
+        No tools found matching your criteria.
+      </p>`;
+  return;
+}
+
+container.innerHTML = filtered
+  .map(
+    (t) => `
+      <a href="${t.path}" class="tool-link">
+        <div>${t.name}</div>
+        <div class="tool-tags">
+          ${t.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
+        </div>
+      </a>
+    `,
+  )
+  .join("");
+  }
 
       document.getElementById("toolSearch").oninput = renderTools;
 

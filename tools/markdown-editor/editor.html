@@ -19,167 +19,159 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
 
+    <!-- Shared theme system -->
+    <link rel="stylesheet" href="../../theme.css">
+    <script src="../../theme.js"></script>
+
     <style>
+        /* Design Tokens */
+        :root {
+            --font-main: 'Courier New', Courier, monospace;
+            --text-sm: 0.8rem;
+            --text-md: 0.95rem;
+            --text-lg: 1.1rem;
+            --text-xl: 2rem;
+            --space-xs: 6px;
+            --space-sm: 12px;
+            --space-md: 20px;
+            --space-lg: 32px;
+            --space-xl: 48px;
+        }
 
-       /*Design Tokens*/
-:root {
-    --font-main: 'Courier New', Courier, monospace;
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 1200px;
+            margin: var(--space-xl) auto;
+            padding: var(--space-md);
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-    --text-sm: 0.8rem;
-    --text-md: 0.95rem;
-    --text-lg: 1.1rem;
-    --text-xl: 2rem;
+        header {
+            border-bottom: 4px solid var(--border);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-sm);
+            position: relative;
+            padding-right: 160px;
+        }
 
-    --space-xs: 6px;
-    --space-sm: 12px;
-    --space-md: 20px;
-    --space-lg: 32px;
-    --space-xl: 48px;
+        h1 {
+            font-size: var(--text-xl);
+            text-transform: uppercase;
+            margin: 0 0 var(--space-xs);
+        }
 
-    --color-text: #000;
-    --color-muted: #555;
-    --color-bg: #fff;
-    --color-border: var(--border);
-}
+        header p {
+            margin: 0;
+            font-size: var(--text-md);
+            opacity: 0.7;
+        }
 
-/*Global Layout*/
-body {
-    font-family: var(--font-main);
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    line-height: 1.7;
-    max-width: 1200px;
-    margin: var(--space-xl) auto;
-    padding: var(--space-md);
-}
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+            min-height: 70vh;
+            align-items: stretch;
+        }
 
-/*Header */
-header {
-    border-bottom: 4px solid var(--color-border);
-    margin-bottom: var(--space-lg);
-    padding-bottom: var(--space-sm);
-}
+        .box {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--border);
+            min-height: 0;
+            overflow: hidden;
+        }
 
-h1 {
-    font-size: var(--text-xl);
-    text-transform: uppercase;
-    margin: 0 0 var(--space-xs);
-}
+        .label-bar {
+            background: var(--text);
+            color: var(--bg);
+            padding: var(--space-xs) var(--space-sm);
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--text-sm);
+            flex-shrink: 0;
+        }
 
-header p {
-    margin: 0;
-    font-size: var(--text-md);
-    color: var(--color-muted);
-}
+        textarea {
+            flex-grow: 1;
+            padding: var(--space-sm);
+            border: none;
+            font-family: var(--font-main);
+            font-size: var(--text-md);
+            resize: none;
+            background: var(--bg);
+            color: var(--text);
+            transition: background-color 0.2s ease;
+            min-height: 0;
+            overflow-y: auto;
+        }
 
-/*Editor Layout*/
-.editor-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
-    min-height: 70vh;
-    align-items: stretch;
-}
+        textarea:focus {
+            outline: none;
+            background: var(--tag-bg);
+        }
 
-/*Box Structure*/
-.box {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid var(--color-border);
-    min-height: 0;
-    overflow: hidden;
-}
+        #preview {
+            flex-grow: 1;
+            padding: var(--space-sm);
+            overflow-y: auto;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 0;
+        }
 
-/* Label Bar */
-.label-bar {
-    background: #000;
-    color: #fff;
-    padding: var(--space-xs) var(--space-sm);
-    font-weight: bold;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: var(--text-sm);
-    flex-shrink: 0;
-}
+        #preview h1,
+        #preview h2 {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: var(--space-xs);
+        }
 
-/*Editor Textarea*/
-textarea {
-    flex-grow: 1;
-    padding: var(--space-sm);
-    border: none;
-    font-family: var(--font-main);
-    font-size: var(--text-md);
-    resize: none;
-    background: var(--bg);
-    transition: background-color 0.2s ease;
-    min-height: 0;
-    overflow-y: auto;
-}
+        #preview p {
+            margin-bottom: var(--space-sm);
+        }
 
-textarea:focus {
-    outline: none;
-    background: var(--tag-bg);
-}
+        #preview code {
+            background: var(--tag-bg);
+            padding: 2px 4px;
+        }
 
-/*Preview Area*/
-#preview {
-    flex-grow: 1;
-    padding: var(--space-sm);
-    overflow-y: auto;
-    background: var(--bg);
-    min-height: 0;
-}
+        #preview pre {
+            background: var(--tag-bg);
+            padding: var(--space-sm);
+            overflow-x: auto;
+        }
 
-/*Preview Content Styling*/
-#preview h1,
-#preview h2 {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: var(--space-xs);
-}
+        #preview blockquote {
+            border-left: 4px solid var(--border);
+            padding-left: var(--space-sm);
+            margin-left: 0;
+            opacity: 0.7;
+        }
 
-#preview p {
-    margin-bottom: var(--space-sm);
-}
+        .action-btn {
+            background: transparent;
+            color: var(--bg);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: var(--text-sm);
+            text-decoration: underline;
+            transition: opacity 0.15s ease, transform 0.1s ease;
+        }
 
-#preview code {
-    background: var(--tag-bg);
-    padding: 2px 4px;
-}
+        .action-btn:hover {
+            opacity: 0.7;
+        }
 
-#preview pre {
-    background: var(--tag-bg);
-    padding: var(--space-sm);
-    overflow-x: auto;
-}
-
-#preview blockquote {
-    border-left: 4px solid var(--border);
-    padding-left: var(--space-sm);
-    margin-left: 0;
-    color: var(--color-muted);
-}
-
-/*Action Buttons*/
-.action-btn {
-    background: transparent;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: var(--text-sm);
-    text-decoration: underline;
-    transition: opacity 0.15s ease, transform 0.1s ease;
-}
-
-.action-btn:hover {
-    opacity: 0.7;
-}
-
-.action-btn:active {
-    transform: scale(0.95);
-}
+        .action-btn:active {
+            transform: scale(0.95);
+        }
 
 .cheatsheet {
     border: 2px solid var(--border);
@@ -191,10 +183,10 @@ textarea:focus {
     word-break: break-word;
 }
 
-.cheatsheet code {
-    background: var(--tag-bg);
-    padding: 2px 4px;
-}
+        .cheatsheet code {
+            background: var(--tag-bg);
+            padding: 2px 4px;
+        }
 
 .cheatsheet-grid div:nth-child(2n) {
     font-family: monospace;
@@ -220,35 +212,35 @@ a:hover {
     color: #fff;
 }
 
-/*Responsive*/
-@media (max-width: 768px) {
-    .editor-container {
-        grid-template-columns: 1fr;
-        min-height: auto;
-    }
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
 
-    textarea,
-    #preview {
-        min-height: 350px;
-    }
+            textarea,
+            #preview {
+                min-height: 350px;
+            }
 
-    h1 {
-        font-size: 1.6rem;
-    }
-}
+            h1 {
+                font-size: 1.6rem;
+            }
 
-    
+            header {
+                padding-right: 0;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="../../theme.css">
-    <script src="../../theme.js"></script>
+    
+
 </head>
 <body>
-
 <header>
+    <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
     <h1>Markdown Studio</h1>
     <p>Live editor and previewer. Renders locally.</p>
-
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
+</header>
 
 <main class="editor-container">
     <div class="box">
@@ -256,7 +248,6 @@ a:hover {
             <span>Input (Markdown)</span>
             <button id="clearBtn" class="action-btn">CLEAR</button>
         </div>
-
         <textarea
             id="markdownInput"
             placeholder="# Hello World&#10;&#10;Type your markdown here..."
@@ -281,68 +272,25 @@ a:hover {
     <h2>Markdown Cheat Sheet</h2>
 
     <div class="cheatsheet-grid">
-
-        <div><b># Heading 1</b></div>
-        <div># H1</div>
-
-        <div><b>## Heading 2</b></div>
-        <div>## H2</div>
-
-        <div><b>### Heading 3</b></div>
-        <div>### H3</div>
-
-        <div><b>Bold</b></div>
-        <div>**text**</div>
-
-        <div><b>Italic</b></div>
-        <div>*text*</div>
-
-        <div><b>Bold + Italic</b></div>
-        <div>***text***</div>
-
-        <div><b>Strikethrough</b></div>
-        <div>~~text~~</div>
-
-        <div><b>Inline Code</b></div>
-        <div>`code`</div>
-
-        <div><b>Code Block</b></div>
-        <div>```js<br>console.log("hi")<br>```</div>
-
-        <div><b>Unordered List</b></div>
-        <div>- item</div>
-
-        <div><b>Ordered List</b></div>
-        <div>1. item</div>
-
-        <div><b>Task List</b></div>
-        <div>- [x] done<br>- [ ] todo</div>
-
-        <div><b>Link</b></div>
-        <div>[text](url)</div>
-
-        <div><b>Image</b></div>
-        <div>![alt](url)</div>
-
-        <div><b>Blockquote</b></div>
-        <div>> quote</div>
-
-        <div><b>Horizontal Line</b></div>
-        <div>---</div>
-
-        <div><b>Table</b></div>
-        <div>
-            col1 | col2<br>
-            --- | ---<br>
-            val1 | val2
-        </div>
-
-        <div><b>Escaping</b></div>
-        <div>\*not italic\*</div>
-
-        <div><b>HTML Support</b></div>
-        <div>&lt;div&gt;text&lt;/div&gt;</div>
-
+        <div><b># Heading 1</b></div><div># H1</div>
+        <div><b>## Heading 2</b></div><div>## H2</div>
+        <div><b>### Heading 3</b></div><div>### H3</div>
+        <div><b>Bold</b></div><div>**text**</div>
+        <div><b>Italic</b></div><div>*text*</div>
+        <div><b>Bold + Italic</b></div><div>***text***</div>
+        <div><b>Strikethrough</b></div><div>~~text~~</div>
+        <div><b>Inline Code</b></div><div>`code`</div>
+        <div><b>Code Block</b></div><div>```js<br>console.log("hi")<br>```</div>
+        <div><b>Unordered List</b></div><div>- item</div>
+        <div><b>Ordered List</b></div><div>1. item</div>
+        <div><b>Task List</b></div><div>- [x] done<br>- [ ] todo</div>
+        <div><b>Link</b></div><div>[text](url)</div>
+        <div><b>Image</b></div><div>![alt](url)</div>
+        <div><b>Blockquote</b></div><div>&gt; quote</div>
+        <div><b>Horizontal Line</b></div><div>---</div>
+        <div><b>Table</b></div><div>col1 | col2<br>--- | ---<br>val1 | val2</div>
+        <div><b>Escaping</b></div><div>\*not italic\*</div>
+        <div><b>HTML Support</b></div><div>&lt;div&gt;text&lt;/div&gt;</div>
     </div>
 </section>
 
