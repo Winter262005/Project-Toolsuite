@@ -16,7 +16,7 @@
     <style>
       body {
         font-family: "Courier New", Courier, monospace;
-        background-color: var(--bg);
+        background: var(--bg);
         color: var(--text);
         line-height: 1.7;
         margin: 0;
@@ -30,6 +30,8 @@
         max-width: 1100px;
         margin: 0 auto;
         padding: 48px 28px;
+        background: var(--bg);
+        border-radius: 14px;
       }
 
       header {
@@ -37,6 +39,15 @@
         padding-bottom: 28px;
         margin-bottom: 60px;
         position: relative;
+      }
+      header {
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      header:hover {
+        transform: translateY(-2px);
       }
 
       h1 {
@@ -94,10 +105,21 @@
         border: 3px solid var(--border);
         padding: 32px;
         margin-bottom: 50px;
-        background: var(--tag-bg);
+        border-radius: 14px;
+        box-shadow: 0 4px 14px var(--shadow);
         width: 100%;
         max-width: none;
         box-sizing: border-box;
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            background 0.25s ease;
+      }
+
+      .principle-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px var(--shadow);
+        background: var(--surface-2);
       }
 
       .principle-box h2 {
@@ -121,14 +143,32 @@
 
       .mini-cta {
         border: 2px solid var(--border);
-        background: var(--tag-bg);
-        padding: 16px 20px;
 
+        padding: 16px 20px;
+        background: var(--surface-2);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px var(--shadow);
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 20px;
         flex-wrap: wrap;
+      }
+
+      .mini-cta {
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          background 0.25s ease;
+      }
+
+      .mini-cta:hover {
+        transform: translateY(-4px);
+
+        box-shadow:
+          0 10px 24px var(--shadow);
+
+        background: var(--surface);
       }
 
       .mini-cta span {
@@ -175,30 +215,48 @@
         list-style: none;
         padding: 0;
       }
+
       .tag-item {
         display: block;
         width: 100%;
         text-align: left;
-        background: var(--tag-bg);
+
+        background: var(--surface);
+
         border: 2px solid var(--border);
+        border-radius: 10px;
+
         color: var(--text);
+
         padding: 10px 15px;
         margin-bottom: 10px;
+
         font-family: inherit;
         font-weight: bold;
         text-transform: uppercase;
+
         cursor: pointer;
-        transition: all 0.2s;
+
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease;
       }
+
+      .tag-item:hover {
+        transform: translateY(-2px);
+
+        background: var(--surface-2);
+
+        box-shadow:
+          0 6px 14px var(--shadow);
+      }
+
       .tag-item.active {
         background: var(--text);
         color: var(--bg);
         box-shadow: 4px 4px 0 var(--border);
       }
-      .tag-item:hover {
-        transform: translateX(5px);
-      }
-
       #toolSearch {
         width: 100%;
         padding: 18px;
@@ -225,18 +283,41 @@
       }
 
       .tool-link {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          min-height: 52px;
-          padding: 14px 20px;
-          border: 3px solid var(--border);
-          text-decoration: none;
-          color: inherit;
-          font-weight: bold;
-          transition: all 0.2s;
-          background: var(--bg);
-       }
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.95rem;
+        min-height: 52px;
+
+        padding: 14px 20px;
+
+        border: 3px solid var(--border);
+        border-radius: 12px;
+
+        text-decoration: none;
+        color: inherit;
+        font-weight: bold;
+
+        background: var(--surface);
+
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease,
+          background-color 0.25s ease,
+          border-color 0.25s ease;
+      }
+
+    .tool-link:hover {
+      transform: translateY(-5px);
+
+      background: var(--surface-2);
+
+      border-color: var(--card-hover);
+
+      box-shadow:
+        0 12px 24px var(--shadow);
+    }
+      
       .tool-tags {
         margin-top: 6px;
         display: flex;
@@ -266,6 +347,8 @@
         margin-top: 96px;
         padding: 48px 0;
         border-top: 2px solid var(--border);
+        background: var(--surface);
+        border-radius: 16px 16px 0 0;
         text-align: center;
       }
       .footer-links {
@@ -337,7 +420,7 @@
         .principle-box {
           border: 2px solid var(--border);
           padding: 28px 40px;
-          background: var(--tag-bg);
+          background: var(--surface);
           max-width: 950px;
           margin-bottom: 40px;
           margin: 0 auto 40px;
@@ -386,6 +469,9 @@
           flex-wrap: wrap;
           gap: 8px;
         }
+        .tool-link {
+          padding: 14px 20px;
+        }
 
         aside {
           margin-bottom: 20px;
@@ -409,14 +495,14 @@
           gap: 15px;
         }
 
-        .tool-link {
-          padding: 16px;
-          font-size: 0.95rem;
-        }
-
         footer {
           margin-top: 60px;
           padding: 30px 0;
+          background: var(--surface-2);
+
+          border-radius: 14px 14px 0 0;
+
+          padding-inline: 20px;
         }
 
         .footer-links {
@@ -539,29 +625,6 @@
           gap: 10px;
         }
 
-        .tool-link {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          min-height: 52px;
-          padding: 14px 20px;
-          border: 3px solid var(--border);
-          text-decoration: none;
-          color: inherit;
-          font-weight: bold;
-          transition: all 0.2s;
-          background: var(--bg);
-       }
-      .tool-link small {
-        display: block;
-        font-size: 0.8rem;
-        opacity: 0.7;
-       }
-
-        .tool-link:hover {
-          transform: translate(-2px, 2px);
-          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
-        }
 
         footer {
           margin-top: 40px;

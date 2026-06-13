@@ -66,15 +66,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             padding: 18px 20px;
+
             border: 2px solid var(--border);
-            transition: transform 0.25s, background-color 0.25s, color 0.25s;
+            border-radius: 12px;
+
+            background: var(--surface);
+
+            box-shadow: 0 4px 12px var(--shadow);
+
+            transition:
+                transform 0.25s ease,
+                background-color 0.25s ease,
+                color 0.25s ease,
+                box-shadow 0.25s ease;
         }
 
         .contributors-list li:hover {
-            background-color: var(--text);
-            color: var(--bg);
-            transform: translateY(-4px);
+            background: var(--surface-2);
+
+            transform: translateY(-5px);
+
+            box-shadow: 0 10px 22px var(--shadow);
         }
 
         .contributor-name {
