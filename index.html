@@ -1151,67 +1151,60 @@
           tagBox.appendChild(btn);
         });
       }
+function renderTools() {
+  const rawQuery = document.getElementById("toolSearch").value.trim();
+  if (!rawQuery) {
+    // If search is empty, reset tag filter to 'all' and show all tools
+    activeTag = 'all';
+    renderTags(); // refresh tag buttons (updates active class)
+  }
+  const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
+  const query = normalize(document.getElementById("toolSearch").value);
+  const container = document.getElementById("tools-container");
 
-      function renderTools() {
-        const normalize = (str) =>
-          str.toLowerCase().replace(/\s+/g, "");
-        const query = normalize(document.getElementById("toolSearch").value);
-        const container = document.getElementById("tools-container");
+  const filtered = tools.filter((t) => {
+    const matchesSearch = normalize(t.name).includes(query);
+    const matchesTag = activeTag === "all" || (t.tags && t.tags.includes(activeTag));
+    return matchesSearch && matchesTag;
+  });
+  document.getElementById("toolCount").textContent =
+    `${filtered.length} tool${filtered.length !== 1 ? "s" : ""} found`;
 
-        const filtered = tools.filter((t) => {
-          const matchesSearch = normalize(t.name).includes(query);
-          const matchesTag =
-            activeTag === "all" || (t.tags && t.tags.includes(activeTag));
-          return matchesSearch && matchesTag;
-        });
-        document.getElementById("toolCount").textContent =
-          `${filtered.length} tool${filtered.length !== 1 ? "s" : ""} found`;
+  if (query) {
+    filtered.sort((a, b) => {
+      const aName = a.name.toLowerCase();
+      const bName = b.name.toLowerCase();
+      const aStarts = aName.startsWith(query);
+      const bStarts = bName.startsWith(query);
+      if (aStarts !== bStarts) return aStarts ? -1 : 1;
+      const aWord = aName.includes(" " + query);
+      const bWord = bName.includes(" " + query);
+      if (aWord !== bWord) return aWord ? -1 : 1;
+      const aIndex = aName.indexOf(query);
+      const bIndex = bName.indexOf(query);
+      if (aIndex !== bIndex) return aIndex - bIndex;
+      return aName.localeCompare(bName);
+    });
+  }
 
-        if (query) {
-          filtered.sort((a, b) => {
-            const aName = a.name.toLowerCase();
-            const bName = b.name.toLowerCase();
+  if (filtered.length === 0) {
+    container.innerHTML = `<p style="grid-column: 1/-1; opacity: 0.5;">No tools found matching your criteria.</p>`;
+    return;
+  }
 
-            const aStarts = aName.startsWith(query);
-            const bStarts = bName.startsWith(query);
-            if (aStarts !== bStarts) return aStarts ? -1 : 1;
-
-            const aWord = aName.includes(" " + query);
-            const bWord = bName.includes(" " + query);
-            if (aWord !== bWord) return aWord ? -1 : 1;
-
-            const aIndex = aName.indexOf(query);
-            const bIndex = bName.indexOf(query);
-            if (aIndex !== bIndex) return aIndex - bIndex;
-
-            return aName.localeCompare(bName);
-          });
-        }
-
-
-    if (filtered.length === 0) {
-     container.innerHTML = `
-      <p style="grid-column: 1/-1; opacity: 0.5;">
-        No tools found matching your criteria.
-      </p>`;
-  return;
-}
-
-container.innerHTML = filtered
-  .map(
-    (t) => `
+  container.innerHTML = filtered
+    .map(
+      (t) => `
       <a href="${t.path}" class="tool-link">
         <div>${t.name}</div>
         <div class="tool-tags">
           ${t.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
         </div>
       </a>
-    `,
-  )
-  .join("");
-  }
-
-        
+    `
+    )
+    .join("");
+}   
 
 document.getElementById("toolSearch").oninput = renderTools;
 
