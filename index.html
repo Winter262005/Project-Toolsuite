@@ -200,7 +200,7 @@
       }
       .workspace {
         display: grid;
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: 220px 1fr 280px;
         gap: 40px;
       }
 
@@ -646,6 +646,58 @@
           border-width: 1px;
         }
       }
+      .recent-sidebar {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 2px solid var(--border);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+.recent-sidebar h3 {
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border);
+  display: inline-block;
+  padding-right: 8px;
+}
+.recent-tools-ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.recent-tools-ul li {
+  margin-bottom: 0.6rem;
+}
+.recent-tools-ul a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  display: block;
+  padding: 4px 0;
+  transition: 0.2s;
+  border-bottom: 1px dotted var(--border);
+}
+.-tools-ul a:hover {
+  color: #7c3aed;
+  transform: translateX(4px);
+}
+.-placeholder {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.85rem;
+  margin: 0;
+}
+/* mobile pe  sidebar stack ho */
+@media (max-width: 850px) {
+  .-sidebar {
+    position: static;
+    margin-top: 20px;
+  }
+}
     </style>
     <script
       defer
@@ -773,6 +825,13 @@
             <!-- Tools will be injected here -->
           </div>
         </main>
+
+        <aside class="-sidebar" id="Sidebar">
+          <h3>Recent Tools</h3>
+          <div id="recent-tools-list">
+            <p class="recent-placeholder">No recent tools yet</p>
+        </div>
+        </aside>
       </div>
 
       <footer>

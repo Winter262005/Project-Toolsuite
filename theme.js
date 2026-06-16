@@ -94,3 +94,64 @@ window.addEventListener('storage', (e) => {
         applyTheme(e.newValue || getSystemTheme());
     }
 });
+
+// ---------- Recent Tools with localStorage ----------
+const RECENT_TOOLS_KEY = "recentTools";
+const MAX_RECENT = 5;
+
+function saveRecentTool(toolName, toolUrl) {
+  let recent = JSON.parse(localStorage.getItem(RECENT_TOOLS_KEY)) || [];
+  recent = recent.filter(item => item.name !== toolName && item.url !== toolUrl);
+  recent.unshift({ name: toolName, url: toolUrl });
+  if (recent.length > MAX_RECENT) recent = recent.slice(0, MAX_RECENT);
+  localStorage.setItem(RECENT_TOOLS_KEY, JSON.stringify(recent));
+  renderRecentTools();
+}
+
+function renderRecentTools() {
+  const container = document.getElementById("recent-tools-list");
+  if (!container) return;
+  const recent = JSON.parse(localStorage.getItem(RECENT_TOOLS_KEY)) || [];
+  if (recent.length === 0) {
+    container.innerHTML = '<p class="recent-placeholder">No recent tools yet</p>';
+    return;
+  }
+  const html = '<ul class="recent-tools-ul">' +
+    recent.map(item => `<li><a href="${escapeHtml(item.url)}">${escapeHtml(item.name)}</a></li>`).join('') +
+    '</ul>';
+  container.innerHTML = html;
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+function attachRecentToolsClickHandler() {
+  document.addEventListener('click', (e) => {
+    const toolLink = e.target.closest('.tool-link, .tool-card a, a[href*="tools/"]');
+    if (!toolLink) return;
+    if (toolLink.closest('.tag-list, .recent-sidebar, .footer-links')) return;
+    const toolName = toolLink.innerText.trim() || toolLink.getAttribute('data-tool-name') || "Tool";
+    let toolUrl = toolLink.getAttribute('href');
+    if (toolUrl && !toolUrl.startsWith('#') && !toolUrl.startsWith('javascript:')) {
+      saveRecentTool(toolName, toolUrl);
+    }
+  });
+}
+
+// existing DOMContentLoaded listener ke andar yeh do lines add karo
+// agar DOMContentLoaded already hai toh uske andar add karo, nahi toh naya listener banao
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    renderRecentTools();
+    attachRecentToolsClickHandler();
+  });
+} else {
+  renderRecentTools();
+  attachRecentToolsClickHandler();
+}
