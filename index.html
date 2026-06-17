@@ -12,10 +12,11 @@
       name="google-site-verification"
       content="rbMDsZDEnPXvV0H4Tf0EHHgfdPQy2doXIuO_JNCV9qM"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="./theme.css" />
     <style>
       body {
-        font-family: "Courier New", Courier, monospace;
         background: var(--bg);
         color: var(--text);
         line-height: 1.7;
@@ -32,73 +33,6 @@
         padding: 48px 28px;
         background: var(--bg);
         border-radius: 14px;
-      }
-
-      header {
-        border-bottom: 5px solid var(--border);
-        padding-bottom: 28px;
-        margin-bottom: 60px;
-        position: relative;
-      }
-      header {
-        transition:
-          transform 0.25s ease,
-          box-shadow 0.25s ease;
-      }
-
-      header:hover {
-        transform: translateY(-2px);
-      }
-
-      h1 {
-        font-size: 2.6rem;
-        text-transform: uppercase;
-        margin: 0 0 12px;
-        letter-spacing: 0.08em;
-      }
-
-      .dark-mode-toggle {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: var(--text);
-        color: var(--bg);
-        border: 2px solid var(--border);
-        padding: 10px 24px;
-        font-family: inherit;
-        font-weight: 900;
-        cursor: pointer;
-        text-transform: uppercase;
-        box-shadow: 4px 4px 0px var(--border);
-        transition: transform 0.1s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
-
-      .theme-option {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .theme-option.hidden {
-        display: none !important;
-      }
-
-      .theme-icon {
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        vertical-align: middle;
-        stroke: white;
-        fill: none;
-      }
-
-      .dark-mode-toggle:active {
-        transform: translate(2px, 2px);
-        box-shadow: 2px 2px 0px var(--border);
       }
 
       .principle-box {
@@ -646,58 +580,6 @@
           border-width: 1px;
         }
       }
-      .recent-sidebar {
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 1rem;
-  border: 2px solid var(--border);
-  height: fit-content;
-  position: sticky;
-  top: 20px;
-}
-.recent-sidebar h3 {
-  font-size: 1rem;
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  text-transform: uppercase;
-  border-bottom: 2px solid var(--border);
-  display: inline-block;
-  padding-right: 8px;
-}
-.recent-tools-ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
-}
-.recent-tools-ul li {
-  margin-bottom: 0.6rem;
-}
-.recent-tools-ul a {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: block;
-  padding: 4px 0;
-  transition: 0.2s;
-  border-bottom: 1px dotted var(--border);
-}
-.-tools-ul a:hover {
-  color: #7c3aed;
-  transform: translateX(4px);
-}
-.-placeholder {
-  color: var(--muted);
-  font-style: italic;
-  font-size: 0.85rem;
-  margin: 0;
-}
-/* mobile pe  sidebar stack ho */
-@media (max-width: 850px) {
-  .-sidebar {
-    position: static;
-    margin-top: 20px;
-  }
-}
     </style>
     <script
       defer

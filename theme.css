@@ -1,3 +1,21 @@
+/* Universal font refresh */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  --font-mono: "JetBrains Mono", "Courier New", Courier, monospace;
+  --font-display: "Space Grotesk", "Courier New", monospace;
+}
+
+body {
+  font-family: var(--font-mono);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
 * {
   transition:
     background-color 0.25s ease,
@@ -40,6 +58,31 @@ body.dark-mode,
   --card-hover: #60a5fa;
 }
 
+/* ===== Header (single source of truth — removed from index.html inline styles) ===== */
+header {
+  border-bottom: 5px solid var(--border);
+  padding-bottom: 28px;
+  margin-bottom: 60px;
+  position: relative;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+header:hover {
+  transform: translateY(-2px);
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  letter-spacing: 0.03em;
+  /* tighter than before — Space Grotesk doesn't need wide spacing */
+  line-height: 1.1;
+}
+
 .dark-mode-toggle {
   position: absolute;
   top: 0;
@@ -65,6 +108,11 @@ body.dark-mode,
 
   box-shadow:
     0 10px 20px var(--shadow);
+}
+
+.dark-mode-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--border);
 }
 
 .theme-icon {
@@ -131,6 +179,7 @@ footer a:focus-visible {
   position: sticky;
   top: 20px;
 }
+
 .recent-sidebar h3 {
   font-size: 1rem;
   margin-top: 0;
@@ -141,14 +190,17 @@ footer a:focus-visible {
   display: inline-block;
   padding-right: 8px;
 }
+
 .recent-tools-ul {
   list-style: none;
   padding-left: 0;
   margin: 0;
 }
+
 .recent-tools-ul li {
   margin-bottom: 0.6rem;
 }
+
 .recent-tools-ul a {
   color: var(--text);
   text-decoration: none;
@@ -158,16 +210,19 @@ footer a:focus-visible {
   transition: 0.2s;
   border-bottom: 1px dotted var(--border);
 }
+
 .recent-tools-ul a:hover {
   color: #7c3aed;
   transform: translateX(4px);
 }
+
 .recent-placeholder {
   color: var(--muted);
   font-style: italic;
   font-size: 0.85rem;
   margin: 0;
 }
+
 /* Responsive: on mobile recent sidebar will stack normally */
 @media (max-width: 850px) {
   .recent-sidebar {
@@ -193,6 +248,7 @@ footer a:focus-visible {
   color: white;
   font-family: monospace;
 }
+
 .spinner {
   width: 60px;
   height: 60px;
@@ -202,10 +258,17 @@ footer a:focus-visible {
   animation: spin 0.8s linear infinite;
   margin-bottom: 20px;
 }
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 .loading-overlay p {
   font-size: 1rem;
   letter-spacing: 1px;
