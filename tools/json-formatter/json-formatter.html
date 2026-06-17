@@ -33,12 +33,13 @@
     --space-lg: 32px;
     --space-xl: 48px;
 
-    --color-text: #000;
-    --color-bg: #ffffff;
-    --color-muted: #555;
+    --color-text: var(--text);
+    --color-bg: var(--bg);
+    --color-muted: var(--muted);
+    --color-hover: var(--text);
+    --color-hover-text: var(--bg);
     --color-border: var(--border);
-    --color-hover: #000;
-    --color-hover-text: #fff;
+    
 }
 
 /* 
@@ -158,7 +159,7 @@ button:active {
 }
 
 .status-success {
-    background-color: #e6fffa;
+    background-color: var(--tag-bg);
     display: block !important;
 }
 

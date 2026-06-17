@@ -18,40 +18,100 @@
     <script src="../../assets/js/notifications.js" defer></script>
     <style>
 
-        :root { --bg: #050505; --panel: #0e0e0e; --border: #222; --accent: #00e5ff; --text: #eee; --mono: 'Courier New', monospace; }
+        :root {
+            --panel: var(--card-bg, var(--bg));
+            --accent: var(--text);
+            --mono: 'Courier New', monospace;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--mono); user-select: none; }
         body { background: var(--bg); color: var(--text); height: 100vh; display: flex; overflow: hidden; }
 
         /* LAYOUT */
-        .sidebar { width: 320px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 50; }
-        .brand { padding: 20px; font-weight: 900; letter-spacing: 2px; border-bottom: 2px solid var(--accent); font-size: 1.2rem; background: #000; }
+        .brand { padding: 20px; font-weight: 900; letter-spacing: 2px; font-size: 1.2rem; background: var(--bg);border-bottom: 2px solid var(--accent); }
         .brand span { color: var(--accent); }
+
+        .sidebar {
+            width: 320px;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 50;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            border-top: 1px solid var(--border);
+            background: var(--bg);
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            width: 100%;
+            padding: 12px;
+
+            text-decoration: none;
+            color: var(--text);
+
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            font-size: 0.85rem;
+            font-weight: 600;
+
+            transition: all 0.25s ease;
+        }
+
+        .sidebar-footer a:hover {
+            background: var(--tag-bg);
+            border-color: var(--text);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-footer a:active {
+            transform: translateY(0);
+        }
         
         .control-group { padding: 15px; border-bottom: 1px solid var(--border); }
-        .group-title { font-size: 0.7rem; color: #666; margin-bottom: 10px; font-weight: bold; letter-spacing: 1px; }
+        .group-title { font-size: 0.7rem; color: var(--muted); margin-bottom: 10px; font-weight: bold; letter-spacing: 1px; }
 
         /* CONTROLS */
         .slider-box { margin-bottom: 15px; }
-        .slider-box label { font-size: 0.7rem; color: #aaa; display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .slider-box label { font-size: 0.7rem; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 5px; }
         input[type=range] { width: 100%; background: #222; height: 4px; border-radius: 2px; appearance: none; }
         input[type=range]::-webkit-slider-thumb { appearance: none; width: 15px; height: 15px; background: var(--accent); cursor: pointer; border-radius: 50%; }
 
-        .btn { width: 100%; padding: 10px; background: #181818; border: 1px solid #333; color: var(--muted); margin-bottom: 5px; cursor: pointer; text-align: left; font-size: 0.8rem; font-weight: bold; transition: 0.2s; }
-        .btn:hover { border-color: var(--accent); color: #fff; background: #222; }
+        .btn { width: 100%; padding: 12px;background: var(--bg); border: 1px solid var(--border);color: var(--text); margin-bottom: 8px; cursor: pointer; text-align: left; font-size: 0.8rem; font-weight: bold; border-radius: 8px;transition: all 0.2s ease; }
+        .btn:hover { border-color: var(--accent); background: var(--tag-bg);border-color: var(--text); transform: translateY(-1px);}
         .btn.active { background: var(--accent); color: var(--text); border-color: var(--accent); }
 
         /* STICKER LAB */
         .sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .sticker-item { 
-            background: #1a1a1a; border: 1px solid #333; cursor: pointer; padding: 8px; 
+            background: var(--bg);border: 1px solid var(--border); cursor: pointer; padding: 8px; 
             display: flex; align-items: center; justify-content: center; height: 50px;
         }
-        .sticker-item:hover { border-color: var(--accent); background: #222; }
+        .sticker-item:hover { border-color: var(--accent);  background: var(--tag-bg); }
         .sticker-item img { max-width: 100%; max-height: 100%; pointer-events: none; }
 
         /* CANVAS AREA */
-        .viewport { flex: 1; display: flex; flex-direction: column; background: #000; position: relative; }
-        .canvas-area { flex: 1; display: flex; align-items: center; justify-content: center; background: #080808; overflow: hidden; position: relative; background-image: radial-gradient(#1a1a1a 1px, transparent 1px); background-size: 20px 20px; }
+        .dark-mode-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 999;
+        }
+        .viewport { flex: 1; display: flex; flex-direction: column; background: var(--bg);position: relative; }
+        .canvas-area { flex: 1; display: flex; align-items: center; justify-content: center; background-color: var(--bg); overflow: hidden; position: relative; background: linear-gradient(180deg,var(--bg),var(--card-bg)); background-size: 20px 20px; }
         
         #composition-layer { position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         canvas { display: block; max-width: 100%; max-height: 100%; }
@@ -84,15 +144,14 @@
         .sticker-obj.selected .h-rotate-stem, 
         .sticker-obj.selected .h-rotate-knob { display: block; }
 
-        .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #444; pointer-events: none; border: 2px dashed #333; padding: 40px; border-radius: 10px; }
+        .upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color:var(--muted); pointer-events: none; border: 2px dashed  var(--border); padding: 40px; border-radius: 10px; }
 
         /* LOGS */
-        .terminal { height: 120px; background: #050505; border-top: 2px solid var(--border); display: flex; flex-direction: column; }
-        .term-head { padding: 5px 15px; background: #111; color: #aaa; font-size: 0.7rem; font-weight: bold; }
-        .logs { flex: 1; overflow-y: auto; padding: 10px; font-family: monospace; font-size: 0.8rem; }
+        .terminal { height: 140px;background: var(--card-bg);border-top: 1px solid var(--border); display: flex; flex-direction: column; }
+        .term-head { padding: 5px 15px; background: var(--tag-bg);color: var(--text); font-size: 0.7rem; font-weight: bold; }
+        .logs { flex: 1; overflow-y: auto; padding: 10px; font-family: monospace; font-size: 0.8rem;  color: var(--muted);}
         .log-line { margin-bottom: 3px; }
         .c-gpu { color: var(--accent); } .c-sys { color: var(--muted); }
-        
     
     </style>
     <link rel="stylesheet" href="../../theme.css">
@@ -101,10 +160,14 @@
 <body>
 
     <aside class="sidebar">
+        
         <div class="brand">VISION<span>_STUDIO</span></div>
         <button class="dark-mode-toggle" id="themeBtn" onclick="toggleTheme()">
-    DARK MODE
-</button>
+            DARK MODE
+        </button>
+        <div class="sidebar-footer">
+            <a href="../../index.html">&larr; Back to Home</a>
+        </div>
         <div class="control-group">
             <div class="group-title">FILE</div>
             <button class="btn" onclick="document.getElementById('file-input').click()">LOAD IMAGE</button>
@@ -565,8 +628,5 @@
 
     window.onload = () => vision.init();
     </script>
-    <footer>
-        <a href="../../index.html">&larr; Back to Home</a>
-    </footer>
 </body>
 </html>

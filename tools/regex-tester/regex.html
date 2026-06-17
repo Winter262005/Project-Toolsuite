@@ -21,11 +21,11 @@
         /* Design Tokens (Matching JSON Formatter) */
         :root {
             --font-main: 'Courier New', Courier, monospace;
-            --color-text: #000;
-            --color-bg: #fff;
             --color-border: var(--border);
-            --highlight-bg: #ffeb3b; /* Yellow for matches */
-            --group-bg: #b3e5fc; /* Blue for groups */
+            --color-text: var(--text);
+            --color-bg: var(--bg);
+            --highlight-bg: var(--tag-bg);
+            --group-bg: var(--tag-bg);
         }
 
         body {
@@ -74,7 +74,8 @@
         #regexFlags {
             width: 80px;
             border: none;
-            border-left: 2px solid #ccc;
+            border-left: 2px solid var(--border);
+            color: var(--text);
             padding-left: 10px;
             font-family: inherit;
             font-size: 1rem;
@@ -110,14 +111,22 @@
         .label { font-weight: bold; text-transform: uppercase; margin: 20px 0 5px; display: block; }
 
         /* Highlighting Styles */
-        .match { background-color: var(--highlight-bg); border-radius: 2px; }
-        .group { background-color: var(--group-bg); border-bottom: 2px solid #0277bd; }
+        .match {
+            background-color: var(--tag-bg);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+        }
+
+        .group {
+            background-color: var(--tag-bg);
+            border-bottom: 2px solid var(--text);
+        }
 
         /* Sidebar (Cheatsheet) */
         aside {
             border: 2px solid var(--color-border);
             padding: 20px;
-            background: #f4f4f4;
+            background: var(--tag-bg);
             height: fit-content;
         }
         aside h3 { margin-top: 0; text-transform: uppercase; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
@@ -130,11 +139,27 @@
             cursor: pointer;
             padding: 4px;
         }
-        .cheat-item:hover { background: #e0e0e0; }
-        .token { font-weight: bold; font-family: monospace; background: #ddd; padding: 2px 4px; }
+        .cheat-item:hover { background: var(--border); }
+        .token { font-weight: bold; font-family: monospace; background: var(--border); color: var(--text); padding: 2px 4px; }
 
         footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
-        a { color: var(--text); text-decoration: none; }
+        a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        a:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        #regexPattern,
+        #regexFlags,
+        textarea#testString {
+            background: var(--bg);
+            color: var(--text);
+        }
 
         /* Responsive */
         @media (max-width: 800px) {

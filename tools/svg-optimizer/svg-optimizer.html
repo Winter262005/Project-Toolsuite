@@ -16,12 +16,12 @@
     <style>
 
         :root {
-            --bg-color: #1e1e1e;
-            --panel-bg: #2d2d2d;
-            --text-color: #e0e0e0;
-            --accent-color: #007acc;
-            --code-bg: #111;
-            --success: #4caf50;
+            --bg-color: var(--bg);
+            --panel-bg: var(--tag-bg);
+            --text-color: var(--text);
+            --accent-color: var(--text);
+            --code-bg: var(--bg);
+            --success: var(--text);
         }
 
         body {
@@ -76,14 +76,14 @@
             display: flex;
             justify-content: space-between;
             font-size: 0.9rem;
-            color: #aaa;
+            color: var(--muted);
         }
 
         textarea {
             flex-grow: 1;
             background-color: var(--code-bg);
-            color: #9cdcfe;
-            border: 1px solid #444;
+            color: var(--text);
+            border: 1px solid var(--border);
             border-radius: 6px;
             padding: 15px;
             font-family: 'Consolas', monospace;
@@ -91,7 +91,7 @@
             resize: none;
             outline: none;
         }
-        textarea:focus { border-color: var(--accent-color); }
+        textarea:focus { border-color: var(--text); }
 
         /* Preview Area (Bottom Spanning) */
         .preview-container {
@@ -103,7 +103,7 @@
             gap: 30px;
             align-items: center;
             justify-content: center;
-            border: 1px dashed #444;
+            border: 1px dashed var(--border);
         }
 
         .preview-box {
@@ -113,36 +113,64 @@
         .svg-render {
             max-height: 140px;
             max-width: 300px;
-            background: repeating-conic-gradient(#333 0% 25%, #222 0% 50%) 50% / 20px 20px; /* Checkerboard */
-            border: 1px solid #555;
+            background: var(--bg);
+            border: 1px solid var(--border);
             padding: 10px;
         }
 
         /* Buttons & Badges */
         button {
             padding: 8px 16px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
+            background-color: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
         }
-        button:hover { opacity: 0.9; }
         
-        button.secondary { background-color: #444; }
+        button:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+        
+        #btn-copy:hover {
+        background-color: var(--text);
+        color: var(--bg);
+    }
+        button.secondary { margin-right: 150px;}
 
+        #btn-optimize,
+            #btn-copy {
+                background-color: var(--bg);
+                color: var(--text);
+                border: 2px solid var(--border);
+            }
+
+            #btn-optimize:hover,
+            #btn-copy:hover {
+                background-color: var(--text);
+                color: var(--bg);
+            }
         .stat-badge {
-            background: #333;
+            background: var(--tag-bg);
             padding: 5px 10px;
             border-radius: 4px;
             font-size: 0.85rem;
             font-family: monospace;
         }
-        .stat-badge.success { color: var(--success); border: 1px solid var(--success); }
+        .stat-badge.success { color: var(--text);border: 1px solid var(--border); }
 
         /* Hidden Input */
         input[type="file"] { display: none; }
+
+        footer {
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: var(--text);
+        }
 
         @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
@@ -196,7 +224,7 @@
                 <h4>Original</h4>
                 <div id="preview-original" class="svg-render"></div>
             </div>
-            <div style="font-size: 2rem; color: #555;">➔</div>
+            <div style="font-size: 2rem; color: var(--muted);">➔</div>
             <div class="preview-box">
                 <h4>Optimized</h4>
                 <div id="preview-optimized" class="svg-render"></div>

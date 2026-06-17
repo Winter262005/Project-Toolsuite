@@ -57,6 +57,11 @@ header {
     padding-bottom: var(--space-sm);
 }
 
+header p {
+    color: var(--muted);
+    margin-top: 8px;
+}
+
 h1 {
     font-size: var(--text-xl);
     text-transform: uppercase;
@@ -81,12 +86,19 @@ input[type="file"] {
     margin-bottom: var(--space-sm);
 }
 
-#status {
+/* #status {
     padding: var(--space-xs) var(--space-sm);
     border: 2px dashed var(--color-border);
     display: inline-block;
     font-size: var(--text-sm);
     text-transform: uppercase;
+} */
+
+#status {
+    padding: 10px 14px;
+    border: 2px dashed var(--color-border);
+    background: var(--tag-bg);
+    color: var(--text);
 }
 
 /*Output Area */
@@ -101,6 +113,8 @@ input[type="file"] {
     margin-top: var(--space-sm);
     resize: vertical;
     transition: background-color 0.2s ease;
+    border-radius: 4px;
+    line-height: 1.6;
 }
 
 #output:focus {
@@ -110,6 +124,10 @@ input[type="file"] {
 
 #output::placeholder {
     color: var(--muted);
+}
+
+#output:hover {
+    background-color: var(--tag-bg);
 }
 
 /*Progress Bar*/
@@ -127,6 +145,10 @@ progress::-webkit-progress-bar {
 
 progress::-webkit-progress-value {
     background: #000;
+}
+
+progress::-moz-progress-bar {
+    background: var(--text);
 }
 
 /*Buttons*/
@@ -153,6 +175,15 @@ button:active {
     transform: scale(0.96);
 }
 
+#loadUrlBtn {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+#status-container {
+    margin-top: 8px;
+}
+
 /*Helpers*/
 hr {
     border: none;
@@ -172,6 +203,38 @@ a:hover {
     color: #fff;
 }
 
+<<<<<<< Updated upstream
+=======
+input[type="text"] {
+    display: block;
+    width: 100%;
+    font-family: var(--font-main);
+    border: 2px solid var(--color-border);
+    padding: var(--space-sm);
+    box-sizing: border-box;
+    margin: var(--space-md) 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+input[type="file"]:hover,
+input[type="text"]:hover {
+    background-color: var(--tag-bg);
+}
+
+input[type="file"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--text);
+}
+
+section {
+    border: 2px solid var(--border);
+    padding: 24px;
+    background: var(--bg);
+}
+
+>>>>>>> Stashed changes
 /*Footer*/
 footer {
     margin-top: var(--space-xl);
@@ -206,6 +269,7 @@ footer {
         <p>Extract text from images locally. Private. Secure. No server.</p>
 
         <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
+        
 
     <main>
         <section>

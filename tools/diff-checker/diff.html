@@ -32,15 +32,18 @@
     <style>
 
         :root {
-            --bg-color: #1e1e1e;
-            --panel-bg: #2d2d2d;
-            --text-color: #e0e0e0;
-            --border-color: #444;
-            --diff-add-bg: #1e4220;
-            --diff-add-text: #e6ffec;
-            --diff-del-bg: #4b1a1a;
-            --diff-del-text: #ffebe9;
-            --line-num-color: #6e7681;
+            --bg-color: var(--bg);
+            --panel-bg: var(--tag-bg);
+            --text-color: var(--text);
+            --border-color: var(--border);
+
+            --diff-add-bg: var(--tag-bg);
+            --diff-add-text: var(--text);
+
+            --diff-del-bg: var(--tag-bg);
+            --diff-del-text: var(--text);
+
+            --line-num-color: var(--muted);
         }
 
         body {
@@ -91,7 +94,7 @@
             font-size: 14px;
             resize: none;
         }
-        textarea:focus { outline: 1px solid #007acc; }
+        textarea:focus {  outline: 1px solid var(--border); }
 
         /* Controls */
         .controls {
@@ -100,22 +103,26 @@
         }
 
         button {
-            background-color: #007acc;
-            color: white;
-            border: none;
+            background-color: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--border);
             padding: 8px 20px;
             font-size: 1rem;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
         }
-        button:hover { opacity: 0.9; }
-        button.secondary { background-color: #444; }
+        button:hover {
+            background-color: var(--text);
+            color: var(--bg);
+            opacity: 0.9;
+        }
+        button.secondary { background-color: var(--bg); color: var(--text); margin-right: 150px;}
 
         /* Output Area */
         .diff-output {
             flex-grow: 1;
-            background-color: #0d1117; /* GitHub Dark Dim */
+            background-color: var(--bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             overflow: auto;
@@ -135,8 +142,8 @@
             padding-right: 10px;
             color: var(--line-num-color);
             user-select: none;
-            border-right: 1px solid #30363d;
-            background-color: #161b22;
+            border-right: 1px solid var(--border);
+            background-color: var(--tag-bg);
         }
 
         .line-content {
@@ -149,7 +156,19 @@
         /* Colors */
         .diff-added { background-color: var(--diff-add-bg); color: var(--diff-add-text); }
         .diff-removed { background-color: var(--diff-del-bg); color: var(--diff-del-text); text-decoration: line-through; opacity: 0.8; }
-        .diff-header { background-color: #252526; color: #aaa; padding: 5px; font-style: italic; }
+        .diff-header { background-color: var(--tag-bg); color: var(--muted); padding: 5px; font-style: italic; }
+
+        a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--border);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        a:hover {
+            background-color: var(--text);
+            color: var(--bg);
+        }
 
     
     </style>
@@ -180,7 +199,7 @@
     </div>
 
     <div class="diff-output" id="output">
-        <div style="padding: 20px; color: #666; text-align: center;">Result will appear here...</div>
+        <div style="padding: 20px; color: var(--muted); text-align: center;">Result will appear here...</div>
     </div>
     <footer>
         <a href="../../index.html">&larr; Back to Home</a>
