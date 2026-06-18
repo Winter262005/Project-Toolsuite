@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,8 +17,8 @@
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
 
-    <style>
 
+    <style>
         :root {
             --bg-color: var(--bg);
             --card-bg: var(--tag-bg);
@@ -42,6 +43,12 @@
             max-width: 900px;
             width: 100%;
 
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+
             background: var(--bg);
             border: 2px solid var(--border);
 
@@ -60,6 +67,7 @@
         .upload-area:hover {
             background: var(--tag-bg);
             transform: translateY(-2px);
+
         }
 
         h1 {
@@ -200,7 +208,7 @@
             cursor: pointer;
             pointer-events: auto;
             margin-top: -8px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border);
         }
 
@@ -212,6 +220,101 @@
             margin-top: 10px;
             display: none;
         }
+
+
+        /* ================================
+   PAGE ACTION BUTTONS
+================================ */
+
+
+        .page-actions {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-top: 25px;
+
+            gap: 20px;
+
+        }
+
+
+
+
+        .back-home {
+
+
+            color: var(--text);
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            border: 2px solid var(--border);
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            transition: 0.3s;
+
+
+        }
+
+
+
+        .back-home:hover {
+
+
+            background: var(--text);
+
+            color: var(--bg);
+
+        }
+
+
+
+
+        .theme-toggle {
+
+
+            padding: 10px 18px;
+
+            border: 2px solid var(--border);
+
+            background: var(--tag-bg);
+
+            color: var(--text);
+
+            cursor: pointer;
+
+            border-radius: 6px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+
+        }
+
+
+
+        .theme-toggle:hover {
+
+
+            background: var(--text);
+
+            color: var(--bg);
+
+        }
+
          .backtohome{
             height:20vh;
             width:100%;
@@ -243,17 +346,14 @@
         }
 
 
+
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <h1>Audio Trimmer</h1>
-        <button class="dark-mode-toggle"
-            onclick="toggleTheme()"
-            id="themeBtn">
-            DARK MODE
-        </button>
         <p class="desc">Trim audio files securely in your browser. No server uploads.</p>
 
         <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
@@ -307,9 +407,23 @@
         </div>
     </div>
 
-    <footer>
-        <a href="../../index.html">&larr; Back to Home</a>
-    </footer>
+    <div class="page-actions">
+
+        <a href="../../index.html" class="back-home">
+            ← Back to Home
+        </a>
+
+
+        <button class="theme-toggle" onclick="toggleTheme()">
+
+            🌙 TOGGLE THEME
+
+        </button>
+
+
+    </div>
+
     <script src="audio-logic.js"></script>
 </body>
+
 </html>
