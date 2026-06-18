@@ -137,6 +137,8 @@ function parseField(expr, minVal, maxVal, nameMap = null) {
 
         // Range
 
+        // Range
+
         else if (part.includes('-')) {
 
 
@@ -157,17 +159,38 @@ function parseField(expr, minVal, maxVal, nameMap = null) {
                 !Number.isInteger(start) ||
                 !Number.isInteger(end) ||
                 start < minVal ||
-                end > maxVal ||
-                start > end
+                end > maxVal
             ) {
-
                 return null;
+            }
+
+
+            // Handle wrap-around weekday ranges
+            // Example:
+            // sat-sun => 6-0 => 6,7,0
+
+            if (start > end && maxVal === 7) {
+
+                for (let i = start; i <= maxVal; i += step) {
+                    values.add(i);
+                }
+
+
+                for (let i = minVal; i <= end; i += step) {
+                    values.add(i);
+                }
+
+
+                continue;
 
             }
 
 
-        }
+            if (start > end) {
+                return null;
+            }
 
+        }
 
 
         // Single value
