@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Project Toolsuite</title>
+
+<meta name="robots" content="noindex">
+
+<link rel="stylesheet" href="./theme.css">
+<script src="./theme.js"></script>
+
+<style>
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+        padding: 50px 24px;
+        border-bottom: 6px solid var(--border);
+        background: var(--tag-bg);
+        position: relative;
+    }
+
+    .header-inner {
+        max-width: 1000px;
+        margin: 25px auto 0;
+    }
+
+    .logo-mark {
+        font-weight: bold;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    h1 {
+        font-size: 4rem;
+        margin: 16px 0;
+        text-transform: uppercase;
+    }
+
+    .last-updated {
+        font-size: 0.9rem;
+        border-top: 2px solid var(--border);
+        display: inline-block;
+        padding-top: 8px;
+    }
+
+    main {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 24px;
+    }
+
+    .card {
+        background: var(--bg);
+        border-radius: 14px;
+        padding: 44px;
+        text-align: left;
+        border: 2px solid var(--border);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    h2 {
+        text-transform: uppercase;
+        font-size: 1.6rem;
+        margin-bottom: 24px;
+    }
+
+    p {
+        max-width: 650px;
+        margin: 0 auto 32px;
+        line-height: 1.75;
+    }
+
+    .btn {
+        display: inline-block;
+        background: var(--text);
+        color: var(--bg);
+        padding: 18px 44px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border: 2px solid var(--border);
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .btn:hover {
+        background: var(--bg);
+        color: var(--text);
+        transform: translateY(-4px);
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        header {
+            padding: 56px 20px;
+        }
+
+        .card {
+            padding: 32px;
+        }
+    }
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <span class="logo-mark">Project Toolsuite</span>
+        <h1>404</h1>
+        <div class="last-updated">Page Not Found</div>
+    </div>
+
+
+<button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">
+    DARK MODE
+</button>
+
+
+</header>
+
+<main>
+    <section class="card">
+        <h2>Page Not Found</h2>
+
+
+    <p>
+        The page you're looking for doesn't exist, may have been moved,
+        or the URL may be incorrect.
+    </p>
+
+    <a href="index.html" class="btn">
+        ← Return to Tools
+    </a>
+</section>
+
+
+</main>
+
+</body>
+</html>

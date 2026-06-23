@@ -8,26 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
         triggerDispatch: document.getElementById('triggerDispatch'),
         triggerBranches: document.getElementById('triggerBranches'),
         branchGroup: document.getElementById('branchGroup'),
-        
+
         templatePicker: document.getElementById('templatePicker'),
         previewArea: document.getElementById('previewArea'),
+        previewTitle: document.getElementById('previewTitle'),
         explanationList: document.getElementById('explanationList'),
         secretsWidget: document.getElementById('secretsWidget'),
         secretsList: document.getElementById('secretsList'),
-        
+
         // Node
         nodeVersion: document.getElementById('nodeVersion'),
         nodeCache: document.getElementById('nodeCache'),
         nodeLint: document.getElementById('nodeLint'),
         nodeTest: document.getElementById('nodeTest'),
         nodeBuild: document.getElementById('nodeBuild'),
-        
+
         // Python
         pythonVersion: document.getElementById('pythonVersion'),
         pipCommand: document.getElementById('pipCommand'),
         pythonLint: document.getElementById('pythonLint'),
         pythonTest: document.getElementById('pythonTest'),
-        
+
         // React
         reactNodeVersion: document.getElementById('reactNodeVersion'),
         reactBuildCmd: document.getElementById('reactBuildCmd'),
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reactS3Group: document.getElementById('reactS3Group'),
         reactGHPagesGroup: document.getElementById('reactGHPagesGroup'),
         reactFTPGroup: document.getElementById('reactFTPGroup'),
-        
+
         // Docker
         dockerRegistry: document.getElementById('dockerRegistry'),
         dockerImageName: document.getElementById('dockerImageName'),
@@ -51,13 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
         dockerAWSGroup: document.getElementById('dockerAWSGroup'),
         dockerAWSRegistryId: document.getElementById('dockerAWSRegistryId'),
         dockerAWSRegion: document.getElementById('dockerAWSRegion'),
-        
+
         // Pages
         pagesBuildStep: document.getElementById('pagesBuildStep'),
         pagesBuildCmd: document.getElementById('pagesBuildCmd'),
         pagesOutputDir: document.getElementById('pagesOutputDir'),
         pagesBuildSubPanel: document.getElementById('pagesBuildSubPanel'),
-        
+
         // Vercel
         vercelTokenName: document.getElementById('vercelTokenName'),
         vercelProjectId: document.getElementById('vercelProjectId'),
@@ -66,36 +67,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeTemplate = 'node';
 
-    // Initialize Event Listeners
+
     setupEventListeners();
     updatePanelVisibility();
     generate();
 
     function setupEventListeners() {
-        // Inputs change trigger generator
+
         const inputElements = document.querySelectorAll('input, select');
         inputElements.forEach(el => {
             el.addEventListener('input', generate);
             el.addEventListener('change', generate);
         });
 
-        // Template Tab selection
+
         const tabs = elements.templatePicker.querySelectorAll('.radio-tab-label');
         tabs.forEach(tab => {
             tab.addEventListener('click', (e) => {
                 tabs.forEach(t => t.classList.remove('checked'));
                 tab.classList.add('checked');
-                
+
                 const radio = tab.querySelector('input[type="radio"]');
                 radio.checked = true;
                 activeTemplate = radio.value;
-                
+
                 updatePanelVisibility();
                 generate();
             });
         });
 
-        // Trigger Branches Group Toggle
+
+        const outputTabs = document.getElementById('outputTabPicker').querySelectorAll('.radio-tab-label');
+        outputTabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                outputTabs.forEach(t => t.classList.remove('checked'));
+                tab.classList.add('checked');
+
+                const radio = tab.querySelector('input[type="radio"]');
+                radio.checked = true;
+
+                if (radio.value === 'code') {
+                    document.getElementById('output-tab-code').style.display = 'block';
+                    document.getElementById('output-tab-explanation').style.display = 'none';
+                } else {
+                    document.getElementById('output-tab-code').style.display = 'none';
+                    document.getElementById('output-tab-explanation').style.display = 'block';
+                }
+            });
+        });
+
+
         const toggleBranchGroup = () => {
             const needsBranch = elements.triggerPush.checked || elements.triggerPR.checked;
             elements.branchGroup.style.display = needsBranch ? 'block' : 'none';
@@ -110,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.reactS3Group.classList.remove('active');
             elements.reactGHPagesGroup.classList.remove('active');
             elements.reactFTPGroup.classList.remove('active');
-            
+
             if (val === 's3') elements.reactS3Group.classList.add('active');
             if (val === 'ghpages') elements.reactGHPagesGroup.classList.add('active');
             if (val === 'ftp') elements.reactFTPGroup.classList.add('active');
@@ -122,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.dockerHubGroup.classList.remove('active');
             elements.dockerGHCRGroup.classList.remove('active');
             elements.dockerAWSGroup.classList.remove('active');
-            
+
             if (val === 'dockerhub') elements.dockerHubGroup.classList.add('active');
             if (val === 'ghcr') elements.dockerGHCRGroup.classList.add('active');
             if (val === 'aws') elements.dockerAWSGroup.classList.add('active');
@@ -154,8 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const wfName = elements.workflowName.value.trim() || 'CI/CD Pipeline';
         const os = elements.runnerOS.value;
         const branches = elements.triggerBranches.value.split(',').map(b => b.trim()).filter(b => b.length > 0);
-        
-        // Triggers Generation
+
+
+        const cleanedName = wfName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'ci';
+        if (elements.previewTitle) {
+            elements.previewTitle.innerText = `.github/workflows/${cleanedName}.yml`;
+        }
+
+
         let triggerYaml = '';
         if (elements.triggerPush.checked || elements.triggerPR.checked || elements.triggerDispatch.checked) {
             triggerYaml += 'on:\n';
@@ -175,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 triggerYaml += '  workflow_dispatch:\n';
             }
         } else {
-            // Default to push main if none selected
+
             triggerYaml += 'on:\n  push:\n    branches: [ "main" ]\n';
         }
 
@@ -183,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let explanationSteps = [];
         let secretsNeeded = [];
 
-        // Build Trigger explanations
+
         let triggerDesc = 'Triggered when code is ';
         const triggers = [];
         if (elements.triggerPush.checked) triggers.push('pushed');
@@ -200,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             desc: triggerDesc + (trigText || 'pushed to main branch') + '.'
         });
 
-        // OS explanation
+
         explanationSteps.push({
             title: 'Execution Environment',
             desc: `Runs the job pipeline on a hosted virtual runner running <code>${os}</code>.`
@@ -215,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const build = elements.nodeBuild.checked;
 
             yaml += `jobs:\n  build-and-test:\n    runs-on: ${os}\n\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n`;
-            
+
             explanationSteps.push({
                 title: 'Checkout Code',
                 desc: 'Uses <code>actions/checkout@v4</code> to pull your repository files into the environment runner.'
@@ -550,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Copy to clipboard function
-    window.copyWorkflow = function() {
+    window.copyWorkflow = function () {
         const txt = elements.previewArea.value;
         navigator.clipboard.writeText(txt).then(() => {
             if (typeof notify !== 'undefined') {
@@ -567,12 +594,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Download file function
-    window.downloadWorkflow = function() {
+    window.downloadWorkflow = function () {
         const txt = elements.previewArea.value;
         const blob = new Blob([txt], { type: 'text/yaml;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        
+
         // Make the file name fit clean patterns
         const cleanedName = elements.workflowName.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'ci';
         a.href = url;
@@ -581,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        
+
         if (typeof notify !== 'undefined') {
             notify.success(`Downloaded ${cleanedName}.yml successfully!`);
         }

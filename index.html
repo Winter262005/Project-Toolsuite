@@ -15,6 +15,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="./theme.css" />
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
     <style>
       body {
         background: var(--bg);
@@ -1036,11 +1043,6 @@ function renderTags() {
 }
 
 function renderTools() {
-  const rawQuery = document.getElementById("toolSearch").value.trim();
-  if (!rawQuery) {
-    activeTag = 'all';
-    renderTags();
-  }
   const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
   const query = normalize(document.getElementById("toolSearch").value);
   const container = document.getElementById("tools-container");

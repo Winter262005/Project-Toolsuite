@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Actions Workflow Generator - Project Toolsuite</title>
-    <meta name="description" content="Generate production-ready, customized GitHub Actions workflow files visually. Support for Node.js, Python, React, Docker, GitHub Pages, and Vercel.">
+    <meta name="description"
+        content="Generate production-ready, customized GitHub Actions workflow files visually. Support for Node.js, Python, React, Docker, GitHub Pages, and Vercel.">
     <meta property="og:title" content="GitHub Actions Generator - Project Toolsuite" />
-    <meta property="og:description" content="Generate GitHub Actions workflow configurations quickly using an interactive browser-based tool." />
+    <meta property="og:description"
+        content="Generate GitHub Actions workflow configurations quickly using an interactive browser-based tool." />
     <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="GitHub Actions Generator - Project Toolsuite" />
-    <meta name="twitter:description" content="Generate GitHub Actions workflow configurations quickly using an interactive browser-based tool." />
+    <meta name="twitter:description"
+        content="Generate GitHub Actions workflow configurations quickly using an interactive browser-based tool." />
     <link rel="stylesheet" href="../../theme.css">
     <link rel="stylesheet" href="github-actions-generator.css">
-    
+
     <link rel="stylesheet" href="../../assets/css/notifications.css">
     <script src="../../assets/js/notifications.js" defer></script>
 </head>
+
 <body>
 
     <header>
@@ -33,12 +38,13 @@
             <!-- Left Panel: Settings Form -->
             <div class="card">
                 <h2 class="card-title">Workflow Configurations</h2>
-                
+
                 <!-- Workflow File Name & Runner OS -->
                 <div class="form-row">
                     <div class="form-group">
                         <label for="workflowName">Workflow Name</label>
-                        <input type="text" id="workflowName" value="CI/CD Pipeline" placeholder="e.g. Build and Test" autocomplete="off" spellcheck="false">
+                        <input type="text" id="workflowName" value="CI/CD Pipeline" placeholder="e.g. Build and Test"
+                            autocomplete="off" spellcheck="false">
                     </div>
                     <div class="form-group" style="max-width: 200px;">
                         <label for="runnerOS">Runner OS</label>
@@ -72,7 +78,8 @@
                 <!-- Branches text input -->
                 <div class="form-group" id="branchGroup">
                     <label for="triggerBranches">Target Branches (comma-separated)</label>
-                    <input type="text" id="triggerBranches" value="main" placeholder="e.g. main, dev, release/*" autocomplete="off" spellcheck="false">
+                    <input type="text" id="triggerBranches" value="main" placeholder="e.g. main, dev, release/*"
+                        autocomplete="off" spellcheck="false">
                 </div>
 
                 <hr style="border: none; border-top: 1px dashed var(--border); margin: 24px 0;">
@@ -109,7 +116,7 @@
                 </div>
 
                 <!-- Dynamic Option Panels -->
-                
+
                 <!-- NODE PANEL -->
                 <div class="template-panel" id="panel-node">
                     <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">Node.js Options</h3>
@@ -165,7 +172,8 @@
                         </div>
                         <div class="form-group">
                             <label for="pipCommand">Install Command</label>
-                            <input type="text" id="pipCommand" value="pip install -r requirements.txt" autocomplete="off" spellcheck="false">
+                            <input type="text" id="pipCommand" value="pip install -r requirements.txt"
+                                autocomplete="off" spellcheck="false">
                         </div>
                     </div>
                     <div class="form-group">
@@ -194,7 +202,8 @@
                         </div>
                         <div class="form-group">
                             <label for="reactBuildCmd">Build Command</label>
-                            <input type="text" id="reactBuildCmd" value="npm run build" autocomplete="off" spellcheck="false">
+                            <input type="text" id="reactBuildCmd" value="npm run build" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
                     <div class="form-group">
@@ -205,40 +214,46 @@
                             <option value="ftp">FTP Server</option>
                         </select>
                     </div>
-                    
+
                     <div id="reactS3Group" class="sub-settings-panel active">
                         <div class="form-group">
                             <label for="reactS3Bucket">AWS S3 Bucket Name</label>
-                            <input type="text" id="reactS3Bucket" value="my-react-app-bucket" autocomplete="off" spellcheck="false">
+                            <input type="text" id="reactS3Bucket" value="my-react-app-bucket" autocomplete="off"
+                                spellcheck="false">
                         </div>
                         <div class="form-group">
                             <label for="reactAWSRegion">AWS Region</label>
-                            <input type="text" id="reactAWSRegion" value="us-east-1" autocomplete="off" spellcheck="false">
+                            <input type="text" id="reactAWSRegion" value="us-east-1" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
-                    
+
                     <div id="reactGHPagesGroup" class="sub-settings-panel">
                         <div class="form-group">
                             <label for="reactGHBranch">Target Deploy Branch</label>
-                            <input type="text" id="reactGHBranch" value="gh-pages" autocomplete="off" spellcheck="false">
+                            <input type="text" id="reactGHBranch" value="gh-pages" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
 
                     <div id="reactFTPGroup" class="sub-settings-panel">
                         <div class="form-group">
                             <label for="reactFTPServer">FTP Server Host</label>
-                            <input type="text" id="reactFTPServer" value="ftp.example.com" autocomplete="off" spellcheck="false">
+                            <input type="text" id="reactFTPServer" value="ftp.example.com" autocomplete="off"
+                                spellcheck="false">
                         </div>
                         <div class="form-group">
                             <label for="reactFTPTargetDir">FTP Remote Target Directory</label>
-                            <input type="text" id="reactFTPTargetDir" value="/public_html" autocomplete="off" spellcheck="false">
+                            <input type="text" id="reactFTPTargetDir" value="/public_html" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
                 </div>
 
                 <!-- DOCKER PANEL -->
                 <div class="template-panel" id="panel-docker" style="display: none;">
-                    <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">Docker Build & Push Options</h3>
+                    <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">Docker Build & Push Options
+                    </h3>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="dockerRegistry">Docker Registry</label>
@@ -250,56 +265,66 @@
                         </div>
                         <div class="form-group">
                             <label for="dockerImageName">Image Name</label>
-                            <input type="text" id="dockerImageName" value="myapp" placeholder="e.g. web-app" autocomplete="off" spellcheck="false">
+                            <input type="text" id="dockerImageName" value="myapp" placeholder="e.g. web-app"
+                                autocomplete="off" spellcheck="false">
                         </div>
                     </div>
-                    
+
                     <div id="dockerHubGroup" class="sub-settings-panel active">
                         <div class="form-group">
                             <label for="dockerHubUsername">Docker Hub Username Secret</label>
-                            <input type="text" id="dockerHubUsername" value="DOCKERHUB_USERNAME" autocomplete="off" spellcheck="false">
+                            <input type="text" id="dockerHubUsername" value="DOCKERHUB_USERNAME" autocomplete="off"
+                                spellcheck="false">
                         </div>
                         <div class="form-group">
                             <label for="dockerHubToken">Docker Hub Password/Token Secret</label>
-                            <input type="text" id="dockerHubToken" value="DOCKERHUB_TOKEN" autocomplete="off" spellcheck="false">
+                            <input type="text" id="dockerHubToken" value="DOCKERHUB_TOKEN" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
 
                     <div id="dockerGHCRGroup" class="sub-settings-panel">
-                        <p style="font-size: 0.8rem; margin: 0 0 10px 0; color: var(--muted);">GHCR deployments use the repository's built-in <code>${{ secrets.GITHUB_TOKEN }}</code> permissions automatically.</p>
+                        <p style="font-size: 0.8rem; margin: 0 0 10px 0; color: var(--muted);">GHCR deployments use the
+                            repository's built-in <code>${{ secrets.GITHUB_TOKEN }}</code> permissions automatically.
+                        </p>
                     </div>
 
                     <div id="dockerAWSGroup" class="sub-settings-panel">
                         <div class="form-group">
                             <label for="dockerAWSRegistryId">AWS Account ID</label>
-                            <input type="text" id="dockerAWSRegistryId" value="123456789012" autocomplete="off" spellcheck="false">
+                            <input type="text" id="dockerAWSRegistryId" value="123456789012" autocomplete="off"
+                                spellcheck="false">
                         </div>
                         <div class="form-group">
                             <label for="dockerAWSRegion">AWS Region</label>
-                            <input type="text" id="dockerAWSRegion" value="us-east-1" autocomplete="off" spellcheck="false">
+                            <input type="text" id="dockerAWSRegion" value="us-east-1" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
                 </div>
 
                 <!-- PAGES PANEL -->
                 <div class="template-panel" id="panel-pages" style="display: none;">
-                    <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">GitHub Pages Deployment Options</h3>
+                    <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">GitHub Pages Deployment
+                        Options</h3>
                     <div class="form-group">
                         <label class="checkbox-row">
                             <input type="checkbox" id="pagesBuildStep" checked>
                             Build Project first (e.g. React, Jekyll, etc.)
                         </label>
                     </div>
-                    
+
                     <div id="pagesBuildSubPanel" class="sub-settings-panel active">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="pagesBuildCmd">Build Command</label>
-                                <input type="text" id="pagesBuildCmd" value="npm run build" autocomplete="off" spellcheck="false">
+                                <input type="text" id="pagesBuildCmd" value="npm run build" autocomplete="off"
+                                    spellcheck="false">
                             </div>
                             <div class="form-group">
                                 <label for="pagesOutputDir">Upload Artifact Path</label>
-                                <input type="text" id="pagesOutputDir" value="dist" placeholder="e.g. build, dist, or ." autocomplete="off" spellcheck="false">
+                                <input type="text" id="pagesOutputDir" value="dist" placeholder="e.g. build, dist, or ."
+                                    autocomplete="off" spellcheck="false">
                             </div>
                         </div>
                     </div>
@@ -307,19 +332,23 @@
 
                 <!-- VERCEL PANEL -->
                 <div class="template-panel" id="panel-vercel" style="display: none;">
-                    <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">Vercel Deployment Options</h3>
+                    <h3 style="margin-top: 0; text-transform: uppercase; font-size: 1rem;">Vercel Deployment Options
+                    </h3>
                     <div class="form-group">
                         <label for="vercelTokenName">Vercel Token Secret Name</label>
-                        <input type="text" id="vercelTokenName" value="VERCEL_TOKEN" autocomplete="off" spellcheck="false">
+                        <input type="text" id="vercelTokenName" value="VERCEL_TOKEN" autocomplete="off"
+                            spellcheck="false">
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="vercelProjectId">Vercel Project ID Secret Name</label>
-                            <input type="text" id="vercelProjectId" value="VERCEL_PROJECT_ID" autocomplete="off" spellcheck="false">
+                            <input type="text" id="vercelProjectId" value="VERCEL_PROJECT_ID" autocomplete="off"
+                                spellcheck="false">
                         </div>
                         <div class="form-group">
                             <label for="vercelOrgId">Vercel Org ID Secret Name</label>
-                            <input type="text" id="vercelOrgId" value="VERCEL_ORG_ID" autocomplete="off" spellcheck="false">
+                            <input type="text" id="vercelOrgId" value="VERCEL_ORG_ID" autocomplete="off"
+                                spellcheck="false">
                         </div>
                     </div>
                 </div>
@@ -328,37 +357,53 @@
 
             <!-- Right Panel: Live Code View & Explanation -->
             <div>
-                <!-- Code Preview Card -->
-                <div class="card" style="height: fit-content;">
-                    <h2 class="card-title">.github/workflows/ci.yml</h2>
-                    
-                    <div class="preview-container">
-                        <div class="preview-actions">
-                            <button class="btn" id="btnCopy" onclick="copyWorkflow()">Copy Workflow</button>
-                            <button class="btn" id="btnDownload" onclick="downloadWorkflow()">Download</button>
+                <div class="card" style="height: fit-content; display: flex; flex-direction: column;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 12px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                        <h2 class="card-title" id="previewTitle"
+                            style="border-bottom: none; padding-bottom: 0; margin-bottom: 0; text-transform: lowercase;">
+                            .github/workflows/ci.yml</h2>
+                        <div class="radio-tab-group" style="margin-bottom: 0; display: flex; gap: 8px;"
+                            id="outputTabPicker">
+                            <label class="radio-tab-label checked" style="padding: 6px 12px; font-size: 0.75rem;">
+                                <input type="radio" name="outputTabType" value="code" checked>
+                                YAML Code
+                            </label>
+                            <label class="radio-tab-label" style="padding: 6px 12px; font-size: 0.75rem;">
+                                <input type="radio" name="outputTabType" value="explanation">
+                                How It Works
+                            </label>
                         </div>
-                        <textarea id="previewArea" class="preview-area" readonly></textarea>
-                    </div>
-                </div>
-
-                <!-- Explanation Widget Card -->
-                <div class="card" style="height: fit-content; margin-top: 24px;">
-                    <h2 class="card-title">How It Works</h2>
-                    
-                    <div class="explanation-panel">
-                        <ul class="explanation-list" id="explanationList">
-                            <!-- Injected dynamically -->
-                        </ul>
                     </div>
 
-                    <div class="secrets-info" id="secretsWidget" style="display: none;">
-                        <div class="secrets-info-title">
-                            🔒 Required Repository Secrets
+                    <!-- Code Tab -->
+                    <div id="output-tab-code" style="display: block;">
+                        <div class="preview-container">
+                            <div class="preview-actions">
+                                <button class="btn" id="btnCopy" onclick="copyWorkflow()">Copy Workflow</button>
+                                <button class="btn" id="btnDownload" onclick="downloadWorkflow()">Download</button>
+                            </div>
+                            <textarea id="previewArea" class="preview-area" readonly></textarea>
                         </div>
-                        <p style="margin: 0 0 10px 0;">Configure these values under <strong>Settings &gt; Secrets and Variables &gt; Actions</strong> in your GitHub repository:</p>
-                        <ul style="margin: 0; padding-left: 20px;" id="secretsList">
-                            <!-- Injected dynamically -->
-                        </ul>
+                    </div>
+
+                    <div id="output-tab-explanation" style="display: none;">
+                        <div class="explanation-panel" style="margin-top: 0; cursor: default;">
+                            <ul class="explanation-list" id="explanationList">
+
+                            </ul>
+                        </div>
+
+                        <div class="secrets-info" id="secretsWidget" style="display: none; cursor: default;">
+                            <div class="secrets-info-title">
+                                🔒 Required Repository Secrets
+                            </div>
+                            <p style="margin: 0 0 10px 0;">Configure these values under <strong>Settings &gt; Secrets
+                                    and Variables &gt; Actions</strong> in your GitHub repository:</p>
+                            <ul style="margin: 0; padding-left: 20px;" id="secretsList">
+                                <!-- Injected dynamically -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -371,4 +416,5 @@
     <script src="github-actions-generator.js"></script>
     <script src="../../theme.js"></script>
 </body>
+
 </html>

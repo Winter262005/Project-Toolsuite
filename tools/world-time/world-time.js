@@ -168,6 +168,7 @@ function createClockCards() {
 
 function updateClocks() {
 
+    const now = new Date();
 
     displayedCities.forEach((city, index) => {
 
@@ -202,7 +203,7 @@ function updateClocks() {
 
                 }
 
-            ).format(new Date());
+            ).format(now);
 
 
     });
@@ -213,6 +214,12 @@ function updateClocks() {
 
 
 setInterval(updateClocks, 1000);
+
+document.addEventListener('visibilitychange', (event) => {
+    if(document.visibilityState === 'visible'){
+        updateClocks();
+    }
+})
 
 
 

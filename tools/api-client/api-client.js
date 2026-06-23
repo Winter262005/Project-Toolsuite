@@ -152,10 +152,19 @@ async function sendRequest() {
 
     const startTime = performance.now();
 
+    const controller = new AbortController();
+
+    const timeoutDuration = 15000; // 15 seconds timeout
+
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+    }, timeoutDuration);
+
     try {
         const options = {
             method: method,
-            headers: headers
+            headers: headers,
+            signal: controller.signal
         };
         if (bodyData) {
             options.body = bodyData;
@@ -196,20 +205,51 @@ async function sendRequest() {
         const endTime = performance.now();
         const duration = Math.round(endTime - startTime);
 
-        displayResponseStatus(0, "Network Error / CORS Blocked");
         displayResponseTime(duration);
-        displayResponseBody(
-            `Request Failed!\n\n` +
-            `Error message: ${err.message}\n\n` +
-            `Common Causes:\n` +
-            `1. CORS (Cross-Origin Resource Sharing) restrictions: The target server has not headers configured to allow browser access from this domain.\n` +
-            `2. Network is offline, or the URL endpoint is invalid.\n` +
-            `3. Target API endpoint is HTTP and you are visiting this tool suite over HTTPS (Mixed Content blockage).\n` +
-            `4. DNS lookup failed.`
-        );
+
+        if (err.name === "AbortError") {
+
+            displayResponseStatus(408, "Request Timeout");
+
+            displayResponseBody(
+            `Request timed out after ${timeoutDuration / 1000} seconds.
+            
+             The server did not respond within the allowed time.
+
+             Possible causes:
+             1. Endpoint is taking too long to respond.
+             2. Server may be unavailable.
+             3. Network connection issue.`
+            );
+
+            if (typeof notify !== 'undefined') {
+                notify.error(
+                    `Request timed out after ${timeoutDuration / 1000} seconds`
+                );
+            }
+
+        } else {
+
+            displayResponseStatus(0, "Network Error / CORS Blocked");
+
+            displayResponseBody(
+            `Request Failed!
+             Error message: ${err.message}
+             Common Causes:
+             1. CORS policy blocked this request. Ensure the API server allows your browser origin using proper Access-Control-Allow-Origin headers.
+             2. Mixed Content restriction. Browsers block HTTP requests from HTTPS pages. Make sure both frontend and API use compatible protocols.
+             3. Network connection issue. Check your internet connection or verify that the target server is reachable.
+             4. Invalid endpoint URL. Confirm the URL path, protocol, and API route are correct.
+             5. DNS lookup failure. The domain name may not resolve or the server may be unavailable.`
+            );
+        }
+
         switchTab("resTabGroup", "resTabContent", "tab-res-body");
+
     } finally {
-        // Re-enable trigger button
+
+        clearTimeout(timeoutId);
+
         sendBtn.disabled = false;
         sendBtn.textContent = "[ SEND REQUEST ]";
     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,37 +14,26 @@
     content="Compare text and code differences instantly with a fast browser-based visual diff checker."
     />
 
-    <meta
-    property="og:image"
-    content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png"
-    />
+    <meta property="og:description"
+        content="Compare text and code differences instantly with a fast browser-based visual diff checker." />
+
+    <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3522/3522262.png" />
 
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta
-    name="twitter:title"
-    content="Visual Code Diff Checker - Project Toolsuite"
-    />
+    <meta name="twitter:title" content="Visual Code Diff Checker - Project Toolsuite" />
 
-    <meta
-    name="twitter:description"
-    content="Compare text and code differences instantly with a fast browser-based visual diff checker."
-    />
+    <meta name="twitter:description"
+        content="Compare text and code differences instantly with a fast browser-based visual diff checker." />
     <style>
-
         :root {
             --bg-color: var(--bg);
-            --panel-bg: var(--tag-bg);
+            --panel-bg: var(--surface);
+
             --text-color: var(--text);
             --border-color: var(--border);
-
-            --diff-add-bg: var(--tag-bg);
-            --diff-add-text: var(--text);
-
-            --diff-del-bg: var(--tag-bg);
-            --diff-del-text: var(--text);
 
             --line-num-color: var(--muted);
         }
@@ -65,9 +55,13 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            gap: 15px;
         }
 
-        h1 { margin: 0; font-size: 1.5rem; }
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
 
         .input-container {
             display: grid;
@@ -83,7 +77,11 @@
             flex-direction: column;
         }
 
-        label { margin-bottom: 5px; font-weight: bold; color: var(--muted); }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--muted);
+        }
 
         textarea {
             flex-grow: 1;
@@ -96,7 +94,10 @@
             font-size: 14px;
             resize: none;
         }
-        textarea:focus {  outline: 1px solid var(--border); }
+
+        textarea:focus {
+            outline: 1px solid var(--border);
+        }
 
         /* Controls */
         .controls {
@@ -114,12 +115,17 @@
             cursor: pointer;
             font-weight: bold;
         }
+
         button:hover {
             background-color: var(--text);
             color: var(--bg);
             opacity: 0.9;
         }
-        button.secondary { background-color: var(--bg); color: var(--text); margin-right: 150px;}
+
+        button.secondary {
+            background-color: var(--bg);
+            color: var(--text);
+        }
 
         /* Output Area */
         .diff-output {
@@ -156,9 +162,24 @@
         }
 
         /* Colors */
-        .diff-added { background-color: var(--diff-add-bg); color: var(--diff-add-text); }
-        .diff-removed { background-color: var(--diff-del-bg); color: var(--diff-del-text); text-decoration: line-through; opacity: 0.8; }
-        .diff-header { background-color: var(--tag-bg); color: var(--muted); padding: 5px; font-style: italic; }
+        .diff-added {
+            background-color: var(--diff-add-bg);
+            color: var(--diff-add-text);
+        }
+
+        .diff-removed {
+            background-color: var(--diff-del-bg);
+            color: var(--diff-del-text);
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        .diff-header {
+            background-color: var(--tag-bg);
+            color: var(--muted);
+            padding: 5px;
+            font-style: italic;
+        }
 
         a {
             color: var(--text);
@@ -181,12 +202,14 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Visual Diff Checker</h1>
         <button class="secondary" onclick="clearAll()">Clear All</button>
-    
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
+
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+    </header>
 
     <div class="input-container">
         <div class="input-box">
@@ -212,4 +235,5 @@
     <script src="diff-logic.js"></script>
     <script src="../../theme.js"></script>
 </body>
+
 </html>

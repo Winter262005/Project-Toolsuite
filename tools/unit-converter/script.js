@@ -322,16 +322,35 @@ function performConversion() {
 
     const precision = getValidPrecision();
     toValueInput.value = parseFloat(result.toFixed(precision));
+}
 
-    addToHistory(
-        `${fromValue} ${fromUnitSelect.value} → ${toValueInput.value} ${toUnitSelect.value}`
-    );
+function saveCurrentToHistory() {
+    const fromValue = parseFloat(fromValueInput.value);
+    if (isNaN(fromValue)) {
+        return;
+    }
+    const entry = `${fromValue} ${fromUnitSelect.value} → ${toValueInput.value} ${toUnitSelect.value}`;
+    addToHistory(entry);
 }
 
 // Event Listeners for Conversion
 fromValueInput.addEventListener('input', performConversion);
-fromUnitSelect.addEventListener('change', performConversion);
-toUnitSelect.addEventListener('change', performConversion);
+fromValueInput.addEventListener('change', saveCurrentToHistory);
+fromValueInput.addEventListener('blur', saveCurrentToHistory);
+fromValueInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        saveCurrentToHistory();
+    }
+});
+
+fromUnitSelect.addEventListener('change', () => {
+    performConversion();
+    saveCurrentToHistory();
+});
+toUnitSelect.addEventListener('change', () => {
+    performConversion();
+    saveCurrentToHistory();
+});
 precisionInput.addEventListener('change', performConversion);
 
 // Swap Units
@@ -345,11 +364,16 @@ swapBtn.addEventListener('click', () => {
     toValueInput.value = tempValue;
 
     performConversion();
+    saveCurrentToHistory();
 });
 
 // History Management
 function addToHistory(entry) {
     if (entry.includes('→') && entry.split('→')[1].trim() !== '') {
+        // Prevent duplicate consecutive history entries
+        if (conversionHistory.length > 0 && conversionHistory[0] === entry) {
+            return;
+        }
         conversionHistory.unshift(entry);
         if (conversionHistory.length > 10) {
             conversionHistory.pop();

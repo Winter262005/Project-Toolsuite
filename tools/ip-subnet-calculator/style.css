@@ -194,6 +194,7 @@ input[type="number"]:focus {
 .action-btn {
     width: 100%;
     padding: 14px;
+
     font-family: inherit;
     font-size: 1.1rem;
     font-weight: bold;
@@ -206,15 +207,31 @@ input[type="number"]:focus {
     color: var(--text);
     border: 2px solid var(--border);
     cursor: pointer;
+    font-weight: 700;
     text-transform: uppercase;
-    box-shadow: 4px 4px 0px var(--border);
-    transition: transform 0.1s, box-shadow 0.1s;
+
+    background: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+
+    cursor: pointer;
+    transition: all 0.2s ease;
     margin-top: 10px;
 }
 
+.action-btn:hover {
+    background: var(--text);
+    color: var(--bg);
+    transform: translateY(-2px);
+}
+
 .action-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--border);
+    transform: translateY(0);
+}
+
+.action-btn:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
 }
 
 /* Errors */
@@ -473,32 +490,43 @@ body.dark-mode .edge-case-card .card-title {
 }
 
 /* Footer link formatting */
-        footer {
-            text-align: center;
-            border-radius: 12px 12px 0 0;
-            margin-top: 40px;
-            padding-top: 24px;
-        }
+footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+    display: flex;
+    justify-content: center;
+}
 
-        footer a {
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 900;
-            border: 2px solid var(--border);
-            padding: 8px 16px;
-            display: inline-block;
-            transition: all 0.2s ease;
-        }
+footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 
-        footer a:hover {
-            background: var(--text);
-            color: var(--bg);
-        }
+    padding: 0.75rem 1.25rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
 
-        footer a:focus-visible {
-            outline: 2px solid var(--text);
-            outline-offset: 3px;
-        }
+    background: var(--bg);
+    color: var(--text);
+
+    text-decoration: none;
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+}
+
+footer a:hover {
+    background: var(--text);
+    color: var(--bg);
+    transform: translateY(-2px);
+}
+
+footer a:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+}
+
 
 /* Responsive adjustment */
 @media (max-width: 900px) {
