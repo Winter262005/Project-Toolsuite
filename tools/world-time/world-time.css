@@ -664,3 +664,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 input[type="date"]:hover {
   box-shadow: 0 0 10px #00ff88;
 }
+
+footer {
+            margin-top: 60px;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
+
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }

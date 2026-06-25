@@ -264,22 +264,28 @@
             box-shadow: 2px 2px 0px var(--border);
         }
 
-        footer {
-                padding: 12px 30px;
-                border-top: 2px solid var(--border);
-                flex-shrink: 0;
-            }
+        /*Footer*/
+      footer {
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
 
-            footer a {
-                color: var(--text);
-                text-decoration: none;
-                border-bottom: 1px dotted var(--border);
-            }
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
 
-            footer a:hover {
-                background: var(--text);
-                color: var(--bg);
-            }
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -382,7 +388,7 @@
         </div>
     </div>
     <footer>
-        <p><a href="../../index.html">← Back to Home</a></p>
+        <a href="../../index.html">&larr; Back to Home</a>
     </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closebrackets.min.js"></script>

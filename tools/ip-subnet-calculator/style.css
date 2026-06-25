@@ -490,43 +490,28 @@ body.dark-mode .edge-case-card .card-title {
 }
 
 /* Footer link formatting */
-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid var(--border);
-    display: flex;
-    justify-content: center;
-}
+/*Footer*/
+      footer {
+            margin-top: 60px;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
 
-footer a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
 
-    padding: 0.75rem 1.25rem;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-
-    background: var(--bg);
-    color: var(--text);
-
-    text-decoration: none;
-    font-weight: 600;
-
-    transition: all 0.2s ease;
-}
-
-footer a:hover {
-    background: var(--text);
-    color: var(--bg);
-    transform: translateY(-2px);
-}
-
-footer a:focus-visible {
-    outline: 2px solid var(--text);
-    outline-offset: 3px;
-}
-
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
 
 /* Responsive adjustment */
 @media (max-width: 900px) {

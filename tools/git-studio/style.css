@@ -114,6 +114,7 @@
             padding: 12px 30px;
             background: var(--tag-bg);
             border-top: 2px solid var(--border);
+            text-align: center;
         }
 
         .back-home-btn {

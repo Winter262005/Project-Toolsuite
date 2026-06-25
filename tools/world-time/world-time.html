@@ -9,13 +9,9 @@
     <title>World Time Companion - Project Toolsuite</title>
 
     <meta name="description" content="Global timezone converter, world clocks, timestamp tools and date utilities">
-
-
     <link rel="stylesheet" href="../../theme.css">
 
     <link rel="stylesheet" href="world-time.css">
-
-
     <script src="../../theme.js"></script>
 
 </head>
@@ -28,12 +24,6 @@
 
 <div class="header-left">
 
-<button class="nav-btn"
-onclick="window.location.href='../../index.html'"> ← Back to Home
-
-</button>
-
-
 <h1>
 WORLD_TIME // COMPANION
 </h1>
@@ -45,12 +35,7 @@ WORLD_TIME // COMPANION
 
 <div class="header-buttons">
 
-<button class="action-btn"
-onclick="toggleTheme()">
-
-DARK / LIGHT THEME
-
-</button>
+<button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
 
 
 </div>
@@ -455,40 +440,17 @@ DARK / LIGHT THEME
                     ISO 8601 Time
 
                 </button>
-
-
-
                 <button onclick="utcNow()">
-
                     UTC Time
-
                 </button>
-
-
-
             </div>
-
-
-
             <div id="devResult" class="result-box">
-
             </div>
-
-
         </section>
-
-
-
-
     </main>
-
-
-
-
+    <footer>
+        <a href="../../index.html">&larr; Back to Home</a>
+    </footer>
     <script src="world-time.js"></script>
-
-
 </body>
-
-
 </html>

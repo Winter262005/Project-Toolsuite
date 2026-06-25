@@ -379,25 +379,6 @@ textarea.payload-area:focus, .url-input:focus, .header-row input:focus {
     text-transform: uppercase;
 }
 
-footer {
-    border-top: 2px solid var(--border);
-    margin-top: 55px;
-    padding-top: 20px;
-    font-size: 0.95rem;
-}
-
-footer a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--border);
-    padding-bottom: 2px;
-}
-
-footer a:hover {
-    background-color: var(--text);
-    color: var(--bg);
-}
-
 @media(max-width: 600px) {
     header h1 {
         font-size: 1.6rem;
@@ -417,25 +398,23 @@ footer a:hover {
         width: 100%;
     }
 }
-.back-home {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
+/*Footer*/
+      footer {
+            padding: 30px 20px;
+            text-align: center;
+        }
 
-    color: var(--text);
-    text-decoration: none;
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
 
-    font-size: 0.9rem;
-    font-weight: 600;
-
-    padding: 8px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-
-    transition: 0.2s ease;
-}
-
-.back-home:hover {
-    background: var(--surface);
-    transform: translateX(-3px);
-}
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }

@@ -528,22 +528,7 @@
         .sidebar-footer {
             padding: 30px 20px;
             margin-top: 60px;
-            text-align: center;
             border-radius: 12px 12px 0 0;
-        }
-
-        .back-home {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 1px dotted var(--border);
-            transition: opacity 0.2s ease;
-        }
-
-        .back-home:hover {
-            opacity: 0.7;
         }
 
         .sidebar-footer a {
@@ -560,3 +545,8 @@
             background: var(--text);
             color: var(--bg);
         }
+
+
+
+
+        

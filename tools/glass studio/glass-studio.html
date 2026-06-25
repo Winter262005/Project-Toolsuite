@@ -238,6 +238,28 @@ input[type="color"]:focus-visible {
     font-family: sans-serif;
 }
 
+/*Footer*/
+      footer {
+            margin-top: 60px;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
+
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
 /* RESPONSIVE */
 
 @media (max-width: 900px) {
@@ -325,10 +347,6 @@ input[type="color"]:focus-visible {
             <button class="copy-btn" id="copyBtn">COPY CSS</button>
             <div id="codeOutput">/* CSS will appear here */</div>
         </div>
-
-        <a href="../../index.html">
-            ← Back to Home
-        </a>
     </div>
 </div>
 
@@ -342,7 +360,9 @@ input[type="color"]:focus-visible {
         <p>Adjust sliders to see magic happen.</p>
     </div>
 </div>
-
+<footer>
+        <a href="../../index.html">&larr; Back to Home</a>
+    </footer>
 <script src="glass-logic.js"></script>
 </body>
 </html>

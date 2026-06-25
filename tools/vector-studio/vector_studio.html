@@ -17,10 +17,6 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
-
-    <link rel="stylesheet" href="../../theme.css">
-
-    <script src="../../theme.js" defer></script>
     <style>
         :root {
             --bg: #111;
@@ -41,6 +37,7 @@
             background: var(--bg);
             color: var(--text);
             margin: 0;
+            padding-top: 20px; /* add this */
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -61,53 +58,48 @@
         
         /* HEADER */
         header {
-            height: 50px;
-            border-bottom: 2px solid var(--border);
-            background: var(--panel);
+            height: 70px;
+            margin-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
             z-index: 10;
+            height: 70px;
+            background: var(--panel);
+            border-bottom: 2px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
         }
 
         h1 {
-            font-size: 1rem;
-            font-weight: 900;
-            letter-spacing: 1px;
             margin: 0;
-            text-transform: uppercase;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            line-height: 1;
         }
 
         .back-home-btn {
-            background: var(--bg);
             color: var(--text);
-
-            border: 1px solid var(--border);
-
-            padding: 5px 12px;
-
-            font-family: inherit;
-            font-size: 0.8rem;
-            font-weight: bold;
-
             text-decoration: none;
-
-            display: flex;
-            align-items: center;
-
-            transition: 0.1s;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
         }
-
 
         .back-home-btn:hover {
             border-color: var(--accent);
-            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 0 12px rgba(0,255,0,0.25);
+            background: var(--text);
+            color: var(--bg);
         }
 
-
-        .back-home-btn:active {
-            transform: translateY(1px);
+        .back-home-btn:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
         }
 
         .btn {
@@ -255,25 +247,35 @@
             transition: opacity 0.3s;
             pointer-events: none;
         }
+
+        .title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .studio-icon {
+            font-size: 30px;
+            color: var(--accent);
+        }
     </style>
-    <link rel="stylesheet" href="../../theme.css">
+        <link rel="stylesheet" href="../../theme.css">
 </head>
 
 <body>
 
     <header>
-        <div style="display: flex; gap: 10px; align-items:center;">
+        <!-- <div style="display:flex; gap:12px; align-items:center;"></div> -->
 
             <a href="../../index.html" class="back-home-btn">
                 ← Back to Home
             </a>
-
-            <span class="material-icons-outlined" style="color:var(--accent)">
-                polyline
-            </span>
-
-            <h1>Vector Studio</h1>
-
+            <div class="title-group">
+                <span class="material-icons-outlined" style="color:var(--accent)">
+                    polyline
+                </span>
+                <h1>Vector Studio</h1>
+            </div>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button class="btn" onclick="app.export('png')">EXPORT PNG</button>

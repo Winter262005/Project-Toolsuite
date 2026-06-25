@@ -418,24 +418,6 @@ body.dark-mode .btn-danger {
     color: var(--text);
 }
 
-footer {
-    margin-top: 55px;
-    padding-top: 20px;
-    font-size: 0.95rem;
-}
-
-footer a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--border);
-    padding-bottom: 2px;
-}
-
-footer a:hover {
-    background-color: var(--text);
-    color: var(--bg);
-}
-
 @media(max-width: 600px) {
     header h1 {
         font-size: 1.6rem;
@@ -476,7 +458,6 @@ footer a:hover {
 }
 
     footer {
-      margin-top: 60px;
       padding: 30px 20px;
       text-align: center;
       border-radius: 12px 12px 0 0;
