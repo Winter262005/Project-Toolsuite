@@ -1,10 +1,22 @@
-const CACHE_NAME = 'toolsuite-v2-core'; // Version bumped to V2 to force update
-const DYNAMIC_CACHE = 'toolsuite-v2-dynamic';
+const CACHE_NAME = 'toolsuite-v3-core'; // Version bumped to V3 to force update
+const DYNAMIC_CACHE = 'toolsuite-v3-dynamic';
 
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './manifest.json'
+    './manifest.json',
+
+    // Shared styles
+    './theme.css',
+    './assets/css/notifications.css',
+
+    // Shared scripts
+    './theme.js',
+    './assets/js/notifications.js',
+
+    // PWA assets
+    './robots.txt',
+    './sitemap.xml'
 ];
 
 self.addEventListener('install', (event) => {
