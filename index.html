@@ -1152,5 +1152,37 @@ if (document.readyState === 'loading') {
 }
     </script>
     <script src="./theme.js"></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
+
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+
+        if (!newWorker) return;
+
+        newWorker.addEventListener('statechange', () => {
+          if (
+            newWorker.state === 'installed' &&
+            navigator.serviceWorker.controller
+          ) {
+            const shouldRefresh = confirm(
+              'A new version of Project Toolsuite is available. Refresh now?'
+            );
+
+            if (shouldRefresh) {
+              window.location.reload();
+            }
+          }
+        });
+      });
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
+  });
+}
+</script>
   </body>
 </html>
