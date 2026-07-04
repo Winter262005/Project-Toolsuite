@@ -20,6 +20,9 @@ const notify = {
         if (this.container) return;
         this.container = document.createElement('div');
         this.container.className = 'toast-container';
+        this.container.setAttribute('role', 'status');
+        this.container.setAttribute('aria-live', 'polite');
+        this.container.setAttribute('aria-atomic', 'true');
         document.body.appendChild(this.container);
     },
 
@@ -36,6 +39,7 @@ const notify = {
 
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
+        toast.setAttribute('role', 'alert');
 
         const content = document.createElement('span');
         content.textContent = message;
@@ -43,6 +47,8 @@ const notify = {
         const closeBtn = document.createElement('button');
         closeBtn.className = 'toast-close';
         closeBtn.innerHTML = '&times;';
+        closeBtn.setAttribute('aria-label', 'Dismiss notification');
+        
         closeBtn.onclick = () => this.hide(toast);
 
         toast.appendChild(content);

@@ -22,11 +22,11 @@
     <header>
         <h1>SVG Optimizer</h1>
         <div>
-            <button onclick="document.getElementById('file-input').click()" class="secondary">📂 Upload SVG</button>
+            <button onclick="document.getElementById('file-input').click()" class="secondary" aria-label="Upload SVG file">📂 Upload SVG</button>
             <input type="file" id="file-input" accept=".svg">
         </div>
     
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button></header>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">DARK MODE</button></header>
 
     <div class="toolbar">
         <span>Settings:</span>
@@ -35,8 +35,8 @@
         <label><input type="checkbox" id="opt-empty" checked> Remove Empty Groups</label>
         <label><input type="checkbox" id="opt-minify" checked> Minify (Remove whitespace)</label>
         <div style="flex-grow: 1"></div>
-        <button id="btn-optimize">⚡ Optimize Now</button>
-        <button id="btn-copy" class="secondary">📋 Copy Result</button>
+        <button id="btn-optimize" aria-label="Optimize SVG">⚡ Optimize Now</button>
+        <button id="btn-copy" class="secondary" aria-label="Copy optimized SVG">📋 Copy Result</button>
     </div>
 
     <div class="main-grid">
