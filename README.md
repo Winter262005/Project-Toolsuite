@@ -250,7 +250,7 @@ See the `LICENSE` file for complete details.
 
 | Rank | Contributor | Points | Commits |
 |-----:|------------|-------:|--------:|
-| 1 | @Winter262005 | 295 | 295 |
+| 1 | @Winter262005 | 299 | 299 |
 | 2 | @love25-codes | 26 | 26 |
 | 3 | @VITianYash42 | 20 | 20 |
 | 4 | @rach-kanc | 16 | 16 |
