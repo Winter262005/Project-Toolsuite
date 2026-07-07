@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSV Studio - Project Toolsuite</title>
+    <meta name="description" content="Paste, inspect, convert, and export CSV data in a lightweight workspace." />
+
+    <link rel="stylesheet" href="../../theme.css" />
+    <script src="../../theme.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 16px 40px;
+        }
+
+        header {
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--muted);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+            background: var(--surface);
+            color: var(--text);
+            border: 2px solid var(--border);
+            padding: 12px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.15s ease;
+        }
+
+        button:hover {
+            background: var(--text);
+            color: var(--bg);
+            box-shadow: 0 6px 14px var(--shadow);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 220px;
+            transition: background-color 0.2s, border-color 0.2s;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 12px;
+        }
+
+        textarea:focus,
+        input:focus {
+            outline: none;
+            background-color: var(--tag-bg);
+            border-color: var(--muted);
+        }
+
+        .textarea-wrap {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 24px;
+            padding: 8px 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            display: none;
+            transition: all 0.15s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--text);
+            color: var(--bg);
+            box-shadow: 0 6px 14px var(--shadow);
+        }
+
+        .copy-btn:active {
+            transform: translateY(1px);
+        }
+
+        .panel {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            background: var(--surface);
+        }
+
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        #search {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .table-actions {
+            display: none;
+        }
+
+        .table-wrap {
+            overflow: auto;
+            max-height: 420px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+        }
+
+        th,
+        td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--surface-2);
+            position: sticky;
+            top: 0;
+        }
+
+        tr.invalid-row {
+            background: rgba(255, 0, 0, 0.05);
+        }
+
+        td.cell-mismatch {
+            background: #ff6b6b;
+            color: white;
+            font-weight: bold;
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        td.cell-extra {
+            background: #ffa726;
+            color: white;
+            font-weight: bold;
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 16px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--muted);
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .validation-info {
+            padding: 12px;
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: none;
+            margin-top: 12px;
+        }
+
+        .validation-info.show {
+            display: block;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 24px 0 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px 12px 24px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<body>
+    <header>
+        <div>
+            <h1>CSV Studio</h1>
+            <p>Paste, inspect, convert, and export CSV data instantly.</p>
+        </div>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+    </header>
+
+    <main>
+        <section>
+            <div class="toolbar">
+                <!-- <button onclick="parseCSV()">Convert</button> -->
+                <button onclick="document.getElementById('csvFile').click()">
+                    Upload CSV
+                </button>
+                <button data-action onclick="toJSON()">JSON</button>
+                <button data-action onclick="toCSV()">Format CSV</button>
+                <button data-action onclick="minifyCSV()">Minify CSV</button>
+                <button data-action onclick="clearAll()">Clear</button>
+                <button data-export onclick="downloadCSV()">Download CSV</button>
+                <button data-export onclick="downloadJSON()">Download JSON</button>
+                <button data-export onclick="downloadTXT()">Download TXT</button>
+                <button data-export onclick="downloadPDF()">Download PDF</button>
+                <button data-export onclick="downloadExcel()">Download Excel</button>
+            </div>
+
+            <label>INPUT</label>
+            <input type="file" id="csvFile" accept=".csv,.txt" style="display:none" onchange="uploadCSV(event)">
+            <div class="textarea-wrap">
+                <textarea id="csvInput" placeholder="Paste CSV here..." oninput="parseCSV()"></textarea>
+                <button class="copy-btn" id="copyBtn" type="button" onclick="copyText()" style="display:none">📋
+                    Copy</button>
+            </div>
+            <div class="panel">
+                <div class="search-row">
+                    <input id="search" placeholder="Search rows..." oninput="filterRows()" />
+                    <div class="table-actions">
+                        <button onclick="downloadTableAsImage()">PNG</button>
+                    </div>
+                </div>
+                <div id="validationInfo" class="validation-info"></div>
+                <div class="stats" id="stats" style="display: none;">
+                    <div class="stat-item">
+                        <span class="stat-label">Rows</span>
+                        <span class="stat-value" id="rowCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Columns</span>
+                        <span class="stat-value" id="colCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Blank Cells</span>
+                        <span class="stat-value" id="blankCellCount" style="color: #ff6b6b;">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Extra Cells</span>
+                        <span class="stat-value" id="extraCellCount" style="color: #ffa726;">0</span>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table id="table"></table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a href="../../index.html">← Back to Home</a>
+    </footer>
+
+    <script>
+        let data = [];
+        let headers = [];
+        let currentMode = "csv";
+        let invalidRows = new Set();
+        function setCopyButtonVisibility(visible) {
+            const copyBtn = document.getElementById("copyBtn");
+            if (!copyBtn) return;
+
+            copyBtn.style.display = visible ? "block" : "none";
+            copyBtn.textContent = "📋 Copy";
+            copyBtn.disabled = false;
+        }
+
+        function loadData() {
+            const text = document.getElementById("csvInput").value.trim();
+
+            if (!text) {
+                data = [];
+                headers = [];
+                updateButtonState();
+                return false;
+            }
+
+            const delimiter = detectDelimiter(text);
+
+            const result = Papa.parse(text, {
+                delimiter: delimiter,
+                skipEmptyLines: true
+            });
+
+            if (result.errors.length) {
+                console.warn(result.errors);
+            }
+
+            headers = result.data[0] || [];
+            data = result.data.slice(1);
+
+            updateButtonState();
+            return true;
+        }
+
+        function updateButtonState() {
+            const hasInput =
+                document.getElementById("csvInput").value.trim().length > 0;
+
+            const hasData =
+                headers.length > 0 && data.length > 0;
+
+            // JSON / CSV / Clear
+            document.querySelectorAll("button[data-action]").forEach(btn => {
+                btn.disabled = !hasInput;
+                btn.style.opacity = hasInput ? "1" : "0.5";
+                btn.style.cursor = hasInput ? "pointer" : "not-allowed";
+            });
+
+            // Downloads
+            document.querySelectorAll("button[data-export]").forEach(btn => {
+                btn.disabled = !hasData;
+                btn.style.opacity = hasData ? "1" : "0.5";
+                btn.style.cursor = hasData ? "pointer" : "not-allowed";
+            });
+        }
+
+
+        function detectDelimiter(text) {
+            const delimiters = [",", ";", "\t", "|"];
+            let best = ",";
+            let max = 0;
+
+            const lines = text.split(/\r?\n/).filter(Boolean);
+            const sample = lines[0] || "";
+
+            delimiters.forEach(d => {
+                const count = sample.split(d).length;
+                if (count > max) {
+                    max = count;
+                    best = d;
+                }
+            });
+
+            return best;
+        }
+
+        function parseCSV() {
+            setCopyButtonVisibility(false);
+            if (!loadData()) {
+                document.getElementById("table").innerHTML = "";
+                return;
+            }
+
+            renderTable(data);
+            updateButtonState();
+            currentMode = "csv";
+        }
+        function uploadCSV(event) {
+            const file = event.target.files[0];
+
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById("csvInput").value = e.target.result;
+
+                // Automatically parse and preview
+                parseCSV();
+            };
+
+            reader.readAsText(file);
+
+            // Allows selecting the same file again later
+            event.target.value = "";
+        }
+
+        function validateCSV() {
+            invalidRows.clear();
+            let invalidCount = 0;
+
+            data.forEach((row, index) => {
+                // Check if row has wrong column count
+                if (row.length !== headers.length) {
+                    invalidRows.add(index);
+                    invalidCount++;
+                }
+            });
+
+            return invalidCount;
+        }
+
+        function renderTable(rows) {
+            const table = document.getElementById("table");
+            const tableActions = document.querySelector(".table-actions");
+            table.innerHTML = "";
+
+            // Validate BEFORE rendering
+            validateCSV();
+
+            if (!rows.length || !headers.length) {
+                if (tableActions) {
+                    tableActions.style.display = "none";
+                }
+                document.getElementById("stats").style.display = "none";
+                return;
+            }
+
+            if (tableActions) {
+                tableActions.style.display = "block";
+            }
+
+            const headerRow = document.createElement("tr");
+            headers.forEach(h => {
+                const th = document.createElement("th");
+                th.textContent = h;
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+
+            rows.forEach((row, rowIndex) => {
+                const tr = document.createElement("tr");
+
+                // Mark invalid rows
+                if (invalidRows.has(rowIndex)) {
+                    tr.classList.add("invalid-row");
+                }
+
+                headers.forEach((_, colIndex) => {
+                    const td = document.createElement("td");
+                    td.textContent = row[colIndex] || "";
+
+                    // Highlight mismatched cells
+                    if (invalidRows.has(rowIndex)) {
+                        // Row has fewer columns than headers (missing cell)
+                        if (colIndex >= row.length) {
+                            td.classList.add("cell-mismatch");
+                            td.title = "Missing value";
+                        }
+                    }
+
+                    tr.appendChild(td);
+                });
+
+                // Highlight extra columns (row has more columns than headers)
+                for (let i = headers.length; i < row.length; i++) {
+                    const td = document.createElement("td");
+                    td.textContent = row[i];
+                    td.classList.add("cell-extra");
+                    td.title = "Extra column";
+                    tr.appendChild(td);
+                }
+
+                table.appendChild(tr);
+            });
+
+            // Update stats
+            updateStats(rows);
+        }
+
+        function updateStats(rows) {
+            validateCSV();
+
+            // Count blank cells (missing values in expected columns)
+            let blankCellCount = 0;
+            data.forEach((row) => {
+                for (let i = 0; i < headers.length; i++) {
+                    if (i >= row.length || row[i] === "") {
+                        blankCellCount++;
+                    }
+                }
+            });
+
+            // Count extra cells (columns beyond expected)
+            let extraCellCount = 0;
+            data.forEach((row) => {
+                if (row.length > headers.length) {
+                    extraCellCount += (row.length - headers.length);
+                }
+            });
+
+            document.getElementById("rowCount").textContent = rows.length;
+            document.getElementById("colCount").textContent = headers.length;
+            document.getElementById("blankCellCount").textContent = blankCellCount;
+            document.getElementById("extraCellCount").textContent = extraCellCount;
+            document.getElementById("stats").style.display = "flex";
+
+            // Show validation info if there are invalid rows
+            const validationInfo = document.getElementById("validationInfo");
+            if (blankCellCount > 0 || extraCellCount > 0) {
+                const issues = [];
+                if (blankCellCount > 0) issues.push(`${blankCellCount} blank cell(s)`);
+                if (extraCellCount > 0) issues.push(`${extraCellCount} extra cell(s)`);
+                validationInfo.textContent = `⚠️ ${issues.join(", ")}`;
+                validationInfo.classList.add("show");
+            } else {
+                validationInfo.classList.remove("show");
+            }
+        }
+
+        function toJSON() {
+            if (!loadData()) return;
+
+            const json = data.map(row => {
+                let obj = {};
+
+                headers.forEach((h, i) => {
+                    obj[h] = row[i] ?? "";
+                });
+
+                return obj;
+            });
+
+            document.getElementById("csvInput").value =
+                JSON.stringify(json, null, 2);
+            currentMode = "json";
+            document.getElementById("copyBtn").style.display = "block";
+        }
+        function toCSV() {
+            if (!loadData()) return;
+
+            const csv = Papa.unparse({
+                fields: headers,
+                data: data
+            });
+
+            document.getElementById("csvInput").value = csv;
+
+            currentMode = "csv";
+            parseCSV(); // Re-render table
+            setCopyButtonVisibility(true);
+        }
+
+        function minifyCSV() {
+            if (!loadData()) return;
+
+            const csv = Papa.unparse({
+                fields: headers,
+                data: data
+            });
+
+            // Remove extra whitespace around delimiters and trim each line
+            const minified = csv
+                .split("\n")
+                .map(line => line.trim())
+                .filter(line => line.length > 0)
+                .join("\n");
+
+            document.getElementById("csvInput").value = minified;
+
+            currentMode = "csv";
+            parseCSV(); // Re-render table
+            setCopyButtonVisibility(true);
+        }
+        function clearAll() {
+            document.getElementById("csvInput").value = "";
+            setCopyButtonVisibility(false);
+            document.getElementById("table").innerHTML = "";
+            document.getElementById("stats").style.display = "none";
+            document.getElementById("validationInfo").classList.remove("show");
+            data = [];
+            headers = [];
+            invalidRows.clear();
+            updateButtonState();
+        }
+
+        function filterRows() {
+            const q = document.getElementById("search").value.toLowerCase();
+            const filtered = data.filter(row => row.join(" ").toLowerCase().includes(q));
+            renderTable(filtered);
+        }
+        function downloadCSV() {
+            if (!loadData()) return;
+
+            const csv = Papa.unparse({
+                fields: headers,
+                data: data
+            });
+
+            const blob = new Blob([csv], {
+                type: "text/csv;charset=utf-8;"
+            });
+
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "formatted.csv";
+            a.click();
+
+            URL.revokeObjectURL(a.href);
+        }
+        function downloadJSON() {
+            if (!loadData()) return;
+
+            const json = data.map(row => {
+                let obj = {};
+                headers.forEach((h, i) => {
+                    obj[h] = row[i] || "";
+                });
+                return obj;
+            });
+
+            const blob = new Blob([JSON.stringify(json, null, 2)], {
+                type: "application/json"
+            });
+
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "data.json";
+            a.click();
+        }
+
+        function downloadTXT() {
+            if (!loadData()) return;
+            let text = headers.join("\t") + "\n";
+            data.forEach(row => {
+                text += row.join("\t") + "\n";
+            });
+
+            const blob = new Blob([text], { type: "text/plain" });
+
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "data.txt";
+            a.click();
+        }
+
+        function downloadExcel() {
+            if (!loadData()) return;
+            const wsData = [headers, ...data];
+
+            const ws = XLSX.utils.aoa_to_sheet(wsData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            XLSX.writeFile(wb, "data.xlsx");
+        }
+
+        function downloadPDF() {
+            if (!loadData()) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            let y = 10;
+            doc.text("CSV Export", 10, y);
+            y += 10;
+            doc.setFontSize(8);
+
+            const rows = [headers, ...data];
+            rows.forEach(row => {
+                doc.text(row.join(" | "), 10, y);
+                y += 6;
+
+                if (y > 280) {
+                    doc.addPage();
+                    y = 10;
+                }
+            });
+
+            doc.save("data.pdf");
+        }
+
+
+        updateButtonState();
+
+        function copyText() {
+            const text = document.getElementById("csvInput").value;
+
+            navigator.clipboard.writeText(text);
+
+            const btn = document.getElementById("copyBtn");
+
+            btn.textContent = "✓ Copied";
+
+            setTimeout(() => {
+                btn.textContent = "📋 Copy";
+            }, 2000);
+        }
+        function downloadTableAsImage() {
+            const table = document.getElementById("table");
+            if (!table || !table.children.length) return;
+
+            const exportWrapper = document.createElement("div");
+            exportWrapper.style.position = "fixed";
+            exportWrapper.style.left = "-9999px";
+            exportWrapper.style.top = "0";
+            exportWrapper.style.width = `${Math.max(table.scrollWidth, 700)}px`;
+            exportWrapper.style.padding = "24px";
+            exportWrapper.style.background = "#ffffff";
+            exportWrapper.style.fontFamily = "Arial, sans-serif";
+            exportWrapper.style.color = "#111111";
+
+            const title = document.createElement("div");
+            title.textContent = "CSV Table Export";
+            title.style.fontSize = "18px";
+            title.style.fontWeight = "700";
+            title.style.marginBottom = "12px";
+
+            const clonedTable = table.cloneNode(true);
+            clonedTable.style.width = "100%";
+            clonedTable.style.borderCollapse = "collapse";
+            clonedTable.style.fontSize = "14px";
+            clonedTable.querySelectorAll("th, td").forEach(cell => {
+                cell.style.border = "1px solid #111111";
+                cell.style.padding = "8px";
+                cell.style.backgroundColor = "#ffffff";
+                cell.style.color = "#111111";
+                cell.style.whiteSpace = "nowrap";
+            });
+
+            exportWrapper.appendChild(title);
+            exportWrapper.appendChild(clonedTable);
+            document.body.appendChild(exportWrapper);
+
+            window.requestAnimationFrame(() => {
+                html2canvas(exportWrapper, {
+                    backgroundColor: "#ffffff",
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: exportWrapper.scrollWidth,
+                    windowHeight: exportWrapper.scrollHeight
+                }).then(canvas => {
+                    const link = document.createElement("a");
+                    link.download = "csv-table.png";
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                    exportWrapper.remove();
+                }).catch(error => {
+                    console.error("PNG export failed", error);
+                    exportWrapper.remove();
+                });
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</body>
+
+</html>

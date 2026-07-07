@@ -90,22 +90,6 @@
         .diff-add { color: var(--diff-add-text); background: var(--diff-add-bg); display: block; }
         .diff-remove { color: var(--diff-remove); background:var(--diff-del-bg); display: block; }
         .diff-context { color: var(--muted); display: block; }
-        .dark-mode-toggle {
-            padding: 10px 16px;
-            border: 3px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: 0.2s;
-        }
-
-        .dark-mode-toggle:hover {
-            background: var(--text);
-            color: var(--bg);
-        }
         /* Footer */
         .footer {  background: var(--tag-bg);border-top: 4px solid var(--border);color: var(--text);padding: 10px 30px;  font-size: 12px; }
         .tooltip { position: absolute; background: var(--text); color: var(--bg); border: 2px solid var(--border); padding: 5px 10px; font-size: 12px; pointer-events: none; display: none; z-index: 1000; }
@@ -131,5 +115,9 @@
         .back-home-btn:hover {
             background: var(--text);
             color: var(--bg);
+        }
+
+        #themeBtn{
+            top: 20px;
         }
     

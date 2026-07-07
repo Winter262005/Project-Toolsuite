@@ -69,7 +69,7 @@ main {
 
 h2 {
     text-transform: uppercase;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     margin-bottom: 24px;
     border-bottom: 3px solid var(--border);
     display: inline-block;
@@ -80,6 +80,16 @@ p {
     max-width: 760px;
     margin-bottom: 24px;
     line-height: 1.75;
+    font-size: 1.1rem;
+}
+
+.feature {
+    padding: 26px;
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    background: var(--tag-bg);
+    font-size: 1.05rem;
+    line-height: 1.7;
 }
 
 /* FEATURE GRID */
@@ -111,6 +121,8 @@ ul {
 
 li {
     margin-bottom: 14px;
+    font-size: 1.1rem;
+    line-height: 1.8;
 }
 
 /* CTA */
@@ -141,7 +153,7 @@ li {
 }
 
 /* MOBILE */
-@media (max-width: 600px) {
+    @media (max-width: 600px) {
     h1 {
         font-size: 2.2rem;
     }
@@ -152,6 +164,16 @@ li {
 
     .card {
         padding: 32px;
+    }
+
+    p,
+    li,
+    .feature {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.35rem;
     }
 }
 </style>

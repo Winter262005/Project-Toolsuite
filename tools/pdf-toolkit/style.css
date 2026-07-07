@@ -546,7 +546,6 @@
             color: var(--bg);
         }
 
-
-
-
-        
+        #themeBtn {
+            top: 15px;
+        }

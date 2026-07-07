@@ -46,9 +46,6 @@
             cursor: pointer; text-transform: uppercase;
             box-shadow: 4px 4px 0 var(--border); transition: transform 0.1s;
         }
-        button:hover:enabled { background: #000; color: #fff; transform: translateY(-2px); }
-        button:active { transform: translateY(0); box-shadow: 2px 2px 0 var(--border); }
-        button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
         /* Scrubber Specific Styles */
         .file-list { display: grid; gap: 20px; margin-top: 20px; }
@@ -104,6 +101,12 @@
             background: var(--text);
             color: var(--bg);
         }
+
+        #themeBtn{
+            top: -15px;
+        }
+
+
     </style>
     <link rel="stylesheet" href="../../theme.css">
 </head>

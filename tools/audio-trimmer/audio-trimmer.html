@@ -312,6 +312,10 @@
         }
 
 
+        #themeBtn{
+            top:30px;
+            right:30px;
+        }
 
     </style>
 </head>
@@ -321,6 +325,7 @@
     <div class="container">
         <h1>Audio Trimmer</h1>
         <p class="desc">Trim audio files securely in your browser. No server uploads.</p>
+        <button id="themeBtn" class="dark-mode-toggle" onclick="toggleTheme()">DARK MODE</button>
 
         <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-input').click()">
             <p>Click to Upload Audio (MP3/WAV)</p>
@@ -371,14 +376,6 @@
             <button id="btn-preview" class="secondary">▶ Preview Trim</button>
             <button id="btn-download">💾 Download Trimmed WAV</button>
         </div>
-    </div>
-
-    <div class="page-actions">
-
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">
-                DARK MODE
-            </button>
-
     </div>
 
     <footer>

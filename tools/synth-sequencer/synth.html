@@ -83,6 +83,11 @@
             transition: 0.2s;
         }
 
+        #themeBtn{
+            border-radius: 0px;
+            top:5px;
+        }
+
         #btn-play { background-color: var(--success, #4caf50); color: white; }
         #btn-stop { background-color: #f44336; color: white; }
         #btn-clear { background-color: var(--label-muted); color: white; }
@@ -174,7 +179,7 @@
 <body>
 
     <header class="page-header">
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">DARK MODE</button>
+         <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
         <h1>WASM Synthesizer</h1>
     </header>
     

@@ -46,6 +46,9 @@
     <loc>https://project-toolsuite.vercel.app/tools/cron-explainer/cron.html</loc>
   </url>
   <url>
+    <loc>https://project-toolsuite.vercel.app/tools/csv-formatter/csvformatter.html</loc>
+  </url>
+  <url>
     <loc>https://project-toolsuite.vercel.app/tools/diff-checker/diff.html</loc>
   </url>
   <url>

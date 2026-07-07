@@ -346,6 +346,10 @@
             color: var(--bg);
         }
 
+        #themeBtn {
+            top: 20px;
+        }
+
         @media (max-width: 768px) {
             .app-container {
                 flex-direction: column;
@@ -366,9 +370,6 @@
         
         <aside class="sidebar">
             <div class="brand">ARCHIVE<span>_STUDIO</span></div>
-            <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">
-                DARK MODE
-            </button>
             
             <div class="nav-group">
                 <button class="nav-item active" onclick="app.switchModule('extractor')">
@@ -397,7 +398,7 @@
                     <button class="upload-btn" onclick="document.getElementById('archiveInput').click()">Select File</button>
                     <input type="file" id="archiveInput" hidden accept=".zip,.7z,.rar,.tar,.gz" onchange="app.handleArchiveSelect(event)">
                 </div>
-
+                <button id="themeBtn" class="dark-mode-toggle" onclick="toggleTheme()">DARK MODE</button>
                 <div class="status-msg" id="extractStatus"></div>
 
                 <div class="file-explorer" id="fileExplorer">
@@ -407,6 +408,8 @@
                     <ul class="folder-tree" id="folderTree">
                     </ul>
                 </div>
+
+                
             </div>
 
             <div id="module-compressor" class="module">
