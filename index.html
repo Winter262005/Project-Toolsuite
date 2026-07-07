@@ -1001,6 +1001,15 @@
 
     function renderTags() {
       const tagBox = document.getElementById("tag-container");
+
+      const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
+const query = normalize(document.getElementById("toolSearch").value);
+
+const visibleTools = tools.filter((tool) =>
+  normalize(tool.name).includes(query)
+);
+
+
       const uniqueTags = [
         "all",
         ...new Set(tools.flatMap((t) => t.tags)),
@@ -1012,10 +1021,18 @@
 
       tagBox.innerHTML = "";
       uniqueTags.forEach((tag) => {
+
+        const count =
+  tag === "all"
+    ? visibleTools.length
+    : visibleTools.filter((tool) => tool.tags.includes(tag)).length;
         const btn = document.createElement("button");
         btn.className = "tag-item";
         btn.classList.toggle("active", activeTag === tag);
-        btn.textContent = tag === "all" ? "All Tools" : tag;
+        btn.textContent =
+  tag === "all"
+    ? `All Tools (${count})`
+    : `${tag} (${count})`;
         btn.onclick = () => {
           activeTag = tag;
           renderTags();
@@ -1076,7 +1093,10 @@
         .join("");
     }
 
-    document.getElementById("toolSearch").oninput = renderTools;
+   document.getElementById("toolSearch").oninput = () => {
+  renderTools();
+  renderTags();
+};
 
     // Initial Execution
     renderTags();
@@ -1131,17 +1151,6 @@
   </script>
   <script src="./theme.js"></script>
 </body>
-
-  });
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initSpinner);
-} else {
-  initSpinner();
-}
-    </script>
-    <script src="./theme.js"></script>
     <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
