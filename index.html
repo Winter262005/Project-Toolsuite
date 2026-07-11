@@ -248,6 +248,88 @@
         border-color 0.25s ease;
     }
 
+    .tool-card {
+      position: relative;
+    }
+
+    .copy-link-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      border: 2px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+
+      cursor: pointer;
+
+      border-radius: 8px;
+
+      padding: 4px 8px;
+
+      transition: all .2s ease;
+    }
+
+    .copy-link-btn:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* ===========================
+   Copy Toast
+=========================== */
+
+.copy-toast {
+  position: fixed;
+  top: 20px;
+  right: 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-width: 260px;
+
+  padding: 14px 18px;
+
+  background: #1f2937;
+  color: #fff;
+
+  border-left: 5px solid #22c55e;
+  border-radius: 12px;
+
+  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+
+  z-index: 99999;
+
+  opacity: 0;
+  transform: translateX(120%);
+  transition:
+      transform .35s ease,
+      opacity .35s ease;
+}
+
+.copy-toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.copy-toast.hide {
+  opacity: 0;
+  transform: translateX(120%);
+}
+
+.copy-toast svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.copy-toast-title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
     .tool-link:hover {
       transform: translateY(-5px);
 
@@ -991,9 +1073,9 @@
         tags: ["Dev", "DevOps"],
       },
       {
-          name: "Tool Health Checker",
-          path: "tools/health-checker/health-checker.html",
-          tags: ["Maintenance", "Utilities"],
+        name: "Tool Health Checker",
+        path: "tools/health-checker/health-checker.html",
+        tags: ["Maintenance", "Utilities"],
       },
     ];
 
@@ -1082,22 +1164,97 @@ const visibleTools = tools.filter((tool) =>
       container.innerHTML = filtered
         .map(
           (t) => `
-      <a href="${t.path}" class="tool-link">
-        <div>${t.name}</div>
-        <div class="tool-tags">
-          ${t.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
-        </div>
-      </a>
-    `
+<div class="tool-card">
+
+<a href="${t.path}" class="tool-link">
+    <div>${t.name}</div>
+
+    <div class="tool-tags">
+        ${t.tags
+              .map(tag => `<span class="tag">${tag}</span>`)
+              .join("")}
+    </div>
+</a>
+
+<button
+    class="copy-link-btn"
+    onclick="copyToolLink(event, '${t.path}')"
+    title="Copy Link"
+>
+📋
+</button>
+
+</div>
+`
         )
         .join("");
     }
 
-   document.getElementById("toolSearch").oninput = () => {
+async function copyToolLink(event, path) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  try {
+    await navigator.clipboard.writeText(
+      new URL(path, window.location.href).href
+    );
+
+    showCopyToast();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function showCopyToast() {
+  const old = document.querySelector(".copy-toast");
+  if (old) old.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "copy-toast";
+
+  toast.innerHTML = `
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#22c55e"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        fill="rgba(34,197,94,.15)">
+      </circle>
+      <path d="M8 12.5l2.5 2.5L16.5 9"></path>
+    </svg>
+
+    <div>
+      <div class="copy-toast-title">
+        Link Copied!
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add("show");
+  });
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    toast.classList.add("hide");
+
+    setTimeout(() => toast.remove(), 350);
+  }, 2200);
+}
+
+document.getElementById("toolSearch").oninput = () => {
   renderTools();
   renderTags();
 };
-
     // Initial Execution
     renderTags();
     renderTools();
@@ -1149,9 +1306,9 @@ const visibleTools = tools.filter((tool) =>
       initSpinner();
     }
   </script>
-  <script src="./theme.js"></script>
-</body>
-    <script>
+ <script src="./theme.js"></script>
+
+<script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
@@ -1183,5 +1340,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
-  </body>
+
+</body>
 </html>
