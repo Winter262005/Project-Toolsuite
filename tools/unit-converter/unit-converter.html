@@ -157,6 +157,17 @@
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 16px;
+            color-scheme: light;
+        }
+
+        body.dark-mode .input-group select,
+        .dark-mode .input-group select {
+            color-scheme: dark;
+        }
+
+        .input-group select option {
+            background: var(--bg);
+            color: var(--text);
         }
 
         #swapBtn {
@@ -355,7 +366,7 @@
     <header>
         <h1>Unit Converter</h1>
         <p>Convert between 120+ units instantly</p>
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">DARK MODE</button>
     </header>
 
     <main>

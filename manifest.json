@@ -4,7 +4,7 @@
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1b1a1a",
-  "theme_color": "#ffffff",
+  "theme_color": "#0f172a",
   "description": "A collection of fast, minimal, privacy-first tools designed to get work done without friction.",
   "icons": [
   {

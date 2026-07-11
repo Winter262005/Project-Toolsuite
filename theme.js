@@ -37,6 +37,10 @@ function updateThemeButton() {
     const isDark =
         document.documentElement.classList.contains("dark-mode");
 
+    btn.setAttribute(
+    "aria-pressed",
+    isDark ? "true" : "false"
+    );
     const darkModeOption = btn.querySelector(".dark-mode-option");
     const lightModeOption = btn.querySelector(".light-mode-option");
     const sunIcon = btn.querySelector(".sun-icon");
