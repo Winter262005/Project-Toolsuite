@@ -255,7 +255,7 @@ See the `LICENSE` file for complete details.
 | 3 | @VITianYash42 | 20 | 20 |
 | 4 | @rach-kanc | 16 | 16 |
 | 5 | @Sargam-Ghagre | 15 | 15 |
-| 6 | @Ishwarpatra | 13 | 13 |
+| 6 | @Ishwarpatra | 14 | 14 |
 | 7 | @Dru-429 | 13 | 13 |
 | 8 | @AdityaMittal08 | 9 | 9 |
 | 9 | @ritiktyagiai | 8 | 8 |
