@@ -13,7 +13,8 @@ class VectorEngine {
         this.shapes = [];
         this.tool = 'select';
         this.isDragging = false;
-        this.selection = null;
+      this.selection = null;
+this.selectedShapes = [];
         this.dragStart = { x: 0, y: 0 };
         this.currentShape = null;
         this.dragStartState = null;
@@ -32,6 +33,36 @@ class VectorEngine {
 
         console.log(">> VECTOR ENGINE INITIALIZED");
     }
+
+isSelected(shape) {
+    return this.selectedShapes.includes(shape);
+}
+
+clearSelection() {
+    this.selectedShapes = [];
+    this.selection = null;
+}
+
+selectSingle(shape) {
+    this.selectedShapes = [shape];
+    this.selection = shape;
+}
+
+toggleSelection(shape) {
+    const index = this.selectedShapes.indexOf(shape);
+
+    if (index === -1) {
+        this.selectedShapes.push(shape);
+    } else {
+        this.selectedShapes.splice(index, 1);
+    }
+
+    // Keep selection pointing to the most recently selected shape
+    this.selection =
+        this.selectedShapes.length > 0
+            ? this.selectedShapes[this.selectedShapes.length - 1]
+            : null;
+}
 
     // --- MATH UTILS ---
 
@@ -136,23 +167,44 @@ class VectorEngine {
             const my = e.offsetY;
 
             if (this.tool === 'select') {
-                const hit = this.hitTest(mx, my);
-                if (hit) {
-                    this.dragStartState = JSON.parse(JSON.stringify(this.shapes));
-                    this.selection = hit;
-                    this.isDragging = true;
-                    // Store offset relative to shape origin
-                    this.dragStart = { x: mx, y: my, ox: hit.x, oy: hit.y };
+    const hit = this.hitTest(mx, my);
 
-                    if (['line', 'arrow'].includes(hit.type)) {
-                        this.dragStart.oex = hit.ex;
-                        this.dragStart.oey = hit.ey;
-                    }
-                    this.updatePropsUI();
-                } else {
-                    this.selection = null;
-                }
-            } else {
+    if (hit) {
+
+        this.dragStartState = JSON.parse(JSON.stringify(this.shapes));
+
+        // Shift/Ctrl = add/remove from selection
+        if (e.shiftKey || e.ctrlKey || e.metaKey) {
+            this.toggleSelection(hit);
+        } else {
+            this.selectSingle(hit);
+        }
+
+       this.isDragging = true;
+
+// Store offset relative to shape origin (for dragging)
+this.dragStart = {
+    x: mx,
+    y: my,
+    ox: hit.x,
+    oy: hit.y
+};
+
+if (['line', 'arrow'].includes(hit.type)) {
+    this.dragStart.oex = hit.ex;
+    this.dragStart.oey = hit.ey;
+}
+
+this.updatePropsUI();
+
+    } else {
+
+        if (!(e.shiftKey || e.ctrlKey || e.metaKey)) {
+            this.clearSelection();
+        }
+
+    }
+} else {
                 // Start Drawing
                 this.isDragging = true;
                 const sx = this.snap(mx);
@@ -269,17 +321,35 @@ class VectorEngine {
         });
 
         // Properties Listeners
-        ['fillColor', 'strokeColor', 'strokeWidth'].forEach(id => {
-            document.getElementById(id).addEventListener('change', (e) => {
-                if (this.selection) {
-                    this.saveState();
-                    if (id === 'fillColor') this.selection.fill = e.target.value;
-                    if (id === 'strokeColor') this.selection.stroke = e.target.value;
-                    if (id === 'strokeWidth') this.selection.width = parseInt(e.target.value);
-                    this.saveToLocalStorage(); // Auto-save after property change
-                }
-            });
+['fillColor', 'strokeColor', 'strokeWidth'].forEach(id => {
+
+    document.getElementById(id).addEventListener('change', (e) => {
+
+        if (this.selectedShapes.length === 0) return;
+
+        this.saveState();
+
+        this.selectedShapes.forEach(shape => {
+
+            if (id === 'fillColor') {
+                shape.fill = e.target.value;
+            }
+
+            if (id === 'strokeColor') {
+                shape.stroke = e.target.value;
+            }
+
+            if (id === 'strokeWidth') {
+                shape.width = parseInt(e.target.value);
+            }
+
         });
+
+        this.saveToLocalStorage();
+
+    });
+
+});
     }
 
     // --- RENDERING ---
@@ -303,9 +373,10 @@ class VectorEngine {
         // Draw Shapes
         this.shapes.forEach(s => this.drawShape(ctx, s));
         if (this.currentShape) this.drawShape(ctx, this.currentShape);
-
-        // Draw Selection
-        if (this.selection) this.drawSelection(ctx, this.selection);
+// Draw Selection
+this.selectedShapes.forEach(shape => {
+    this.drawSelection(ctx, shape);
+});
 
         requestAnimationFrame(() => this.loop());
     }
@@ -434,12 +505,26 @@ class VectorEngine {
         this.canvas.style.cursor = this.tool === 'select' ? 'default' : 'crosshair';
     }
 
-    updatePropsUI() {
-        if (!this.selection) return;
-        document.getElementById('fillColor').value = this.selection.fill;
-        document.getElementById('strokeColor').value = this.selection.stroke;
-        document.getElementById('strokeWidth').value = this.selection.width;
-    }
+   updatePropsUI() {
+
+    if (this.selectedShapes.length === 0) return;
+
+    const first = this.selectedShapes[0];
+
+    const sameFill = this.selectedShapes.every(s => s.fill === first.fill);
+    const sameStroke = this.selectedShapes.every(s => s.stroke === first.stroke);
+    const sameWidth = this.selectedShapes.every(s => s.width === first.width);
+
+    document.getElementById('fillColor').value =
+        sameFill ? first.fill : '#000000';
+
+    document.getElementById('strokeColor').value =
+        sameStroke ? first.stroke : '#000000';
+
+    document.getElementById('strokeWidth').value =
+        sameWidth ? first.width : '';
+
+}
 
     saveState(state = null) {
         const stateToSave = state || JSON.parse(JSON.stringify(this.shapes));
@@ -454,7 +539,7 @@ class VectorEngine {
         if (this.undoStack.length > 0) {
             this.redoStack.push(JSON.parse(JSON.stringify(this.shapes)));
             this.shapes = this.undoStack.pop();
-            this.selection = null;
+   this.clearSelection();
             this.saveToLocalStorage(); // Auto-save after undo
         }
     }
@@ -463,7 +548,7 @@ class VectorEngine {
         if (this.redoStack.length > 0) {
             this.undoStack.push(JSON.parse(JSON.stringify(this.shapes)));
             this.shapes = this.redoStack.pop();
-            this.selection = null;
+            this.clearSelection();
             this.saveToLocalStorage(); // Auto-save after redo
         }
     }
@@ -506,20 +591,24 @@ class VectorEngine {
         console.log('localStorage cleared');
     }
 
-    deleteSelected() {
-        if (this.selection) {
-            this.saveState();
-            this.shapes = this.shapes.filter(s => s !== this.selection);
-            this.selection = null;
-            this.saveToLocalStorage(); // Auto-save after deletion
-        }
-    }
+   deleteSelected() {
+    if (this.selectedShapes.length === 0) return;
 
+    this.saveState();
+
+    this.shapes = this.shapes.filter(
+        shape => !this.selectedShapes.includes(shape)
+    );
+
+    this.clearSelection();
+
+    this.saveToLocalStorage();
+}
     clear() {
         if (confirm("Clear Canvas?")) {
             this.saveState();
             this.shapes = [];
-            this.selection = null;
+            this.clearSelection();
             this.clearLocalStorage(); // Clear saved shapes too
         }
     }

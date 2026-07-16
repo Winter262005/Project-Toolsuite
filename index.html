@@ -1129,6 +1129,15 @@
 
     function renderTags() {
       const tagBox = document.getElementById("tag-container");
+
+      const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
+const query = normalize(document.getElementById("toolSearch").value);
+
+const visibleTools = tools.filter((tool) =>
+  normalize(tool.name).includes(query)
+);
+
+
       const uniqueTags = [
         "all",
         ...new Set(tools.flatMap((t) => t.tags)),
@@ -1140,10 +1149,18 @@
 
       tagBox.innerHTML = "";
       uniqueTags.forEach((tag) => {
+
+        const count =
+  tag === "all"
+    ? visibleTools.length
+    : visibleTools.filter((tool) => tool.tags.includes(tag)).length;
         const btn = document.createElement("button");
         btn.className = "tag-item";
         btn.classList.toggle("active", activeTag === tag);
-        btn.textContent = tag === "all" ? "All Tools" : tag;
+        btn.textContent =
+  tag === "all"
+    ? `All Tools (${count})`
+    : `${tag} (${count})`;
         btn.onclick = () => {
           activeTag = tag;
           renderTags();
@@ -1397,8 +1414,12 @@ document
           console.error('Service Worker registration failed:', error);
         }
       });
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
     }
-  </script>
-</body>
+  });
+}
+</script>
 
+</body>
 </html>
