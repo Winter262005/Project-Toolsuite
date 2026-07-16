@@ -258,6 +258,21 @@
             font-size: 30px;
             color: var(--accent);
         }
+
+        #geometry-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.geometry-info {
+    font-size: 0.7rem;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+
     </style>
         <link rel="stylesheet" href="../../theme.css">
 </head>
@@ -276,7 +291,6 @@
                 </span>
                 <h1>Vector Studio</h1>
             </div>
-        </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button class="btn" onclick="app.export('png')">EXPORT PNG</button>
             <button class="btn" onclick="app.export('svg')">EXPORT SVG</button>
@@ -336,6 +350,9 @@
                 <label class="prop-label">Stroke Width</label>
                 <input type="number" id="strokeWidth" class="prop-input" value="2" min="0" max="20">
             </div>
+
+            <div id="geometry-properties"></div>
+
             <hr style="width:100%; border:1px solid #333">
             <div class="prop-group">
                 <label class="prop-label">Snap Grid</label>

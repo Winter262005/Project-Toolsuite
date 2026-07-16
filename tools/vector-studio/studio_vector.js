@@ -41,8 +41,8 @@ isSelected(shape) {
 clearSelection() {
     this.selectedShapes = [];
     this.selection = null;
+    this.updatePropsUI();
 }
-
 selectSingle(shape) {
     this.selectedShapes = [shape];
     this.selection = shape;
@@ -82,6 +82,84 @@ toggleSelection(shape) {
         }
         return inside;
     }
+
+    createGeometryInput(label, id, value, type = 'number') {
+    return `
+        <div class="prop-group">
+            <label class="prop-label" for="${id}">${label}</label>
+            <input
+                type="${type}"
+                id="${id}"
+                class="prop-input"
+                value="${value ?? ''}"
+            >
+        </div>
+    `;
+}
+
+
+attachGeometryListeners() {
+    const bindInput = (id, callback) => {
+        const input = document.getElementById(id);
+
+        if (!input) return;
+
+       input.addEventListener('change', () => {
+    if (this.selectedShapes.length !== 1) return;
+
+    this.saveState();
+
+    callback(
+        this.selectedShapes[0],
+        input.value
+    );
+
+    this.saveToLocalStorage();
+
+    this.updatePropsUI();
+});
+    };
+
+    bindInput('geometryX', (shape, value) => {
+        shape.x = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryY', (shape, value) => {
+        shape.y = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryWidth', (shape, value) => {
+        shape.w = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryHeight', (shape, value) => {
+        shape.h = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryRadius', (shape, value) => {
+        shape.r = Math.max(0, parseFloat(value) || 0);
+    });
+
+    bindInput('geometryX1', (shape, value) => {
+        shape.x = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryY1', (shape, value) => {
+        shape.y = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryX2', (shape, value) => {
+        shape.ex = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryY2', (shape, value) => {
+        shape.ey = parseFloat(value) || 0;
+    });
+
+    bindInput('geometryText', (shape, value) => {
+        shape.text = value;
+    });
+}
 
     distToSegment(p, v, w) {
         const l2 = (v.x - w.x) ** 2 + (v.y - w.y) ** 2;
@@ -492,11 +570,11 @@ this.selectedShapes.forEach(shape => {
 
     // --- API UTILS ---
 
-    setTool(name) {
-        this.tool = name;
-        this.selection = null;
-        this.updateToolbar();
-    }
+ setTool(name) {
+    this.tool = name;
+    this.clearSelection();
+    this.updateToolbar();
+}
 
     updateToolbar() {
         document.querySelectorAll('.tool').forEach(el => el.classList.remove('active'));
@@ -505,15 +583,27 @@ this.selectedShapes.forEach(shape => {
         this.canvas.style.cursor = this.tool === 'select' ? 'default' : 'crosshair';
     }
 
-   updatePropsUI() {
+  updatePropsUI() {
+    const geometryPanel = document.getElementById('geometry-properties');
 
-    if (this.selectedShapes.length === 0) return;
+    if (this.selectedShapes.length === 0) {
+        geometryPanel.innerHTML = '';
+        return;
+    }
 
     const first = this.selectedShapes[0];
 
-    const sameFill = this.selectedShapes.every(s => s.fill === first.fill);
-    const sameStroke = this.selectedShapes.every(s => s.stroke === first.stroke);
-    const sameWidth = this.selectedShapes.every(s => s.width === first.width);
+    const sameFill = this.selectedShapes.every(
+        s => s.fill === first.fill
+    );
+
+    const sameStroke = this.selectedShapes.every(
+        s => s.stroke === first.stroke
+    );
+
+    const sameWidth = this.selectedShapes.every(
+        s => s.width === first.width
+    );
 
     document.getElementById('fillColor').value =
         sameFill ? first.fill : '#000000';
@@ -524,6 +614,117 @@ this.selectedShapes.forEach(shape => {
     document.getElementById('strokeWidth').value =
         sameWidth ? first.width : '';
 
+    // Geometry properties are only shown for a single selected shape.
+    if (this.selectedShapes.length !== 1) {
+        geometryPanel.innerHTML = `
+            <div class="prop-label">
+                Geometry editing is available for one selected shape at a time.
+            </div>
+        `;
+        return;
+    }
+
+    let html = '';
+
+    if (
+        ['rect', 'oval', 'diamond', 'parallelogram']
+            .includes(first.type)
+    ) {
+        html += this.createGeometryInput(
+            'X',
+            'geometryX',
+            first.x
+        );
+
+        html += this.createGeometryInput(
+            'Y',
+            'geometryY',
+            first.y
+        );
+
+        html += this.createGeometryInput(
+            'Width',
+            'geometryWidth',
+            first.w
+        );
+
+        html += this.createGeometryInput(
+            'Height',
+            'geometryHeight',
+            first.h
+        );
+    }
+
+    else if (first.type === 'circle') {
+        html += this.createGeometryInput(
+            'X',
+            'geometryX',
+            first.x
+        );
+
+        html += this.createGeometryInput(
+            'Y',
+            'geometryY',
+            first.y
+        );
+
+        html += this.createGeometryInput(
+            'Radius',
+            'geometryRadius',
+            first.r
+        );
+    }
+
+    else if (['line', 'arrow'].includes(first.type)) {
+        html += this.createGeometryInput(
+            'X1',
+            'geometryX1',
+            first.x
+        );
+
+        html += this.createGeometryInput(
+            'Y1',
+            'geometryY1',
+            first.y
+        );
+
+        html += this.createGeometryInput(
+            'X2',
+            'geometryX2',
+            first.ex
+        );
+
+        html += this.createGeometryInput(
+            'Y2',
+            'geometryY2',
+            first.ey
+        );
+    }
+
+    else if (first.type === 'text') {
+        html += this.createGeometryInput(
+            'X',
+            'geometryX',
+            first.x
+        );
+
+        html += this.createGeometryInput(
+            'Y',
+            'geometryY',
+            first.y
+        );
+
+        html += this.createGeometryInput(
+            'Text',
+            'geometryText',
+            first.text,
+            'text'
+        );
+    }
+
+    geometryPanel.innerHTML = html;
+
+    this.attachGeometryListeners();
 }
 
     saveState(state = null) {
