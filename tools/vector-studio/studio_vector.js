@@ -104,20 +104,30 @@ attachGeometryListeners() {
 
         if (!input) return;
 
-       input.addEventListener('change', () => {
-    if (this.selectedShapes.length !== 1) return;
+        input.addEventListener('change', () => {
+            if (this.selectedShapes.length !== 1) return;
 
-    this.saveState();
+            this.saveState();
 
-    callback(
-        this.selectedShapes[0],
-        input.value
-    );
+            callback(
+                this.selectedShapes[0],
+                input.value
+            );
 
-    this.saveToLocalStorage();
+            this.saveToLocalStorage();
 
-    this.updatePropsUI();
-});
+            this.updatePropsUI();
+        });
+    };
+
+    const getMinimumGeometryValue = (value) => {
+        const parsedValue = parseFloat(value);
+
+        if (!Number.isFinite(parsedValue)) {
+            return 1;
+        }
+
+        return Math.max(1, parsedValue);
     };
 
     bindInput('geometryX', (shape, value) => {
@@ -129,15 +139,15 @@ attachGeometryListeners() {
     });
 
     bindInput('geometryWidth', (shape, value) => {
-        shape.w = parseFloat(value) || 0;
+        shape.w = getMinimumGeometryValue(value);
     });
 
     bindInput('geometryHeight', (shape, value) => {
-        shape.h = parseFloat(value) || 0;
+        shape.h = getMinimumGeometryValue(value);
     });
 
     bindInput('geometryRadius', (shape, value) => {
-        shape.r = Math.max(0, parseFloat(value) || 0);
+        shape.r = getMinimumGeometryValue(value);
     });
 
     bindInput('geometryX1', (shape, value) => {
