@@ -1083,6 +1083,15 @@
 
     function renderTags() {
       const tagBox = document.getElementById("tag-container");
+
+      const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
+const query = normalize(document.getElementById("toolSearch").value);
+
+const visibleTools = tools.filter((tool) =>
+  normalize(tool.name).includes(query)
+);
+
+
       const uniqueTags = [
         "all",
         ...new Set(tools.flatMap((t) => t.tags)),
@@ -1094,10 +1103,18 @@
 
       tagBox.innerHTML = "";
       uniqueTags.forEach((tag) => {
+
+        const count =
+  tag === "all"
+    ? visibleTools.length
+    : visibleTools.filter((tool) => tool.tags.includes(tag)).length;
         const btn = document.createElement("button");
         btn.className = "tag-item";
         btn.classList.toggle("active", activeTag === tag);
-        btn.textContent = tag === "all" ? "All Tools" : tag;
+        btn.textContent =
+  tag === "all"
+    ? `All Tools (${count})`
+    : `${tag} (${count})`;
         btn.onclick = () => {
           activeTag = tag;
           renderTags();
@@ -1173,92 +1190,71 @@
         .join("");
     }
 
-   async function copyToolLink(event, path) {
+async function copyToolLink(event, path) {
+  event.preventDefault();
+  event.stopPropagation();
 
-    event.preventDefault();
-    event.stopPropagation();
+  try {
+    await navigator.clipboard.writeText(
+      new URL(path, window.location.href).href
+    );
 
-    try {
-
-        await navigator.clipboard.writeText(
-            `${window.location.origin}/${path}`
-        );
-
-        showCopyToast();
-
-    } catch (err) {
-
-        console.error(err);
-
-    }
-
+    showCopyToast();
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-    function showCopyToast() {
+function showCopyToast() {
+  const old = document.querySelector(".copy-toast");
+  if (old) old.remove();
 
-    const old = document.querySelector(".copy-toast");
+  const toast = document.createElement("div");
+  toast.className = "copy-toast";
 
-    if (old) old.remove();
-
-    const toast = document.createElement("div");
-
-    toast.className = "copy-toast";
-
-    toast.innerHTML = `
-
+  toast.innerHTML = `
     <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#22c55e"
-    stroke-width="2.5"
-    stroke-linecap="round"
-    stroke-linejoin="round">
-
-        <circle
-            cx="12"
-            cy="12"
-            r="10"
-            fill="rgba(34,197,94,.15)">
-        </circle>
-
-        <path
-            d="M8 12.5l2.5 2.5L16.5 9">
-        </path>
-
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#22c55e"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round">
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        fill="rgba(34,197,94,.15)">
+      </circle>
+      <path d="M8 12.5l2.5 2.5L16.5 9"></path>
     </svg>
 
     <div>
-
-        <div class="copy-toast-title">
-            Link Copied!
-        </div>
-
+      <div class="copy-toast-title">
+        Link Copied!
+      </div>
     </div>
+  `;
 
-    `;
+  document.body.appendChild(toast);
 
-    document.body.appendChild(toast);
+  requestAnimationFrame(() => {
+    toast.classList.add("show");
+  });
 
-    requestAnimationFrame(() => {
-        toast.classList.add("show");
-    });
+  setTimeout(() => {
+    toast.classList.remove("show");
+    toast.classList.add("hide");
 
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-        toast.classList.add("hide");
-
-        setTimeout(() => {
-            toast.remove();
-        }, 350);
-
-    }, 2200);
-
+    setTimeout(() => toast.remove(), 350);
+  }, 2200);
 }
 
-    document.getElementById("toolSearch").oninput = renderTools;
-
+document.getElementById("toolSearch").oninput = () => {
+  renderTools();
+  renderTags();
+};
     // Initial Execution
     renderTags();
     renderTools();
@@ -1310,40 +1306,40 @@
       initSpinner();
     }
   </script>
-  <script src="./theme.js"></script>
+ <script src="./theme.js"></script>
 
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async () => {
-        try {
-          const registration = await navigator.serviceWorker.register('./sw.js');
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
 
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
 
-            if (!newWorker) return;
+        if (!newWorker) return;
 
-            newWorker.addEventListener('statechange', () => {
-              if (
-                newWorker.state === 'installed' &&
-                navigator.serviceWorker.controller
-              ) {
-                const shouldRefresh = confirm(
-                  'A new version of Project Toolsuite is available. Refresh now?'
-                );
+        newWorker.addEventListener('statechange', () => {
+          if (
+            newWorker.state === 'installed' &&
+            navigator.serviceWorker.controller
+          ) {
+            const shouldRefresh = confirm(
+              'A new version of Project Toolsuite is available. Refresh now?'
+            );
 
-                if (shouldRefresh) {
-                  window.location.reload();
-                }
-              }
-            });
-          });
-        } catch (error) {
-          console.error('Service Worker registration failed:', error);
-        }
+            if (shouldRefresh) {
+              window.location.reload();
+            }
+          }
+        });
       });
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
     }
-  </script>
-</body>
+  });
+}
+</script>
 
+</body>
 </html>
