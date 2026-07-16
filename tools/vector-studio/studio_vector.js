@@ -66,6 +66,7 @@ toggleSelection(shape) {
 
 duplicateSelected() {
     if (this.selectedShapes.length === 0) {
+        alert("No shape selected. Please select a shape to duplicate.");
         return;
     }
 
