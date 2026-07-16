@@ -591,8 +591,11 @@ this.selectedShapes.forEach(shape => {
         console.log('localStorage cleared');
     }
 
-   deleteSelected() {
-    if (this.selectedShapes.length === 0) return;
+  deleteSelected() {
+    if (this.selectedShapes.length == 0) {
+        alert("No shape selected. Please select a shape to delete.");
+        return;
+    }
 
     this.saveState();
 
