@@ -194,6 +194,9 @@
 .copy-btn:active {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0px var(--border);
+        .clear-btn {
+    background: var(--bg) !important;
+    color: var(--text) !important;
 }
     
     </style>
@@ -208,10 +211,28 @@
         <button id="themeBtn" aria-label="Toggle theme" class="dark-mode-toggle" onclick="toggleTheme()">DARK MODE</button>
     </header>
 
-    <div class="input-group">
-        <input type="text" id="emailInput" placeholder="ENTER EMAIL ADDRESS (e.g. hello@example.com)..." onkeypress="handleEnter(event)">
-        <button class="action-btn" onclick="validateEmail()">ANALYZE</button>
-    </div>
+   <div class="input-group">
+    <input
+        type="text"
+        id="emailInput"
+        placeholder="ENTER EMAIL ADDRESS (e.g. hello@example.com)..."
+        onkeypress="handleEnter(event)"
+        oninput="toggleClearButton()"
+    >
+
+     <button
+        id="clearBtn"
+        class="action-btn clear-btn"
+        onclick="clearEmail()"
+        style="display: none;"
+    >
+        CLEAR
+    </button>
+
+    <button class="action-btn" onclick="validateEmail()">ANALYZE</button>
+
+   
+</div>
 
     <div class="results-card" id="resultsCard">
       <div class="result-header">
