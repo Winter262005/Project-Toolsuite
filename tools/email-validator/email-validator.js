@@ -115,6 +115,45 @@ function applyTypo(correctedDomain) {
     validateEmail();
 }
 
+function copyAnalysisResult() {
+    const email = document.getElementById('emailInput').value.trim();
+
+    const overallStatus = document.getElementById('overallStatus').textContent;
+    const syntaxResult = document.getElementById('syntaxMsg').textContent;
+    const typoResult = document.getElementById('typoMsg').textContent;
+    const disposableResult = document.getElementById('dispMsg').textContent;
+    const roleResult = document.getElementById('roleMsg').textContent;
+
+    const analysisText = `EMAIL VALIDATION RESULT
+=======================
+
+Input: ${email}
+Overall Status: ${overallStatus}
+
+Syntax & Format: ${syntaxResult}
+Domain Typo: ${typoResult}
+Disposable Domain: ${disposableResult}
+Role-based Address: ${roleResult}`;
+
+    navigator.clipboard.writeText(analysisText)
+        .then(() => {
+            if (window.showNotification) {
+                window.showNotification(
+                    'Analysis result copied to clipboard.',
+                    'success'
+                );
+            }
+        })
+        .catch(() => {
+            if (window.showNotification) {
+                window.showNotification(
+                    'Unable to copy analysis result.',
+                    'error'
+                );
+            }
+        });
+}
+
 function validateEmail() {
     const email = document.getElementById('emailInput').value.trim().toLowerCase();
     const resultsCard = document.getElementById('resultsCard');

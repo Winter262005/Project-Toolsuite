@@ -171,6 +171,29 @@
             color: var(--bg);
         }
 
+        .result-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.copy-btn {
+    padding: 5px 12px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background: var(--text);
+    color: var(--bg);
+    border: 2px solid var(--border);
+    cursor: pointer;
+    box-shadow: 3px 3px 0px var(--border);
+    transition: transform 0.1s;
+}
+
+.copy-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--border);
         .clear-btn {
     background: var(--bg) !important;
     color: var(--text) !important;
@@ -212,10 +235,21 @@
 </div>
 
     <div class="results-card" id="resultsCard">
-        <div class="result-header">
-            <span>Analysis Result</span>
-            <span class="status-badge" id="overallStatus">PENDING</span>
-        </div>
+      <div class="result-header">
+    <span>Analysis Result</span>
+
+    <div class="result-actions">
+        <span class="status-badge" id="overallStatus">PENDING</span>
+
+        <button
+            id="copyResultBtn"
+            class="copy-btn"
+            onclick="copyAnalysisResult()"
+        >
+            COPY
+        </button>
+    </div>
+</div>
         
         <ul class="check-list">
             <li class="check-item">
