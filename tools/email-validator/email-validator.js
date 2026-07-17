@@ -135,22 +135,12 @@ Domain Typo: ${typoResult}
 Disposable Domain: ${disposableResult}
 Role-based Address: ${roleResult}`;
 
-    navigator.clipboard.writeText(analysisText)
+   navigator.clipboard.writeText(analysisText)
         .then(() => {
-            if (window.showNotification) {
-                window.showNotification(
-                    'Analysis result copied to clipboard.',
-                    'success'
-                );
-            }
+            alert('Analysis result copied to clipboard successfully.');
         })
         .catch(() => {
-            if (window.showNotification) {
-                window.showNotification(
-                    'Unable to copy analysis result.',
-                    'error'
-                );
-            }
+            alert('Unable to copy analysis result to clipboard.');
         });
 }
 
