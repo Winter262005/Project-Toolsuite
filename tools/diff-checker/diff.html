@@ -32,12 +32,23 @@
 </head>
 
 <body>
-    <header>
-        <h1>Visual Diff Checker</h1>
-        <button class="secondary" onclick="clearAll()">Clear All</button>
+  <header>
+    <h1>Visual Diff Checker</h1>
 
-        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">DARK MODE</button>
-    </header>
+    <div class="header-actions">
+        <button class="secondary" onclick="clearAll()">
+            Clear All
+        </button>
+
+        <button
+            class="dark-mode-toggle"
+            onclick="toggleTheme()"
+            id="themeBtn"
+            aria-label="Toggle theme">
+            DARK MODE
+        </button>
+    </div>
+</header>
 
     <div class="input-container">
         <div class="input-box">
