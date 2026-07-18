@@ -51,15 +51,45 @@
 </header>
 
     <div class="input-container">
-        <div class="input-box">
-            <label>Original Text</label>
-            <textarea id="original" placeholder="Paste original code/text here..."></textarea>
-        </div>
-        <div class="input-box">
-            <label>Modified Text</label>
-            <textarea id="modified" placeholder="Paste modified code/text here..."></textarea>
-        </div>
+       <div class="input-box">
+    <div class="label-row">
+        <label for="original">Original Text</label>
+        <button
+            type="button"
+            class="sample-button"
+            onclick="loadSample('original')">
+            Load Sample
+        </button>
     </div>
+
+    <textarea
+        id="original"
+        placeholder="Paste original code/text here..."></textarea>
+</div>
+
+<div class="input-box">
+    <div class="label-row">
+        <label for="modified">Modified Text</label>
+        <button
+            type="button"
+            class="sample-button"
+            onclick="loadSample('modified')">
+            Load Sample
+        </button>
+    </div>
+
+    <textarea
+        id="modified"
+        placeholder="Paste modified code/text here..."></textarea>
+</div>
+    </div>
+
+    <div class="input-box">
+        <label for="modified">Modified Text</label>
+        <textarea id="modified" placeholder="Paste modified code/text here..."></textarea>
+    </div>
+
+</div>
 
     <div class="controls">
         <button onclick="compareText()">🔍 Compare Differences</button>

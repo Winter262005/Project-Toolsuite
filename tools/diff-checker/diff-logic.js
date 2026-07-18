@@ -112,3 +112,27 @@ function clearAll() {
     modifiedInput.value = '';
     outputDiv.innerHTML = '<div style="padding: 20px; color: #666; text-align: center;">Result will appear here...</div>';
 }
+
+function loadSample(inputId) {
+    const samples = {
+        original: `The weather was pleasant today.
+I went for a walk in the park.
+The trees were green and the birds were singing.
+After the walk, I stopped at a coffee shop.
+It was a peaceful and relaxing afternoon.`,
+
+        modified: `The weather was warm and pleasant today.
+I went for a walk in the nearby park.
+The trees were green and the birds were singing loudly.
+After the walk, I stopped at a small coffee shop.
+It was a peaceful and relaxing afternoon with beautiful weather.`
+    };
+
+    const input = document.getElementById(inputId);
+
+    if (!input || !samples[inputId]) {
+        return;
+    }
+
+    input.value = samples[inputId];
+}
