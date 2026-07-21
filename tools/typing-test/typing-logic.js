@@ -91,7 +91,7 @@ hiddenInput.addEventListener('input', () => {
     const typedChar = hiddenInput.value.split("")[charIndex];
     if (typedChar == null) return;
 
-    // Handle normal typing
+
     if (typedChar === chars[charIndex].innerText) {
         chars[charIndex].classList.add('correct');
     } else {
@@ -128,7 +128,7 @@ function calculateStats() {
     wpmDisplay.innerText = wpm || 0;
     accuracyDisplay.innerText = (acc || 100) + "%";
 
-    // Update Gauge (Maxes out at 80 WPM visually)
+
     const gaugeWidth = Math.min((wpm / 80) * 100, 100);
     speedGauge.style.width = gaugeWidth + "%";
 }
