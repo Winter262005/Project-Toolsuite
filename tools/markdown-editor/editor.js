@@ -58,19 +58,19 @@ clearBtn.addEventListener('click', () => {
 });
 
 copyHtmlBtn.addEventListener('click', async () => {
+  const html = preview.innerHTML.trim();
+
+  if (!html) {
+    notify.error("Nothing to copy.");
+    return;
+  }
+
   try {
-    await navigator.clipboard.writeText(preview.innerHTML);
+    await navigator.clipboard.writeText(html);
 
-    const originalText = copyHtmlBtn.innerText;
-
-    copyHtmlBtn.innerText = 'COPIED!';
-
-    setTimeout(() => {
-      copyHtmlBtn.innerText = originalText;
-    }, 2000);
-
+    notify.success("Copied HTML to clipboard!");
   } catch (err) {
-    alert('Failed to copy HTML.');
+    notify.error("Failed to copy HTML.");
   }
 });
 
