@@ -73,9 +73,15 @@ copyHtmlBtn.addEventListener('click', async () => {
     alert('Failed to copy HTML.');
   }
 });
-
 downloadBtn.addEventListener('click', () => {
-  const blob = new Blob([input.value], {
+  const markdown = input.value.trim();
+
+  if (!markdown) {
+    notify.error("Nothing to download.");
+    return;
+  }
+
+  const blob = new Blob([markdown], {
     type: 'text/markdown'
   });
 
@@ -93,6 +99,8 @@ downloadBtn.addEventListener('click', () => {
   document.body.removeChild(a);
 
   URL.revokeObjectURL(url);
+
+  notify.success("Markdown file downloaded!");
 });
 
 init();
