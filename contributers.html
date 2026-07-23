@@ -125,21 +125,60 @@
             transform: translateY(-4px);
         }
 
-        footer {
-            margin-top: 96px;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border);
-            padding-top: 24px;
-        }
+footer {
+    margin-top: 96px;
+    padding: 32px 24px;
+    background: var(--surface);
+    border: 3px solid var(--border);
+    border-top: 1px solid rgba(0, 0, 0, .15);
+    border-bottom: none;
+    border-radius: 18px 18px 0 0;
+    box-shadow:
+        0 -6px 0 var(--border),
+        0 -12px 24px var(--shadow);
 
-        footer p {
-            margin: 8px 0;
-        }
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
 
-        footer a:hover {
-            background-color: var(--text);
-            color: var(--bg);
-        }
+footer p {
+    margin: 0;
+    color: var(--text);
+    opacity: 0.8;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+footer a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 900;
+    padding: 5px 15px;
+    border: 2px solid var(--border);
+    background: var(--surface-2);
+    border-radius: 10px;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: all 0.2s ease;
+}
+
+footer a:hover {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--border);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border);
+}
 
         @media (max-width: 640px) {
             body {
@@ -371,14 +410,17 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Project Toolsuite</p>
-        <p>
-            <a href="index.html">Home</a> |
-            <a href="privacy.html">Privacy</a> |
-            <a href="https://github.com/Winter262005/Project-Toolsuite">GitHub</a>
-        </p>
-    </footer>
+<footer>
+    <p>&copy; 2025 Project Toolsuite</p>
+
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/Winter262005/Project-Toolsuite" target="_blank" rel="noopener noreferrer">
+            GitHub
+        </a>
+    </div>
+</footer>
 
     <script src="./theme.js"></script>
 </body>

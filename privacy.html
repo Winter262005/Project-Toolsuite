@@ -1,271 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Manifesto | Project Toolsuite</title>
-<link rel="stylesheet" href="./theme.css">
-<script src="./theme.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Manifesto | Project Toolsuite</title>
+    <link rel="stylesheet" href="./theme.css">
+    <script src="./theme.js"></script>
 
-<style>
-body {
-    font-family: 'Courier New', Courier, monospace;
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    padding: 0;
-    transition: background 0.3s, color 0.3s;
-}
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 5px auto;
+            padding: 28px;
+            transition: background 0.3s, color 0.3s;
+        }
 
-/* HERO HEADER */
-header {
-    padding: 80px 24px;
-    border-bottom: 6px solid var(--border);
-    background: var(--tag-bg);
-    position: relative;
-}
+        .dark-mode-toggle {
+            position: absolute;
+            top: 30%;
+            right: 0;
+            transform: translateY(-50%);
+        }
 
-.header-inner {
-    max-width: 1000px;
-    margin: auto;
-    position: relative;
-}
+        /* HERO HEADER */
+        header {
+            padding: 30px 0 30px;
+            border-bottom: 4px solid var(--border);
+            margin-bottom: 72px;
+            background: transparent;
+            position: relative;
+        }
 
-.logo-mark {
-    font-weight: bold;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-}
+        .header-inner {
+            max-width: 1000px;
+            margin: auto;
+            position: relative;
+        }
 
-h1 {
-    font-size: 3rem;
-    margin: 16px 0;
-    text-transform: uppercase;
-}
+        .logo-mark {
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
 
-.last-updated {
-    font-size: 0.9rem;
-    border-top: 2px solid var(--border);
-    display: inline-block;
-    padding-top: 8px;
-}
+        h1 {
+            font-size: 3rem;
+            margin: 16px 0;
+            text-transform: uppercase;
+        }
 
-/* CONTENT */
-main {
-    max-width: 1000px;
-    margin: 80px auto;
-    padding: 0 24px;
-}
+        .last-updated {
+            font-size: 0.9rem;
+            border-top: 2px solid var(--border);
+            display: inline-block;
+            padding-top: 8px;
+        }
 
-.card {
-    background: var(--bg);
-    border-radius: 14px;
-    padding: 44px;
-    margin-bottom: 64px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    border: 2px solid var(--border);
-}
+        /* CONTENT */
+        main {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 0 24px;
+        }
 
-h2 {
-    text-transform: uppercase;
-    font-size: 1.6rem;
-    margin-bottom: 24px;
-    border-bottom: 3px solid var(--border);
-    display: inline-block;
-    padding-bottom: 6px;
-}
+        .card {
+            background: var(--bg);
+            border-radius: 14px;
+            padding: 44px;
+            margin-bottom: 64px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            border: 2px solid var(--border);
+        }
 
-p {
-    max-width: 760px;
-    margin-bottom: 24px;
-    line-height: 1.75;
-    font-size: 1.1rem;
-}
+        h2 {
+            text-transform: uppercase;
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            border-bottom: 3px solid var(--border);
+            display: inline-block;
+            padding-bottom: 6px;
+        }
 
-.feature {
-    padding: 26px;
-    border: 2px dashed var(--border);
-    border-radius: 12px;
-    background: var(--tag-bg);
-    font-size: 1.05rem;
-    line-height: 1.7;
-}
+        p {
+            max-width: 760px;
+            margin-bottom: 24px;
+            line-height: 1.75;
+            font-size: 1.1rem;
+        }
 
-/* FEATURE GRID */
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 28px;
-    margin-top: 32px;
-}
+        .feature {
+            padding: 26px;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            background: var(--tag-bg);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
 
-.feature {
-    padding: 26px;
-    border: 2px dashed var(--border);
-    border-radius: 12px;
-    background: var(--tag-bg);
-}
+        /* FEATURE GRID */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 28px;
+            margin-top: 32px;
+        }
 
-.feature strong {
-    display: block;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-}
+        .feature {
+            padding: 26px;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            background: var(--tag-bg);
+        }
 
-/* LIST */
-ul {
-    list-style-type: "[✓] ";
-    padding-left: 26px;
-}
+        .feature strong {
+            display: block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
 
-li {
-    margin-bottom: 14px;
-    font-size: 1.1rem;
-    line-height: 1.8;
-}
+        /* LIST */
+        ul {
+            list-style-type: "[✓] ";
+            padding-left: 26px;
+        }
 
-/* CTA */
-.footer {
-    text-align: center;
-    padding: 80px 24px;
-    border-top: 6px solid var(--border);
-    background: var(--tag-bg);
-}
+        li {
+            margin-bottom: 14px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
 
-.btn {
-    display: inline-block;
-    background: var(--text);
-    color: var(--bg);
-    padding: 18px 44px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border: 2px solid var(--border);
-    text-decoration: none;
-    transition: all 0.25s ease;
-}
+        .return-tools-wrapper {
+            text-align: center;
 
-.btn:hover {
-    background: var(--bg);
-    color: var(--text);
-    transform: translateY(-4px);
-}
+            background: var(--tag-bg);
+        }
 
-/* MOBILE */
-    @media (max-width: 600px) {
-    h1 {
-        font-size: 2.2rem;
-    }
+        .return-tools-btn {
+            display: inline-block;
+            background: var(--text);
+            color: var(--bg);
+            padding: 18px 44px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid var(--border);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
 
-    header {
-        padding: 56px 20px;
-    }
+        .return-tools-btn:hover {
+            background: var(--bg);
+            color: var(--text);
+            transform: translateY(-4px);
+        }
 
-    .card {
-        padding: 32px;
-    }
+        footer {
+            margin-top: 96px;
+            padding: 32px 24px;
+            background: var(--surface);
+            border: 3px solid var(--border);
+            border-top: 1px solid rgba(0, 0, 0, .15);
+            border-bottom: none;
+            border-radius: 18px 18px 0 0;
+            box-shadow:
+                0 -6px 0 var(--border),
+                0 -12px 24px var(--shadow);
 
-    p,
-    li,
-    .feature {
-        font-size: 1rem;
-    }
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
 
-    h2 {
-        font-size: 1.35rem;
-    }
-}
-</style>
+        footer p {
+            margin: 0;
+            color: var(--text);
+            opacity: 0.8;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        footer a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 900;
+            padding: 5px 15px;
+            border: 2px solid var(--border);
+            background: var(--surface-2);
+            border-radius: 10px;
+            box-shadow: 4px 4px 0 var(--border);
+            transition: all 0.2s ease;
+        }
+
+        footer a:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--border);
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--border);
+        }
+
+        /* CTA */
+        .btn {
+            display: inline-block;
+            background: var(--text);
+            color: var(--bg);
+            padding: 18px 44px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 2px solid var(--border);
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn:hover {
+            background: var(--bg);
+            color: var(--text);
+            transform: translateY(-4px);
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            header {
+                padding: 56px 20px;
+            }
+
+            .card {
+                padding: 32px;
+            }
+
+            p,
+            li,
+            .feature {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 1.35rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-<header>
-    <div class="header-inner">
-        <span class="logo-mark">Toolsuite Project</span>
-        <h1>Privacy by Design</h1>
-        <div class="last-updated">Version: 2025.12</div>
-    </div>
-    <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
-</header>
-
-<main>
-    <section class="card">
-        <h2>Zero-Knowledge Architecture</h2>
-        <p>
-            Project Toolsuite follows a local-first approach. Every tool runs directly inside your browser without relying on external servers.
-        </p>
-
-        <div class="feature-grid">
-            <div class="feature">
-                <strong>No Databases</strong>
-                We do not store passwords, configurations, or any personal input.
-            </div>
-
-            <div class="feature">
-                <strong>No Cloud Sync</strong>
-                Your data is never uploaded or processed remotely.
-            </div>
-
-            <div class="feature">
-                <strong>No Tracking</strong>
-                No cookies, analytics, or fingerprinting scripts.
-            </div>
-
-            <div class="feature">
-                <strong>No Logs</strong>
-                We do not collect or transmit server logs. Your interactions stay on your device.
-            </div>
+    <header>
+        <div class="header-inner">
+            <span class="logo-mark">Project Toolsuite</span>
+            <h1>Privacy by Design</h1>
+            <div class="last-updated">Version: 2025.12</div>
         </div>
-    </section>
-    
+        <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">DARK MODE</button>
+    </header>
 
-    <section class="card">
-        <h2>Data Ownership</h2>
-        <p>
-            All processing happens locally on your device using your system’s hardware:
-        </p>
-        <ul>
-            <li><strong>Security Tools:</strong> Password analysis runs entirely in your browser.</li>
-            <li><strong>Design Tools:</strong> Visual rendering uses your local GPU.</li>
-            <li><strong>File Tools:</strong> Files are processed in memory without external transfer.</li>
-        </ul>
-    </section>
+    <main>
+        <section class="card">
+            <h2>Zero-Knowledge Architecture</h2>
+            <p>
+                Project Toolsuite follows a local-first approach. Every tool runs directly inside your browser without
+                relying on external servers.
+            </p>
 
-    <section class="card">
-    <h2>Local Browser Storage & Caching</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <strong>No Databases</strong>
+                    We do not store passwords, configurations, or any personal input.
+                </div>
 
-    <p>
-        Some ToolSuite features use browser storage technologies such as
-        localStorage and service worker caches to improve functionality and user experience.
-    </p>
+                <div class="feature">
+                    <strong>No Cloud Sync</strong>
+                    Your data is never uploaded or processed remotely.
+                </div>
 
-    <ul>
-        <li>User preferences (such as theme settings)</li>
-        <li>Draft content and work in progress</li>
-        <li>Tool-specific history and saved data</li>
-        <li>Offline asset caching for faster loading and offline support</li>
-    </ul>
+                <div class="feature">
+                    <strong>No Tracking</strong>
+                    No cookies, analytics, or fingerprinting scripts.
+                </div>
 
-    <p>
-        This information is stored locally on your device and may persist across page reloads,
-        browser restarts, and future visits until you clear your browser storage or the
-        application removes it.
-    </p>
-    </section>
+                <div class="feature">
+                    <strong>No Logs</strong>
+                    We do not collect or transmit server logs. Your interactions stay on your device.
+                </div>
+            </div>
+        </section>
 
-    <section class="card">
-        <h2>Third-Party Services</h2>
-        <p>
-            Toolsuite is hosted as a static site on platforms like GitHub Pages or Vercel. While these providers may log basic technical metadata, they never access the data processed inside the tools.
-        </p>
-    </section>
-</main>
 
-<div class="footer">
-    <a href="index.html" class="btn">  ← Return to Tools</a>
-</div>
+        <section class="card">
+            <h2>Data Ownership</h2>
+            <p>
+                All processing happens locally on your device using your system’s hardware:
+            </p>
+            <ul>
+                <li><strong>Security Tools:</strong> Password analysis runs entirely in your browser.</li>
+                <li><strong>Design Tools:</strong> Visual rendering uses your local GPU.</li>
+                <li><strong>File Tools:</strong> Files are processed in memory without external transfer.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Local Browser Storage & Caching</h2>
+
+            <p>
+                Some ToolSuite features use browser storage technologies such as
+                localStorage and service worker caches to improve functionality and user experience.
+            </p>
+
+            <ul>
+                <li>User preferences (such as theme settings)</li>
+                <li>Draft content and work in progress</li>
+                <li>Tool-specific history and saved data</li>
+                <li>Offline asset caching for faster loading and offline support</li>
+            </ul>
+
+            <p>
+                This information is stored locally on your device and may persist across page reloads,
+                browser restarts, and future visits until you clear your browser storage or the
+                application removes it.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Third-Party Services</h2>
+            <p>
+                Toolsuite is hosted as a static site on platforms like GitHub Pages or Vercel. While these providers may
+                log basic technical metadata, they never access the data processed inside the tools.
+            </p>
+        </section>
+
+        <div class="return-tools-wrapper">
+            <a href="index.html" class="return-tools-btn">
+                ← Return to Tools
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project Toolsuite</p>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="contributers.html"> Contributors </a>
+            <a href="https://github.com/Winter262005/Project-Toolsuite" target="_blank" rel="noopener noreferrer">
+                GitHub
+            </a>
+        </div>
+    </footer>
 
 </body>
+
 </html>
