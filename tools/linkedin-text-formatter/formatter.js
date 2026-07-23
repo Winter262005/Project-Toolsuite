@@ -127,12 +127,19 @@ document.getElementById("boldItalicBtn").addEventListener("click", () => {
   transformText("boldItalic");
 });
 
-document.getElementById("copyBtn").addEventListener("click", async () => {
-  if (!output.value) return;
 
-  await navigator.clipboard.writeText(output.value);
-notify.success("Copied to clipboard!");
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  const text = output.value.trim();
+
+  if (!text) {
+      notify.error("Nothing to copy.");
+    return;
+  }
+
+  await navigator.clipboard.writeText(text);
+    notify.success("Copied to clipboard!");
 });
+
 
 document.getElementById("clearBtn").addEventListener("click", () => {
   input.value = "";
