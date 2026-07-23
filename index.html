@@ -305,100 +305,100 @@
     }
 
     #backToTopBtn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 48px;
-  height: 48px;
-  border: 3px solid var(--border);
-  border-radius: 50%;
-  background: var(--text);
-  color: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-  z-index: 999;
-}
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 48px;
+      height: 48px;
+      border: 3px solid var(--border);
+      border-radius: 50%;
+      background: var(--text);
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      z-index: 999;
+    }
 
-#backToTopBtn.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
+    #backToTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
 
-#backToTopBtn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 2px 2px 0px var(--border);
-}
+    #backToTopBtn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 2px 2px 0px var(--border);
+    }
 
-@media (max-width: 480px) {
-  #backToTopBtn {
-    width: 42px;
-    height: 42px;
-    bottom: 20px;
-    right: 20px;
-  }
-}
+    @media (max-width: 480px) {
+      #backToTopBtn {
+        width: 42px;
+        height: 42px;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
 
     /* ===========================
    Copy Toast
 =========================== */
 
-.copy-toast {
-  position: fixed;
-  top: 20px;
-  right: 10px;
+    .copy-toast {
+      position: fixed;
+      top: 20px;
+      right: 10px;
 
-  display: flex;
-  align-items: center;
-  gap: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
 
-  min-width: 260px;
+      min-width: 260px;
 
-  padding: 14px 18px;
+      padding: 14px 18px;
 
-  background: #1f2937;
-  color: #fff;
+      background: #1f2937;
+      color: #fff;
 
-  border-left: 5px solid #22c55e;
-  border-radius: 12px;
+      border-left: 5px solid #22c55e;
+      border-radius: 12px;
 
-  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
 
-  z-index: 99999;
+      z-index: 99999;
 
-  opacity: 0;
-  transform: translateX(120%);
-  transition:
-      transform .35s ease,
-      opacity .35s ease;
-}
+      opacity: 0;
+      transform: translateX(120%);
+      transition:
+        transform .35s ease,
+        opacity .35s ease;
+    }
 
-.copy-toast.show {
-  opacity: 1;
-  transform: translateX(0);
-}
+    .copy-toast.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
-.copy-toast.hide {
-  opacity: 0;
-  transform: translateX(120%);
-}
+    .copy-toast.hide {
+      opacity: 0;
+      transform: translateX(120%);
+    }
 
-.copy-toast svg {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-}
+    .copy-toast svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
 
-.copy-toast-title {
-  font-weight: 700;
-  margin-bottom: 2px;
-}
+    .copy-toast-title {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
 
     .tool-link:hover {
       transform: translateY(-5px);
@@ -438,31 +438,59 @@
 
     footer {
       margin-top: 96px;
-      padding: 48px 0;
-      border-top: 2px solid var(--border);
+      padding: 32px 24px;
+      ;
       background: var(--surface);
-      border-radius: 16px 16px 0 0;
+      border: 3px solid var(--border);
+      border-top: 1px solid rgba(0, 0, 0, .15);
+      border-bottom: none;
+      border-radius: 18px 18px 0 0;
+      box-shadow:
+        0 -6px 0 var(--border),
+        0 -12px 24px var(--shadow);
+
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    
+    footer p {
+      margin: 0;
+      color: var(--text);
+      opacity: 0.8;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
     }
 
     .footer-links {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin-top: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
     }
 
     footer a {
-      color: inherit;
+      color: var(--text);
       text-decoration: none;
       font-weight: 900;
-      border: 1px solid var(--border);
       padding: 5px 15px;
+      /* Keep original size */
+      border: 2px solid var(--border);
+      background: var(--surface-2);
+      border-radius: 10px;
+      box-shadow: 4px 4px 0 var(--border);
+      transition: all 0.2s ease;
     }
 
     footer a:hover {
       background: var(--text);
       color: var(--bg);
+      border-color: var(--border);
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--border);
     }
 
     @media (max-width: 850px) {
@@ -759,6 +787,59 @@
         border-width: 1px;
       }
     }
+
+    .top-navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* Navigation Buttons */
+    .top-navbar a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 140px;
+      padding: 12px 22px;
+
+      background: #E7DDD1;
+      color: #2B2118;
+
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+
+      border: 2px solid #8B7D70;
+      border-radius: 10px;
+
+      box-shadow: 4px 4px 0 #B8AA9C;
+      transition: all 0.3s ease;
+    }
+
+    /* Hover */
+    .top-navbar a:hover {
+      background: #d8c7b4;
+      color: #1d1611;
+
+      border-color: #6f6258;
+
+      transform: translateY(-4px) scale(1.03);
+
+      box-shadow: 8px 8px 0 #9E8F80;
+
+      cursor: pointer;
+    }
+
+    /* Active */
+    .top-navbar a:active {
+      transform: translateY(-1px) scale(0.98);
+      box-shadow: 3px 3px 0 #9E8F80;
+    }
   </style>
   <script defer src="https://cloud.umami.is/script.js" data-website-id="e2150d65-a009-409f-b3bd-b11afccb3a13"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6760380500809289"
@@ -773,10 +854,21 @@
   </div>
   <div class="container">
     <header>
-      <h1>Project Toolsuite</h1>
+      <h1>PROJECT TOOLSUITE</h1>
+
+      <nav class="top-navbar">
+        <a href="contributers.html"> Contributors</a>
+
+        <a href="privacy.html"> Privacy</a>
+
+        <a href="https://github.com/Winter262005/Project-Toolsuite" target="_blank">
+          GitHub
+        </a>
+      </nav>
       <button id="installBtn" class="dark-mode-toggle" style="right: 180px; display: none">
         INSTALL APP
       </button>
+
       <button class="dark-mode-toggle" onclick="toggleTheme()" id="themeBtn">
         <span class="theme-option dark-mode-option hidden">
           <svg class="theme-icon-dark sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black"
@@ -871,18 +963,20 @@
       </aside>
     </div>
     <button id="backToTopBtn" aria-label="Back to top" title="Back to top">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="12" y1="19" x2="12" y2="5"></line>
-    <polyline points="5 12 12 5 19 12"></polyline>
-  </svg>
-</button>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
+    </button>
 
     <footer>
       <p>© 2026 PROJECT TOOLSUITE — SIMPLE. FAST. FREE.</p>
+
       <div class="footer-links">
-        <a href="#">ABOUT</a>
-        <a href="privacy.html">PRIVACY</a>
-        <a href="contributers.html">CONTRIBUTORS</a>
+        <a href="#">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contributers.html">Contributors</a>
       </div>
     </footer>
   </div>
@@ -1178,11 +1272,11 @@
       const tagBox = document.getElementById("tag-container");
 
       const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
-const query = normalize(document.getElementById("toolSearch").value);
+      const query = normalize(document.getElementById("toolSearch").value);
 
-const visibleTools = tools.filter((tool) =>
-  normalize(tool.name).includes(query)
-);
+      const visibleTools = tools.filter((tool) =>
+        normalize(tool.name).includes(query)
+      );
 
 
       const uniqueTags = [
@@ -1198,16 +1292,16 @@ const visibleTools = tools.filter((tool) =>
       uniqueTags.forEach((tag) => {
 
         const count =
-  tag === "all"
-    ? visibleTools.length
-    : visibleTools.filter((tool) => tool.tags.includes(tag)).length;
+          tag === "all"
+            ? visibleTools.length
+            : visibleTools.filter((tool) => tool.tags.includes(tag)).length;
         const btn = document.createElement("button");
         btn.className = "tag-item";
         btn.classList.toggle("active", activeTag === tag);
         btn.textContent =
-  tag === "all"
-    ? `All Tools (${count})`
-    : `${tag} (${count})`;
+          tag === "all"
+            ? `All Tools (${count})`
+            : `${tag} (${count})`;
         btn.onclick = () => {
           activeTag = tag;
           renderTags();
@@ -1296,29 +1390,29 @@ const visibleTools = tools.filter((tool) =>
       updateResetButton();
     }
 
-async function copyToolLink(event, path) {
-  event.preventDefault();
-  event.stopPropagation();
+    async function copyToolLink(event, path) {
+      event.preventDefault();
+      event.stopPropagation();
 
-  try {
-    await navigator.clipboard.writeText(
-      new URL(path, window.location.href).href
-    );
+      try {
+        await navigator.clipboard.writeText(
+          new URL(path, window.location.href).href
+        );
 
-    showCopyToast();
-  } catch (err) {
-    console.error(err);
-  }
-}
+        showCopyToast();
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-function showCopyToast() {
-  const old = document.querySelector(".copy-toast");
-  if (old) old.remove();
+    function showCopyToast() {
+      const old = document.querySelector(".copy-toast");
+      if (old) old.remove();
 
-  const toast = document.createElement("div");
-  toast.className = "copy-toast";
+      const toast = document.createElement("div");
+      toast.className = "copy-toast";
 
-  toast.innerHTML = `
+      toast.innerHTML = `
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -1345,36 +1439,36 @@ function showCopyToast() {
     </div>
   `;
 
-  document.body.appendChild(toast);
+      document.body.appendChild(toast);
 
-  requestAnimationFrame(() => {
-    toast.classList.add("show");
-  });
+      requestAnimationFrame(() => {
+        toast.classList.add("show");
+      });
 
-  setTimeout(() => {
-    toast.classList.remove("show");
-    toast.classList.add("hide");
+      setTimeout(() => {
+        toast.classList.remove("show");
+        toast.classList.add("hide");
 
-    setTimeout(() => {
-      toast.remove();
-    }, 350);
-  }, 2200);
-}
+        setTimeout(() => {
+          toast.remove();
+        }, 350);
+      }, 2200);
+    }
 
-document
-  .getElementById("toolSearch")
-  .addEventListener("input", renderTools);
+    document
+      .getElementById("toolSearch")
+      .addEventListener("input", renderTools);
 
-document
-  .getElementById("resetFiltersBtn")
-  .addEventListener("click", () => {
-    document.getElementById("toolSearch").value = "";
+    document
+      .getElementById("resetFiltersBtn")
+      .addEventListener("click", () => {
+        document.getElementById("toolSearch").value = "";
 
-    activeTag = "all";
+        activeTag = "all";
 
-    renderTags();
-    renderTools();
-  });
+        renderTags();
+        renderTools();
+      });
 
     // Initial Execution
     renderTags();
@@ -1461,23 +1555,24 @@ document
           console.error('Service Worker registration failed:', error);
         }
       });
-}
-</script>
-<script>
-  const backToTopBtn = document.getElementById("backToTopBtn");
+    }
+  </script>
+  <script>
+    const backToTopBtn = document.getElementById("backToTopBtn");
 
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 300) {
-    backToTopBtn.classList.add("show");
-  } else {
-    backToTopBtn.classList.remove("show");
-  }
-});
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add("show");
+      } else {
+        backToTopBtn.classList.remove("show");
+      }
+    });
 
-backToTopBtn.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-</script>
+    backToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
 
 </body>
+
 </html>
