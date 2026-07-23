@@ -1,5 +1,10 @@
 const input = document.getElementById("input");
 const output = document.getElementById("output");
+
+
+const charCount = document.getElementById("charCount");
+const wordCount = document.getElementById("wordCount");
+
 function validateInput() {
   if (!input.value.trim()) {
     output.value = "";
@@ -15,6 +20,21 @@ function validateInput() {
 
   return true;
 }
+
+function updateCounter() {
+  const text = input.value;
+
+  charCount.textContent = text.length;
+
+  const words = text.trim()
+    ? text.trim().split(/\s+/).length
+    : 0;
+
+  wordCount.textContent = words;
+}
+
+input.addEventListener("input", updateCounter);
+
 function transformText(style) {
   const text = input.value;
 
@@ -109,6 +129,7 @@ notify.success("Copied to clipboard!");
 document.getElementById("clearBtn").addEventListener("click", () => {
   input.value = "";
   output.value = "";
+  updateCounter();
 });
 
 document.getElementById("smallCapsBtn").addEventListener("click", () => {
@@ -133,3 +154,6 @@ document.getElementById("strikeBtn").addEventListener("click", () => {
         .map(char => char === " " ? " " : char + "\u0336")
         .join("");
 });
+
+
+updateCounter();
