@@ -2,11 +2,8 @@ const input = document.getElementById("input");
 const output = document.getElementById("output");
 
 
-function restoreInputFocus(start, end) {
-  input.focus();
-  input.setSelectionRange(start, end);
-}
-
+const charCount = document.getElementById("charCount");
+const wordCount = document.getElementById("wordCount");
 
 function validateInput() {
   if (!input.value.trim()) {
@@ -23,6 +20,21 @@ function validateInput() {
 
   return true;
 }
+
+function updateCounter() {
+  const text = input.value;
+
+  charCount.textContent = text.length;
+
+  const words = text.trim()
+    ? text.trim().split(/\s+/).length
+    : 0;
+
+  wordCount.textContent = words;
+}
+
+input.addEventListener("input", updateCounter);
+
 function transformText(style) {
   if (!validateInput()) {
     return;
@@ -123,9 +135,9 @@ notify.success("Copied to clipboard!");
 });
 
 document.getElementById("clearBtn").addEventListener("click", () => {
-    input.value = "";
-    output.value = "";
-    input.focus();
+  input.value = "";
+  output.value = "";
+  updateCounter();
 });
 
 document.getElementById("smallCapsBtn").addEventListener("click", () => {
@@ -162,6 +174,7 @@ document.getElementById("strikeBtn").addEventListener("click", () => {
     output.value = [...input.value]
         .map(char => char === " " ? " " : char + "\u0336")
         .join("");
-
-    restoreInputFocus(start, end);
 });
+
+
+updateCounter();
