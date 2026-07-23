@@ -154,32 +154,35 @@
             border-color: var(--text);
             transform: translateY(-1px);
         }
+
         .btn-export {
-    background: #16a34a;
-    color: #fff;
-    border: 1px solid #16a34a;
-    transition: all 0.2s ease;
-}
+            background: #16a34a;
+            color: #fff;
+            border: 1px solid #16a34a;
+            transition: all 0.2s ease;
+        }
 
-.btn-export:hover {
-    background: #15803d;
-    color: #fff;
-    border-color: #15803d;
-    transform: translateY(-1px);
-}
+        .btn-export:hover {
+            background: #15803d;
+            color: #fff;
+            border-color: #15803d;
+            transform: translateY(-1px);
+        }
 
-.btn-export:active {
-    transform: translateY(0);
-}
+        .btn-export:active {
+            transform: translateY(0);
+        }
 
-     .btn.active {
-    background: var(--accent);
-    color: var(--bg);
-    border-color: var(--accent);
-}
-.btn.active:hover {
-    filter: brightness(1.08);
-}
+        .btn.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .btn.active:hover {
+            filter: brightness(1.08);
+        }
+
         #themeBtn {
             top: 20px;
         }
@@ -587,8 +590,17 @@
                 const dy = e.clientY - this.startY;
 
                 if (this.dragging) {
-                    s.x = this.initialParams.x + dx;
-                    s.y = this.initialParams.y + dy;
+                    const layerWidth = this.layer.clientWidth;
+                    const layerHeight = this.layer.clientHeight;
+
+                    let newX = this.initialParams.x + dx;
+                    let newY = this.initialParams.y + dy;
+
+                    newX = Math.max(0, Math.min(newX, layerWidth - s.w));
+                    newY = Math.max(0, Math.min(newY, layerHeight - s.h));
+
+                    s.x = newX;
+                    s.y = newY;
                 }
                 else if (this.resizing) {
                     s.w = Math.max(20, this.initialParams.w + dx);
