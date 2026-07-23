@@ -32,14 +32,27 @@
     <h1>Markdown Studio</h1>
 
     <p>Live editor and previewer. Renders locally.</p>
+    <p class="hint">
+    New to Markdown?
+    <a href="#cheatsheet">View the Cheat Sheet ↓</a>
+</p>
 </header>
 
 <main class="editor-container">
     <div class="box">
         <div class="label-bar">
-            <span>Input (Markdown)</span>
-            <button id="clearBtn" class="action-btn">CLEAR</button>
-        </div>
+    <span>Input (Markdown)</span>
+
+    <div>
+        <button id="cheatsheetBtn" class="action-btn">
+            CHEAT SHEET ↓
+        </button>
+
+        <button id="clearBtn" class="action-btn">
+            CLEAR
+        </button>
+    </div>
+</div>
         <textarea
             id="markdownInput"
             placeholder="# Hello World&#10;&#10;Type your markdown here..."
@@ -60,7 +73,7 @@
     </div>
 </main>
 
-<section class="cheatsheet">
+<section class="cheatsheet" id="cheatsheet">
     <h2>Markdown Cheat Sheet</h2>
 
     <div class="cheatsheet-grid">

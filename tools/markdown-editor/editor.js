@@ -5,6 +5,21 @@ const preview = document.getElementById('preview');
 const clearBtn = document.getElementById('clearBtn');
 const copyHtmlBtn = document.getElementById('copyHtmlBtn');
 const downloadBtn = document.getElementById('downloadBtn');
+const cheatsheetBtn = document.getElementById('cheatsheetBtn');
+
+cheatsheetBtn.addEventListener('click', () => {
+    const sheet = document.getElementById('cheatsheet');
+
+    sheet.scrollIntoView({
+        behavior: 'smooth'
+    });
+
+    sheet.classList.add('highlight');
+
+    setTimeout(() => {
+        sheet.classList.remove('highlight');
+    }, 1000);
+});
 
 const defaultText = `# Welcome to Toolsuite Editor
 
