@@ -5,6 +5,70 @@ const output = document.getElementById("output");
 const charCount = document.getElementById("charCount");
 const wordCount = document.getElementById("wordCount");
 
+let history = [];
+
+const styleNames = {
+  bold: "Bold",
+  italic: "Italic",
+  boldItalic: "Bold Italic",
+  smallCaps: "Small Caps",
+  underline: "Underline",
+  strike: "Strikethrough",
+};
+
+function addToHistory(inputText, style, outputText) {
+
+    const latest = history[0];
+
+    if (
+        latest &&
+        latest.input === inputText &&
+        latest.style === style &&
+        latest.output === outputText
+    ) {
+        return;
+    }
+
+    history.unshift({
+        input: inputText,
+        style,
+        output: outputText
+    });
+
+    if (history.length > 10) {
+        history.pop();
+    }
+
+    renderHistory();
+}
+
+function renderHistory() {
+
+    const container = document.getElementById("historyList");
+
+    if (history.length === 0) {
+
+        container.innerHTML =
+            "<p>No recent conversions.</p>";
+
+        return;
+    }
+
+    container.innerHTML = history
+        .map((item, index) => `
+           <div class="history-item">
+    <strong>${item.input}</strong>
+
+    <div class="history-style">
+        Style: ${item.style}
+    </div>
+
+
+</div>
+        `)
+        .join("");
+}
+
 function validateInput() {
   if (!input.value.trim()) {
     output.value = "";
@@ -45,11 +109,17 @@ function transformText(style) {
 
   const text = input.value;
 
-  output.value = [...text]
-    .map((char) => convertChar(char, style))
-    .join("");
+ output.value = [...text]
+  .map((char) => convertChar(char, style))
+  .join("");
 
-  restoreInputFocus(start, end);
+addToHistory(
+  input.value,
+  styleNames[style],
+  output.value
+);
+
+restoreInputFocus(start, end);
 }
 
 function toSmallCaps(text) {
@@ -153,9 +223,15 @@ document.getElementById("smallCapsBtn").addEventListener("click", () => {
     const start = input.selectionStart;
     const end = input.selectionEnd;
 
-    output.value = toSmallCaps(input.value);
+  output.value = toSmallCaps(input.value);
 
-    restoreInputFocus(start, end);
+addToHistory(
+  input.value,
+  styleNames.smallCaps,
+  output.value
+);
+
+restoreInputFocus(start, end);
 });
 
 document.getElementById("underlineBtn").addEventListener("click", () => {
@@ -167,6 +243,12 @@ document.getElementById("underlineBtn").addEventListener("click", () => {
     output.value = [...input.value]
         .map(char => char === " " ? " " : char + "\u0332")
         .join("");
+
+        addToHistory(
+  input.value,
+  styleNames.underline,
+  output.value
+);
 
     restoreInputFocus(start, end);
 });
@@ -181,6 +263,14 @@ document.getElementById("strikeBtn").addEventListener("click", () => {
     output.value = [...input.value]
         .map(char => char === " " ? " " : char + "\u0336")
         .join("");
+
+        addToHistory(
+  input.value,
+  styleNames.strike,
+  output.value
+);
+
+restoreInputFocus(start, end);
 });
 
 

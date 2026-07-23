@@ -114,6 +114,37 @@
         color: #fff;
       }
 
+      #historySection {
+    margin-top: 30px;
+}
+
+#historySection h2 {
+    margin-bottom: 15px;
+}
+
+.history-item {
+    border: 2px solid var(--border);
+    padding: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.history-item:hover {
+    background: var(--tag-bg);
+}
+
+.history-style {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.history-item textarea {
+    min-height: 60px;
+    margin-top: 10px;
+    width: 100%;
+    resize: vertical;
+}
+
       @media (max-width: 600px) {
         button {
           width: 100%;
@@ -211,6 +242,16 @@
         <button id="copyBtn">Copy Output</button>
         <button id="clearBtn">Clear</button>
       </div>
+
+      <hr>
+
+<section id="historySection">
+  <h2>Recent History</h2>
+
+  <div id="historyList">
+    <p>No recent conversions.</p>
+  </div>
+</section>
     </main>
 
     <footer>
