@@ -250,20 +250,20 @@ See the `LICENSE` file for complete details.
 
 | Rank | Contributor | Points | Commits |
 |-----:|------------|-------:|--------:|
-| 1 | @Winter262005 | 339 | 339 |
-| 2 | @love25-codes | 52 | 52 |
+| 1 | @Winter262005 | 349 | 349 |
+| 2 | @love25-codes | 60 | 60 |
 | 3 | @VITianYash42 | 20 | 20 |
 | 4 | @rach-kanc | 16 | 16 |
 | 5 | @Sargam-Ghagre | 15 | 15 |
 | 6 | @Ishwarpatra | 14 | 14 |
 | 7 | @Dru-429 | 13 | 13 |
 | 8 | @AdityaMittal08 | 9 | 9 |
-| 9 | @ritiktyagiai | 8 | 8 |
-| 10 | @adikulkarni006 | 8 | 8 |
-| 11 | @aditijha509 | 6 | 6 |
-| 12 | @JaiHarsan | 5 | 5 |
-| 13 | @ShrutiiShinde05 | 5 | 5 |
-| 14 | @helen1806 | 5 | 5 |
+| 9 | @helen1806 | 8 | 8 |
+| 10 | @ritiktyagiai | 8 | 8 |
+| 11 | @adikulkarni006 | 8 | 8 |
+| 12 | @aditijha509 | 6 | 6 |
+| 13 | @JaiHarsan | 5 | 5 |
+| 14 | @ShrutiiShinde05 | 5 | 5 |
 | 15 | @SamXop123 | 4 | 4 |
 | 16 | @shreyagupta2006 | 3 | 3 |
 | 17 | @stargalax | 3 | 3 |
